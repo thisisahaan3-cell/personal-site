@@ -26,6 +26,17 @@
  *  - Exact figures and qualifiers ("20+", "19+", "50+", "100+", "5+",
  *    "400+") are kept as written. Do not round or upgrade them.
  *  - The phone number is deliberately absent. Do not add it.
+ *
+ * WHERE THINGS LIVE
+ *  - `site.stats`: headline figures. `note` is shown to readers; `editorNote`
+ *    is a caveat for you and is never printed.
+ *  - `site.interests`: `evidence` and `statedLine` are facts; `description`
+ *    is the placeholder for Ahaan's own words.
+ *  - `site.timeline`: `org` adds that organisation's logo to the event (only
+ *    where a logo exists); `span` draws multi-year facts on the axis.
+ *  - `site.quiz`: the six quiz questions. Each has a checked source link.
+ *  - `site.ui`: every interface word (menu, headings, table heads, button and
+ *    figure labels, footer). Tokens like {n} are filled in by the site.
  */
 
 // ───────────────────────────── Types ─────────────────────────────
@@ -58,7 +69,8 @@ export type TimelineCategory =
   | "leadership"
   | "internship"
   | "course"
-  | "parliament";
+  | "parliament"
+  | "pitch"; // business pitch competitions (SHISFEST); shown under Competitions
 
 export type MunAward = {
   conference: string;
@@ -79,10 +91,22 @@ export type Organisation = {
   url?: string;
 };
 
+export type StatId =
+  | "gradeX"
+  | "consistency"
+  | "conferences"
+  | "awardsSummary"
+  | "delegateAwards"
+  | "nfo"
+  | "fellowship"
+  | "books";
+
 export type Stat = {
+  id: StatId;
   value: string; // exact, with qualifiers: "20+", "99.4%"
   label: string;
-  note?: string; // extra context or caveat shown small
+  note?: string; // context the reader should see, shown small
+  editorNote?: string; // caveat for the editor only; never printed on the site
 };
 
 export type Evidence = {
@@ -97,6 +121,8 @@ export type Interest = {
   evidence: Evidence[];
   /** Where the interest itself is stated. */
   statedIn: ("resume" | "client message")[];
+  /** Shown for interests with no evidence. Worded only from where the interest is stated. */
+  statedLine?: string;
   description: Editable;
 };
 
@@ -107,6 +133,21 @@ export type TimelineEvent = {
   title: string;
   detail: string;
   category: TimelineCategory;
+  /** Key into `organisations`; set only where that organisation has a logo and the event took place there. */
+  org?: string;
+  /** Multi-year facts drawn as a span on the axis: rings on each year tick, or a rule from first to last year. */
+  span?: { from: number; to: number; style: "rings" | "rule" };
+};
+
+export type QuizQuestion = {
+  id: string;
+  /** Interest id: finance, aviation, law, motorsport, mun or reading. */
+  subject: string;
+  question: string;
+  options: [string, string, string, string];
+  answerIndex: 0 | 1 | 2 | 3;
+  explanation: string; // one sentence
+  source: { label: string; url: string };
 };
 
 export type Competition = {
@@ -200,7 +241,10 @@ export const site = {
     stream: "Commerce",
     email: "thisisahaan@gmail.com", // the only public contact
     resumeFile: "/Ahaan-Gupta-Resume.pdf", // redacted copy, no phone number
-    portrait: "/images/portrait.webp", // set by the frontend when the portrait is processed
+    portrait: "/images/portrait.webp",
+    /** States only what is visible, never character. */
+    portraitAlt:
+      "Head-and-shoulders photograph of Ahaan Gupta, smiling, in a navy blazer and light blue shirt, outdoors.",
   },
 
   // ── Hero ──
@@ -227,14 +271,14 @@ export const site = {
 
   // ── Headline figures (only numbers present in the resume) ──
   stats: [
-    { value: "99.4%", label: "CBSE Grade X Secondary Examinations", note: "Resume dates this \"2025–26\"; year to be confirmed." },
-    { value: "96%+", label: "Consistent across all academic years" },
-    { value: "20+", label: "Prestigious MUN and debate conferences" },
-    { value: "19+", label: "Awards (resume's own summary line)", note: "The awards table lists 16 delegate awards; what the 19+ counts is to be confirmed." },
-    { value: "16", label: "Delegate awards listed in the table", note: "6 Best Delegate" },
-    { value: "AIR 54", label: "National Finance Olympiad 2025, Nationals", note: "Out of 10,000+ participants. Round 1: AIR 10." },
-    { value: "2,000 → 100", label: "SRCC FIC Finance Research Fellowship", note: "Selected from 2,000 candidates into a cohort of 100." },
-    { value: "400+", label: "Books read", note: "Across fiction, non-fiction and philosophy." },
+    { id: "gradeX", value: "99.4%", label: "CBSE Grade X Secondary Examinations", editorNote: "Resume dates this \"2025–26\"; year to be confirmed." },
+    { id: "consistency", value: "96%+", label: "Consistent across all academic years" },
+    { id: "conferences", value: "20+", label: "Prestigious MUN and debate conferences" },
+    { id: "awardsSummary", value: "19+", label: "Awards (resume's own summary line)", editorNote: "The awards table lists 16 delegate awards; what the 19+ counts is to be confirmed." },
+    { id: "delegateAwards", value: "16", label: "Delegate awards listed in the table", note: "6 Best Delegate" },
+    { id: "nfo", value: "AIR 54", label: "National Finance Olympiad 2025, Nationals", note: "Out of 10,000+ participants. Round 1: AIR 10." },
+    { id: "fellowship", value: "2,000 → 100", label: "SRCC FIC Finance Research Fellowship", note: "Selected from 2,000 candidates into a cohort of 100." },
+    { id: "books", value: "400+", label: "Books read", note: "Across fiction, non-fiction and philosophy." },
   ] as Stat[],
 
   // ── Education ──
@@ -601,6 +645,7 @@ export const site = {
       name: "Formula 1 and motorsport",
       statedIn: ["resume", "client message"], // resume lists Formula 1 under Interests
       evidence: [],
+      statedLine: "Listed under Interests on the resume.",
       description: ph("Formula 1 and motorsport — a line in Ahaan's own words."),
     },
     {
@@ -630,6 +675,7 @@ export const site = {
       name: "Tennis",
       statedIn: ["resume", "client message"],
       evidence: [],
+      statedLine: "Listed under Interests on the resume.",
       description: ph("Tennis — a line in Ahaan's own words."),
     },
   ] as Interest[],
@@ -656,31 +702,301 @@ export const site = {
   // items are left out on purpose. The Grade X result is also left out because
   // its year is unconfirmed.
   timeline: [
-    { year: 2013, yearLabel: "2013", title: "Joins Lotus Valley International School", detail: "Begins at Lotus Valley International School, Gurugram, where he is now in Grade 11 (Commerce).", category: "school" },
-    { year: 2018, yearLabel: "2018 – 2024", title: "SOF International English Olympiad", detail: "6 awards across multiple years, 97+ percentile each year.", category: "academic" },
-    { year: 2021, yearLabel: "2021 onwards", title: "Scholar Badge", detail: "Awarded the school's highest academic recognition every year from 2021 onwards, across six consecutive years.", category: "academic" },
+    { year: 2013, yearLabel: "2013", title: "Joins Lotus Valley International School", detail: "Begins at Lotus Valley International School, Gurugram, where he is now in Grade 11 (Commerce).", category: "school", org: "lotusValley" },
+    { year: 2018, yearLabel: "2018 – 2024", title: "SOF International English Olympiad", detail: "6 awards across multiple years, 97+ percentile each year.", category: "academic", org: "sof", span: { from: 2018, to: 2024, style: "rule" } },
+    { year: 2021, yearLabel: "2021 onwards", title: "Scholar Badge", detail: "Awarded the school's highest academic recognition every year from 2021 onwards, across six consecutive years.", category: "academic", org: "lotusValley", span: { from: 2021, to: 2026, style: "rings" } },
     { year: 2023, title: "First MUN awards", detail: "High Commendation: AIKYAM MUN (AIPPM) and Lotus MUN (UNGA).", category: "mun" },
     { year: 2024, title: "Five delegate awards", detail: "Best Delegate at PRASHTA MUN (UNGA). High Commendation at ASBBS MUN (UNHRC). Special Mention at DAV Sansad (AIPPM). Honourable Mention at BBIMUN (UNODC). Verbal Mention at SHISMUN (FIA).", category: "mun" },
     { year: 2025, title: "Six delegate awards", detail: "Best Delegate at SHISMUN (CCC), GUMUN (FIA) and Online Youth Summit (UNSC). Runner Up at Lotus Sansad (Rajya Sabha). Special Mention at Aurelia DPSIMUN (FIA). Honourable Mention at BBIMUN (UNSC).", category: "mun" },
     { year: 2025, title: "National Finance Olympiad", detail: "Round 1: All India Rank 10. Round 2 (Nationals): All India Rank 54 out of 10,000+ participants; Certificate of National Excellence.", category: "finance" },
-    { year: 2025, title: "SRCC Finance Olympiad", detail: "All India Rank 46.", category: "finance" },
+    { year: 2025, title: "SRCC Finance Olympiad", detail: "All India Rank 46.", category: "finance", org: "srcc" },
     { year: 2025, title: "National Youth Parliament Scheme", detail: "Ministry of Parliamentary Affairs.", category: "parliament" },
-    { year: 2025, title: "Student Council: Environment Committee", detail: "Elected to the Student Council's Environment Committee.", category: "leadership" },
+    { year: 2025, title: "Student Council: Environment Committee", detail: "Elected to the Student Council's Environment Committee.", category: "leadership", org: "lotusValley" },
     { year: 2025, title: "NGO internship, We Care Foundation", detail: "Educated 50+ students across 2025 in Mathematics, English, finance and civic sense.", category: "internship" },
-    { year: 2025, title: "IIT Madras: Fundamentals of Aerospace", detail: "8-week course. Completion Certificate and Certificate for Exemplary Performance in the take-home project.", category: "course" },
-    { year: 2025, title: "Lotus Young Leaders Summit", detail: "Selected to attend; workshop \"Harnessing Your Inner Power\".", category: "course" },
+    { year: 2025, title: "IIT Madras: Fundamentals of Aerospace", detail: "8-week course. Completion Certificate and Certificate for Exemplary Performance in the take-home project.", category: "course", org: "iitMadras" },
+    { year: 2025, title: "Lotus Young Leaders Summit", detail: "Selected to attend; workshop \"Harnessing Your Inner Power\".", category: "course", org: "lotusValley" },
     { year: 2026, title: "Three delegate awards", detail: "Best Delegate at SHISMUN (AAIB) and Eurivox MUN (UNGA). High Commendation at LVISMUN (UNGA).", category: "mun" },
     { year: 2026, title: "Executive Board roles", detail: "IITD MUN 2026: Rapporteur, promoted to Vice Chair (WHO). AIKYAM MUN 2026: Vice Chairperson (UNESCO).", category: "mun" },
     { year: 2026, title: "PRS Student Parliament", detail: "Qualified for North India Regionals.", category: "parliament" },
-    { year: 2026, title: "SHISFEST: Vision To Venture", detail: "First Position.", category: "academic" },
+    { year: 2026, title: "SHISFEST: Vision To Venture", detail: "First Position.", category: "pitch" },
     { year: 2026, title: "SHRITEQ Tech Quiz", detail: "4th place in the finals, out of 45 teams.", category: "quiz" },
-    { year: 2026, title: "Student Council: re-elected", detail: "Re-elected to the Environment Committee.", category: "leadership" },
+    { year: 2026, title: "Student Council: re-elected", detail: "Re-elected to the Environment Committee.", category: "leadership", org: "lotusValley" },
     { year: 2026, title: "Green Captain", detail: "My School for Earth. Recruited 100+ students and spearheaded 5+ environmental initiatives.", category: "leadership" },
     { year: 2026, title: "Rasmanjari Interschool Competition", detail: "Student coordinator for the commerce competitions; also compered.", category: "leadership" },
     { year: 2026, title: "Student intern, Mahak Plastic Industries & RD Polypack", detail: "March – April. One-month industrial immersion; authored a factory visit report and an industry-wide statistical analysis.", category: "internship" },
     { year: 2026, title: "Intern, Fortis Adayu Hospital", detail: "May – June. Researched psychology and how it intersects with finance.", category: "internship" },
-    { year: 2026, title: "IIT Madras: Introduction to Law", detail: "8-week course. Completion Certificate and Certificate for Exemplary Performance in the take-home project.", category: "course" },
+    { year: 2026, title: "IIT Madras: Introduction to Law", detail: "8-week course. Completion Certificate and Certificate for Exemplary Performance in the take-home project.", category: "course", org: "iitMadras" },
   ] as TimelineEvent[],
+
+  // ── Quiz (Quizzing chapter) ──
+  // Six general-knowledge questions, one per subject. Each fact was checked
+  // against the source page named here; see content/research/facts.md section 12.
+  // To change a question: edit `question`, the four `options`, `answerIndex`
+  // (0 = first option, 3 = last), the one-sentence `explanation` and the `source`.
+  quiz: {
+    questions: [
+      {
+        id: "q-finance",
+        subject: "finance",
+        question: "In which year was the Reserve Bank of India established?",
+        options: ["1921", "1935", "1947", "1956"],
+        answerIndex: 1,
+        explanation: "The Reserve Bank of India was established on 1 April 1935 under the Reserve Bank of India Act, 1934.",
+        source: { label: "Reserve Bank of India, About Us", url: "https://www.rbi.org.in/Scripts/AboutusDisplay.aspx" },
+      },
+      {
+        id: "q-aviation",
+        subject: "aviation",
+        question: "In which year did the Wright brothers make the first flights of their powered Flyer?",
+        options: ["1896", "1909", "1903", "1914"],
+        answerIndex: 2,
+        explanation: "The first flights of the Wright Flyer took place on 17 December 1903.",
+        source: { label: "US National Park Service, 1903: The First Flight", url: "https://www.nps.gov/wrbr/learn/historyculture/thefirstflight.htm" },
+      },
+      {
+        id: "q-law",
+        subject: "law",
+        question: "What name is given to the first ten amendments to the Constitution of the United States, ratified in 1791?",
+        options: ["The Declaration of Independence", "The Articles of Confederation", "Magna Carta", "The Bill of Rights"],
+        answerIndex: 3,
+        explanation: "The ten amendments ratified in 1791 became known as the Bill of Rights.",
+        source: { label: "US National Archives, Bill of Rights (1791)", url: "https://www.archives.gov/milestone-documents/bill-of-rights" },
+      },
+      {
+        id: "q-motorsport",
+        subject: "motorsport",
+        question: "Which circuit hosted the first race of the Formula 1 World Championship, in May 1950?",
+        options: ["Silverstone", "Monza", "Spa-Francorchamps", "Circuit de Monaco"],
+        answerIndex: 0,
+        explanation: "The 1950 season opened with the British Grand Prix at Silverstone on 13 May.",
+        source: { label: "Formula 1, 1950 British Grand Prix result", url: "https://www.formula1.com/en/results/1950/races/94/great-britain/race-result" },
+      },
+      {
+        id: "q-geopolitics",
+        subject: "mun",
+        question: "In which city was the Charter of the United Nations signed in 1945?",
+        options: ["New York", "London", "San Francisco", "Geneva"],
+        answerIndex: 2,
+        explanation: "The UN Charter was signed in San Francisco on 26 June 1945.",
+        source: { label: "US National Archives, Charter of the United Nations (1945)", url: "https://www.archives.gov/milestone-documents/united-nations-charter" },
+      },
+      {
+        id: "q-reading",
+        subject: "reading",
+        question: "Who wrote the novel Nineteen Eighty-Four, published in 1949?",
+        options: ["Aldous Huxley", "George Orwell", "Evelyn Waugh", "Graham Greene"],
+        answerIndex: 1,
+        explanation: "Nineteen Eighty-Four, published in 1949, is by George Orwell.",
+        source: { label: "The Orwell Foundation, Nineteen Eighty-Four", url: "https://www.orwellfoundation.com/the-orwell-foundation/orwell/books-by-orwell/nineteen-eighty-four/" },
+      },
+    ] as QuizQuestion[],
+  },
+
+  // ── Interface strings ──
+  // Every word the interface prints that is not Ahaan's record lives here,
+  // grouped by where it appears. Where the design system gives exact wording
+  // it is used exactly. Tokens in {braces} (for example {n}) are filled in by
+  // the site; leave them in place when editing.
+  ui: {
+    skipLink: "Skip to content",
+    nav: {
+      chaptersLabel: "Chapters",
+      contents: "Contents",
+      close: "Close",
+      resume: "Resume",
+      backToTop: "Back to top",
+      downloadResume: "Download resume (PDF)",
+    },
+
+    /** The twelve chapters, in page order. `style` is how the title is set: roman for the record, italic for interests. */
+    chapters: [
+      { id: "about", title: "About", style: "roman" },
+      { id: "academics", title: "Academic profile", note: "2013 – present", style: "roman" },
+      { id: "timeline", title: "Timeline", note: "2013 – 2026", style: "roman" },
+      { id: "mun", title: "Model UN and public speaking", note: "2023 – 2026", style: "roman" },
+      { id: "leadership", title: "Leadership and experience", note: "2025 – 2026", style: "roman" },
+      { id: "competitions", title: "Competitions and projects", note: "2018 – ongoing", style: "roman" },
+      { id: "aviation", title: "Aviation", style: "italic" },
+      { id: "motorsport", title: "Motorsport", style: "italic" },
+      { id: "law", title: "Law", style: "italic" },
+      { id: "quizzing", title: "Quizzing", style: "italic" },
+      { id: "reading", title: "Reading", style: "italic" },
+      { id: "contact", title: "Contact", style: "roman" },
+    ] as { id: string; title: string; note?: string; style: "roman" | "italic" }[],
+
+    /** Shown in place of any `ph()` text. The prompt text itself is never printed. */
+    placeholder: {
+      label: "In Ahaan's words, to come",
+      slots: {
+        biography: "Biography and personal statement",
+        geopolitics: "Model UN and geopolitics",
+        finance: "Finance and economics",
+        artha: "Artha",
+        wharton: "Team, role, approach and status",
+        gitam: "Competition details",
+        aviation: "Aviation",
+        motorsport: "Formula 1 and motorsport",
+        quizzing: "Quizzing and general knowledge",
+        reading: "Reading",
+        tennis: "Tennis",
+      },
+    },
+
+    about: {
+      profileNote: "Profile, as written on the resume",
+      skillsHeading: "Skills listed on the resume",
+    },
+
+    academics: {
+      coursesHeading: "Courses and certifications",
+      columns: { year: "Year", course: "Course", provider: "Provider", detail: "Detail" },
+    },
+
+    mun: {
+      geopoliticsHeading: "Geopolitics",
+      executiveBoardHeading: "Executive Board",
+      awardsHeading: "Delegate awards",
+      parliamentaryHeading: "Parliamentary programmes",
+      columns: {
+        conference: "Conference",
+        role: "Role",
+        committee: "Committee",
+        award: "Award",
+        year: "Year",
+        programme: "Programme",
+        bodyOrResult: "Body or result",
+      },
+      /** Tally strip: one text button per year; choosing a year filters the record. */
+      tally: {
+        groupLabel: "Awards by year",
+        runningTotal: "{n} in all",
+      },
+      sort: {
+        groupLabel: "Sort by",
+        year: "Year",
+        award: "Award",
+        committee: "Committee",
+        ascending: "ascending",
+        descending: "descending",
+        /** Group rows when the record is sorted: year -> "2026, 3 awards"; award and committee -> "Best Delegate, 6". */
+        groupRowByYear: "{group}, {n} awards",
+        groupRowByOther: "{group}, {n}",
+      },
+      placard: {
+        rollLabel: "Committees",
+        countOne: "1 award in the record",
+        countMany: "{n} awards in the record",
+        boardRole: "Executive Board: {role}",
+      },
+    },
+
+    leadership: {
+      positionsHeading: "Positions of responsibility",
+      experienceHeading: "Experience and fellowships",
+      columns: { period: "Period", role: "Role", points: "Details" },
+    },
+
+    competitions: {
+      financeHeading: "Finance",
+      inProgressHeading: "In progress",
+      ongoing: "Ongoing",
+      furtherHeading: "Further competitions",
+      alsoTookPart: "Also took part in",
+      columns: { competition: "Competition", year: "Year", result: "Result" },
+      /** Finance results table, in the order the design system names. `year` "Date not stated" is not printed. */
+      financeRows: [
+        { id: "nfo-round-1", figure: "AIR 10", name: "National Finance Olympiad", stage: "Round 1", year: "2025", results: ["All India Rank 10"], org: "nfo" },
+        { id: "nfo-nationals", figure: "AIR 54", name: "National Finance Olympiad", stage: "Nationals", year: "2025", results: ["All India Rank 54 out of 10,000+ participants", "Certificate of National Excellence"], org: "nfo" },
+        { id: "srcc-olympiad", figure: "AIR 46", name: "SRCC Finance Olympiad", year: "2025", results: ["All India Rank 46"], org: "srcc" },
+        { id: "srcc-fic", figure: "2,000 → 100", name: "SRCC FIC Finance Research Fellowship", year: "Date not stated", results: ["Selected from 2,000 candidates into a cohort of 100"], org: "srcc" },
+      ],
+      /** Figure 3 (two fields). Only these four values are plotted. */
+      financeFigure: {
+        upper: { value: "54", note: "All India Rank 54, nationals", field: "10,000+ participants", caption: "National Finance Olympiad 2025" },
+        lower: { value: "100", note: "cohort of 100", field: "2,000 candidates", caption: "SRCC FIC Finance Research Fellowship" },
+        /** Pointer readout. Ordinal suffix by last digit rule is the component's job; suffixes live here. */
+        readout: { place: "{n}{suffix} of {total}", snapUpper: "54th of 10,000+", snapLower: "100 of 2,000" },
+        ordinalSuffixes: { one: "st", two: "nd", few: "rd", other: "th" },
+      },
+      artha: {
+        heading: "Artha",
+        descriptorNote: "From the Artha site's own description",
+        visit: "Visit Artha",
+        desktopAlt: "Home page of the Artha finance website, desktop view",
+        mobileAlt: "Home page of the Artha finance website, mobile view",
+      },
+    },
+
+    /** Figure labels. Compass marks and sector names are scales, not data. */
+    figures: {
+      globe: { desktop: ["60°N", "30°N", "0°", "30°S", "60°S"], phone: ["30°N", "0°", "30°S"] },
+      route: {
+        headingTape: ["N", "03", "06", "E", "12", "15", "S", "21", "24", "W", "30", "33"],
+        headingTapePhone: ["N", "E", "S", "W"],
+      },
+      circuit: { sectors: ["Sector 1", "Sector 2", "Sector 3"] },
+    },
+
+    aviation: { evidenceHeading: "From the resume" },
+    motorsport: {},
+    law: {
+      documentTitle: "Introduction to Law",
+      documentSubtitle: "IIT Madras Certification, 2026", // from `courses`
+      sideNote: "Source: resume",
+    },
+
+    quizzing: {
+      evidenceHeading: "From the resume",
+      questionCounter: "Question {n} of {total}",
+      yourAnswer: "Your answer",
+      correctAnswer: "Correct answer",
+      next: "Next question",
+      result: "{total} questions, {n} correct",
+      startAgain: "Start again",
+      /** Read out through the polite live region after a choice. */
+      announce: "Your answer: {chosen}. Correct answer: {correct}.",
+      optionLetters: ["A", "B", "C", "D"],
+      /** The seven nodes of the constellation, in line order. `interest` links a node to quiz subjects. */
+      nodes: [
+        { id: "general", label: "General knowledge", interest: "quizzing" },
+        { id: "finance", label: "Finance", interest: "finance" },
+        { id: "aviation", label: "Aviation", interest: "aviation" },
+        { id: "law", label: "Law", interest: "law" },
+        { id: "motorsport", label: "Motorsport", interest: "motorsport" },
+        { id: "geopolitics", label: "Geopolitics", interest: "mun" },
+        { id: "reading", label: "Reading", interest: "reading" },
+      ],
+    },
+
+    reading: { tennisHeading: "Tennis" },
+
+    timeline: {
+      /** Filters, one at a time. `categories` lists which event categories each one shows. */
+      filters: [
+        { id: "all", label: "All", categories: null as TimelineCategory[] | null },
+        { id: "academics", label: "Academics", categories: ["school", "academic", "course"] as TimelineCategory[] },
+        { id: "mun", label: "MUN and debate", categories: ["mun", "parliament"] as TimelineCategory[] },
+        { id: "competitions", label: "Competitions", categories: ["finance", "quiz", "pitch"] as TimelineCategory[] },
+        { id: "leadership", label: "Leadership and work", categories: ["leadership", "internship"] as TimelineCategory[] },
+      ],
+      filtersLabel: "Filter the timeline",
+      inProgressHeading: "In progress",
+      ongoing: "Ongoing",
+    },
+
+    contact: {
+      copyEmail: "Copy email address",
+      copied: "Copied",
+    },
+
+    footer: {
+      left: "Ahaan Gupta, Gurugram",
+      buildYear: 2026,
+      centre: "Logos belong to their owners and show where an event took place.",
+      backToTop: "Back to top",
+      typeLine: "Set in Instrument Serif and Geist.",
+    },
+  },
 };
 
 export type Site = typeof site;

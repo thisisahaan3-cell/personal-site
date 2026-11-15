@@ -196,3 +196,31 @@ None of these are resolved by guessing. Each needs the client's confirmation unl
 - Timeline: 24 dated events, 2013 to 2026. Left out: undated items (SRCC FIC, MUN Club chair, SOF Maths/GK, HCL JigSaw 5, Quiz to Conquer) and the two ongoing competitions.
 
 **Artha** (client message): descriptor "Artha — Finance workbench" / "a finance workbench for learning, researching stocks and building portfolios. India first, global second." comes from the live site's title and meta description; it says "Made by Ahaan Gupta". Sections: Markets, Portfolio, Valuation, Plan, Learn. Description in his own words stays a placeholder.
+
+---
+
+## 12. Quiz questions (`site.quiz.questions`), checked 15 Nov 2026
+
+None of these concerns Ahaan. Each fact was read on the page named, in this session, with `curl` (WebFetch could not reach any host here). Several authoritative sites (un.org, icao.int, britannica.com, loc.gov) returned 403 or did not resolve, so questions were built only on pages that did open. Answer is in bold.
+
+| # | Subject (interest id) | Question | Options | Source page and the line that confirms it |
+| --- | --- | --- | --- | --- |
+| 1 | finance | In which year was the Reserve Bank of India established? | 1921, **1935**, 1947, 1956 | Reserve Bank of India, About Us, https://www.rbi.org.in/Scripts/AboutusDisplay.aspx: "The Reserve Bank of India was established on April 1, 1935 in accordance with the provisions of the Reserve Bank of India Act, 1934." |
+| 2 | aviation | In which year did the Wright brothers make the first flights of their powered Flyer? | 1896, 1909, **1903**, 1914 | US National Park Service, "1903 - The First Flight", https://www.nps.gov/wrbr/learn/historyculture/thefirstflight.htm: page title "1903-The First Flight"; narrative dated "December 17, 1903", Orville takes off. |
+| 3 | law | What name is given to the first ten amendments to the Constitution of the United States, ratified in 1791? | Declaration of Independence, Articles of Confederation, Magna Carta, **The Bill of Rights** | US National Archives, https://www.archives.gov/milestone-documents/bill-of-rights: "the 10 that were ratified became the Bill of Rights in 1791." |
+| 4 | motorsport | Which circuit hosted the first race of the Formula 1 World Championship, in May 1950? | **Silverstone**, Monza, Spa-Francorchamps, Circuit de Monaco | formula1.com. Season list https://www.formula1.com/en/results/1950/races shows Great Britain, 13 May, as the first of seven races (then Monaco 21 May, Indianapolis, Switzerland, Belgium, France, Italy). Race page https://www.formula1.com/en/results/1950/races/94/great-britain/race-result gives "Silverstone Circuit, Great Britain" and "13 May 1950". The site's source link points to the race page. |
+| 5 | mun (geopolitics and institutions) | In which city was the Charter of the United Nations signed in 1945? | New York, London, **San Francisco**, Geneva | US National Archives, https://www.archives.gov/milestone-documents/united-nations-charter: "On June 26, 1945, in San Francisco, the United Nations was formally established with the signing of the UN Charter." |
+| 6 | reading | Who wrote the novel Nineteen Eighty-Four, published in 1949? | Aldous Huxley, **George Orwell**, Evelyn Waugh, Graham Greene | The Orwell Foundation, https://www.orwellfoundation.com/the-orwell-foundation/orwell/books-by-orwell/nineteen-eighty-four/: "Nineteen Eighty-Four, George Orwell ... Published in 1949 ..." |
+
+Notes
+- Question 2 says "powered Flyer" and avoids the location, because the NPS page text read did not state it.
+- Question 3 is about the US Constitution; the Indian Constitution pages tried (legislative.gov.in, indiacode.nic.in) did not return readable text.
+- Answer positions: 2nd, 3rd, 4th, 1st, 3rd, 2nd.
+
+## 13. Additions to `site.ts` for the design system, section 9 (15 Nov 2026)
+
+- `identity.portraitAlt`: describes only what the client asked for (head and shoulders, smiling, navy blazer, light blue shirt, outdoors).
+- `stats[].id` added; editor caveats (Grade X year, 19+ vs 16) moved to `editorNote`. Reader-visible notes kept: "6 Best Delegate", the NFO field size and round 1 rank, the fellowship numbers, the books breadth.
+- Timeline: `org` set on 9 events (Lotus Valley 5, IIT Madras 2, SRCC 1, SOF 1). Not set where the logo could mislead: the Executive Board event names IIT Delhi and AIKYAM together; Rasmanjari is not confirmed as a Lotus Valley event. SHISFEST moved from `academic` to a new category `pitch`, listed under Competitions. `span` added for Scholar Badge (rings 2021 to 2026) and the SOF English Olympiad (rule 2018 to 2024).
+- Interests: `statedLine` "Listed under Interests on the resume." for Formula 1 and tennis. The resume's interests line is "Avid reader ... · Formula 1 · Tennis : Aviation".
+- `site.ui`: interface strings by section. Strings the design system names are used exactly. Strings it implies but does not word (table column heads, "Awards by year", "Sort by", "Committees", placard count lines, quiz live-region sentence, "Filter the timeline", the four finance-row figures) are structural wording by the researcher and are listed here for the creative director to accept or change.

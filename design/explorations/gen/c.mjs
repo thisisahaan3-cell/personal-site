@@ -260,7 +260,7 @@ const coda = `
   </svg>
   <h2 class="abs serif ch" style="left:${col(2)}px;top:48px">400+ <i>books</i></h2>
   <div class="abs txt" style="left:${col(7)}px;top:76px;width:500px"><p>Read across fiction, non-fiction and philosophy. One tick for each of the first 400, in two rows of 200; the shelf runs on.</p></div>
-  <div class="abs serif mail" style="left:${col(4)}px;top:${CY - 72}px">thisisahaan@gmail.com</div>
+  <div class="abs serif mail" style="left:${col(4)}px;top:${CY - 77}px">thisisahaan@gmail.com</div>
   <p class="abs cap" style="left:${col(4)}px;top:${CY + 22}px;width:520px">The line makes its one square corner, the corner of a court, and ends under the email address.</p>
 </section>`;
 
@@ -339,7 +339,7 @@ th{font:400 12px/16px "Geist Mono",monospace;letter-spacing:.06em;text-transform
 .rec .yr{font-size:30px;line-height:34px;font-variant-numeric:tabular-nums}
 .res td{height:50px;border-bottom:1px solid var(--hair);font-size:16px;line-height:22px;vertical-align:middle}
 .res td.serif{font-size:28px;line-height:32px;width:300px}
-.res td.serif small{font:400 13px/18px "Geist",sans-serif;color:var(--slate);margin-left:8px}
+.res td.serif small{font:400 15px/20px "Geist",sans-serif;color:var(--navy);margin-left:8px}
 .res th:last-child{width:300px}
 .shot{display:block;outline:1px solid var(--hair)}
 .roll{display:flex;flex-wrap:wrap;gap:6px 22px;color:var(--slate)}
