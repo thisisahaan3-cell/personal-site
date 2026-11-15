@@ -15,10 +15,10 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 - [x] 0. Setup: Next.js 16 + TS + Tailwind v4, Motion, GSAP, Lenis, Lucide, Playwright 1.63.0, skills, SessionStart hook, CLAUDE.md, five subagent files
 - [x] 0b. Verified each subagent runs (15 Nov): creative-director and visual-explorer on claude-fable-5-2, frontend-engineer on claude-opus-5-5, content-researcher and qa-reviewer on claude-sonnet-5-5 (from each run's `modelUsage`)
 - [x] 1. Content: `src/content/site.ts` (type-checks), `content/research/facts.md`, 7 logos with provenance in `content/research/assets.md`
-- [x] 2. Three creative directions in `design/directions.md`: A Almanac, B Placard, C Meridian. Creative director recommends C, Meridian; client pre-authorised building the recommendation. Reference boards (visual-explorer) in `design/explorations/` — in progress
-- [ ] 3. Approved design system in `design/design-system.md` (creative-director)
+- [x] 2. Three creative directions in `design/directions.md`: A Almanac, B Placard, C Meridian. Creative director recommends C, Meridian; client pre-authorised building the recommendation. Reference boards done: `design/explorations/01-almanac.html`, `02-placard.html`, `03-meridian.html` with screenshots in `shots/` (sent to the client)
+- [x] 3. Approved design system: `design/design-system.md` (Meridian). Quiz questions and `site.ui` strings added to `src/content/site.ts`
 - [x] 4. Assets: portrait, logos with provenance, Artha screenshots, redacted resume PDF in `public/` (still wanted: 5–7 verified quiz questions from the content researcher, once the design system says how many)
-- [ ] 5. Build the site (frontend-engineer)
+- [ ] 5. Build the site (frontend-engineer) — started 15 Nov ~23:00 UTC in four milestones, each committed and pushed by the engineer (1 foundation + hero/about/academics; 2 timeline, MUN, leadership; 3 competitions/Artha, Night, law, quiz, reading, contact; 4 self-check). If interrupted, check `git log` for the last milestone and resume the engineer from there
 - [ ] 6. Independent QA rounds (qa-reviewer), creative-director review, fixes, repeat
 - [ ] 7. Deploy to Netlify, report the URL, disable the hourly scheduled task
 
@@ -26,6 +26,8 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 
 - 15 Nov 18:07 UTC: hit the 5-hour usage limit about 50 minutes in (Fable orchestrator plus two Fable agents in parallel is expensive). Resumed 22:38 UTC after the 21:50 reset. Both interrupted agents (creative-director writing `design/design-system.md`; visual-explorer drawing boards, Meridian first, A and B compact) were resumed with SendMessage.
 - Budget rule from here: critical path first (design system → frontend build → QA → deploy). Keep briefs tight; avoid running more than two agents at once.
+
+- Notes for the creative director's first screenshot review (from the visual explorer's Meridian board): the finance line returns to the meridian behind the Artha screenshot (needs approval); the hero portrait at 384px stops above the 900px fold; Night hairlines need two extra tokens; motorsport is thin on facts; some Stone sections have large empty areas.
 
 ## Notes for whoever resumes
 
