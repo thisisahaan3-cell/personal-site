@@ -49,3 +49,6 @@ __pycache__/
 
 # private source material: the original resume contains a phone number and must never be committed
 /source-material/resume-original.pdf
+
+# headless subagent run logs
+/.agent-runs/

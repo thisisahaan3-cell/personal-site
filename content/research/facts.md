@@ -1,0 +1,176 @@
+# Resume extraction: Ahaan Gupta
+
+Source: `source-material/resume-original.pdf` (2 pages, git-ignored). This file is the full extraction so the site content can be rebuilt without the PDF. Wording is quoted or closely paraphrased from the resume. Obvious typos are noted in the final section, not silently changed. The phone number is deliberately omitted (rule 5 in CLAUDE.md). The only public contact is `thisisahaan@gmail.com`.
+
+Facts from the client's own messages (in CLAUDE.md, not in the resume) are marked **[client message]**.
+
+---
+
+## 1. Header
+
+- Name: AHAAN GUPTA
+- Lotus Valley International School, Gurugram · Grade 11 (Commerce) · Age 16
+- Email: thisisahaan@gmail.com
+- (Phone number present in the resume, not reproduced.)
+- "References available on request" (footer line).
+
+## 2. Profile (resume text)
+
+> Self-driven 16-year-old student with a track record of competing and winning at the national level across finance, diplomacy, parliamentary debate and academics. Interested in the fields of civil aviation and finance.
+
+## 3. Education
+
+**Lotus Valley International School, Gurugram**, 2013 – Present
+- Grade 11 (Commerce) | Consistent 96%+ across all academic years
+- **99.4% in CBSE Grade X Secondary Examinations (2025–26)**; School Topper; 50% School Merit Scholarship
+  - Current School Topper in Grade 11 Commerce.
+  - Awarded the Scholar Badge every year from 2021 onwards, the school's highest academic recognition, "without a single exception across six consecutive years".
+  - Elected to the Student Council's Environment Committee in 2025 and re-elected in 2026, "combining leadership responsibilities with sustained academic excellence".
+  - Received a letter of recommendation from the Principal.
+
+## 4. Experience and fellowships
+
+Listed in resume order.
+
+1. **SRCC FIC Finance Research Fellowship** (no date given)
+   - Selected from 2,000 candidates into a cohort of 100.
+   - Attended finance sessions on topics including derivatives, fixed income markets, financial engineering and valuations; visited the SRCC campus as part of the fellowship.
+2. **Fortis Adayu Hospital, Intern**, May – June 2026
+   - Researched psychology and how it intersects with areas of personal interest, particularly finance.
+3. **Mahak Plastic Industries & RD Polypack, Student Intern**, March – April 2026
+   - Completed a one-month structured immersion in an industrial manufacturing environment, observing end-to-end operations across production, logistics and management.
+   - Independently authored a detailed factory visit report and conducted an industry-wide statistical analysis, going beyond observation to produce original, data-backed research.
+4. **We Care Foundation, NGO Internship**, 2025
+   - Educated 50+ students across 2025, providing useful lessons in Mathematics, English, finance and civic sense.
+5. **Green Captain, My School for Earth by the University of Melbourne**, 2026
+   - Led my school as Green Captain for this environmental platform, recruiting 100+ students and spearheading 5+ environmental initiatives including cleanup drives, recycling, and awareness campaigns, earning recognition to the school.
+6. **Rasmanjari Interschool Competition 2026** (raw, unpolished text, see ambiguities)
+   - Verbatim: "My schools flagship competition with 30+ schools 700+ participants i was the student coordinator for commerce competitions wasd dthe first point of support and planning for those competitions and all did compering"
+   - Facts it appears to contain (unconfirmed reading): school's flagship competition; 30+ schools; 700+ participants; he was student coordinator for the commerce competitions; first point of support and planning for them; he also did compering (hosting).
+
+## 5. Model United Nations and parliamentary debate
+
+Summary line: "20+ prestigious conferences · 19+ awards · Demonstrated proficiency in International Relations and debate"
+
+### Executive Board experience (3 roles)
+| # | Conference / body | Role | Committee | Year |
+|---|---|---|---|---|
+| 1 | IITD MUN 2026 (held at IIT Delhi) | Rapporteur; promoted to Vice Chair | WHO | 2026 |
+| 2 | AIKYAM MUN 2026 | Vice Chairperson | UNESCO | 2026 |
+| 3 | Lotus Valley's MUN Club | Chairperson | ECOSOC | not stated |
+
+### Selected parliamentary programmes (2)
+1. PRS Student Parliament 2026: Qualified for North India Regionals.
+2. National Youth Parliament Scheme, Ministry of Parliamentary Affairs (2025).
+
+### Delegate awards: 16 rows
+The resume splits the table across the page break (the header repeats). Rows are in resume order.
+
+| # | Conference | Committee | Award | Year |
+|---|---|---|---|---|
+| 1 | SHISMUN | AAIB | Best Delegate | 2026 |
+| 2 | Eurivox MUN | UNGA | Best Delegate | 2026 |
+| 3 | SHISMUN (Scottish High International School) | CCC (Crisis Committee) | Best Delegate | 2025 |
+| 4 | GUMUN (Gurugram University MUN) | FIA | Best Delegate | 2025 |
+| 5 | Online Youth Summit | UNSC | Best Delegate | 2025 |
+| 6 | LVISMUN | UNGA | High Commendation | 2026 |
+| 7 | PRASHTA MUN | UNGA | Best Delegate | 2024 |
+| 8 | ASBBS MUN | UNHRC | High Commendation | 2024 |
+| 9 | AIKYAM MUN | AIPPM | High Commendation | 2023 |
+| 10 | Lotus MUN | UNGA | High Commendation | 2023 |
+| 11 | Lotus Sansad | Rajya Sabha | Runner Up | 2025 |
+| 12 | Aurelia DPSIMUN | FIA | Special Mention | 2025 |
+| 13 | DAV Sansad | AIPPM | Special Mention | 2024 |
+| 14 | BBIMUN (Blue Bells International MUN) | UNSC | Honourable Mention | 2025 |
+| 15 | BBIMUN (Blue Bells International MUN) | UNODC | Honourable Mention | 2024 |
+| 16 | SHISMUN | FIA | Verbal Mention | 2024 |
+
+**Counts by level (16 rows):** Best Delegate 6 (rows 1–5 and 7) · High Commendation 4 (6, 8, 9, 10) · Runner Up 1 (11) · Special Mention 2 (12, 13) · Honourable Mention 2 (14, 15) · Verbal Mention 1 (16). Total 16.
+
+**By year:** 2026: 3 · 2025: 6 · 2024: 5 · 2023: 2.
+
+Two rows (Lotus Sansad, DAV Sansad) are parliamentary ("Sansad") events, not MUNs, but sit in the same table.
+
+## 6. Finance, business and academic competitions
+
+1. **National Finance Olympiad 2025**
+   - Round 1: All India Rank 10.
+   - Round 2 (Nationals): All India Rank 54 out of 10,000+ participants; Certificate of National Excellence.
+2. **SRCC Finance Olympiad 2025**: All India Rank 46.
+3. **SHISFEST, Vision To Venture 2026**: First Position.
+4. **Wharton Global High School Investment Competition**, Ongoing: "Currently participating." **[client message]** confirms; team and strategy details unknown (placeholder).
+5. **GIC GITAM Pitch Competition**, Ongoing: "Currently participating." Details unknown (placeholder).
+6. **SHRITEQ Tech Quiz 2026**: 4th place in the finals, out of 45 teams; hosted by Rajiv Makhni.
+7. **SOF International English Olympiad, 2018 – 2024**: 6 awards across multiple years, "demonstrating sustained excellence in English (97+ percentile each year)".
+8. **SOF International Mathematics & General Knowledge Olympiads** (no year): 95+ percentile with Distinction awards.
+9. **HCL JigSaw 5** (no year): 89 percentile.
+10. **Quiz to Conquer by Fateh Education (Kamani Auditorium)** (no year): Reached the semi-finals.
+11. **Other competitions** (verbatim): "Also participated in the Monash University Change It Challenge, Indian Army Quiz, SRCC English Olympiad, Experience Japan Essay Writing, Vishwaroop Quiz, National Paryavaran Competition and other national-level competitions, with distinctions, American Math Olympiad, Singapore Math Challenge DPSI CAS Summit,RPS Pivot Quiz etc."
+    - Named items: Monash University Change It Challenge; Indian Army Quiz; SRCC English Olympiad; Experience Japan Essay Writing; Vishwaroop Quiz; National Paryavaran Competition; American Math Olympiad; Singapore Math Challenge; DPSI CAS Summit; RPS Pivot Quiz.
+
+Count: 10 named entries plus the "Other competitions" line (two of the ten are ongoing).
+
+**Project, from client message (not in resume):** **[client message]** He built https://artha-finance.netlify.app, a finance website, as a portfolio project. No further description is known.
+
+## 7. Courses and certifications (3)
+
+1. **IIT Madras Certification, Fundamentals of Aerospace, 2025**: Completed an 8-week course on introductory aerospace concepts, earning a Completion Certificate and a Certificate for Exemplary Performance in the take-home project.
+2. **IIT Madras Certification, Introduction to Law, 2026**: Completed an 8-week course on introductory legal concepts, earning a Completion Certificate and a Certificate for Exemplary Performance in the take-home project.
+3. **Lotus Young Leaders Summit, Workshop, 2025**: "Harnessing Your Inner Power" | Shefali Singh, CEO, Wellness Essentials. Selected to attend an exclusive leadership development summit; participated in a session on mindset, personal power and performance, "complementing competitive achievements with structured self-development".
+
+## 8. Skills and interests
+
+- **Core skills:** Public Speaking & Debate · Leadership & Coordination · Research & Drafting · Digital Tools
+- **Interests (resume):** Avid reader, "over 400 books read across fiction, non-fiction and philosophy" · Formula 1 · Tennis : Aviation (see ambiguities)
+- **Interests (client message):** finance and economics, aviation, law, quizzing and general knowledge, Formula 1 and motorsport, Model UN / international relations / geopolitics, reading (400+ books), tennis.
+- The resume profile also names "civil aviation and finance" as fields of interest.
+
+## 9. Totals at a glance
+
+- Delegate awards in table: 16 (Best Delegate 6, High Commendation 4, Runner Up 1, Special Mention 2, Honourable Mention 2, Verbal Mention 1).
+- Executive Board roles: 3. Parliamentary programmes: 2.
+- Finance/business/academic competition entries: 10 plus an "Other competitions" line. Ongoing: 2.
+- Experience and fellowship entries: 6 (including Green Captain and Rasmanjari).
+- Courses and certifications: 3.
+
+---
+
+## 10. Ambiguities and source issues
+
+None of these are resolved by guessing. Each needs the client's confirmation unless marked otherwise.
+
+**Counts and claims**
+1. **"19+ awards" vs 16 table rows.** The summary line says 19+ awards; the table lists 16. The extra awards may come from other sections (e.g. National Finance Olympiad, SHISFEST, SHRITEQ, SOF awards), but the resume does not say so. Safe approach: show "16 delegate awards" for the table and cite "19+" only as the resume's own summary, or ask the client what it counts. "20+ conferences" cannot be checked against the table either (the table shows 13 distinct conference or event names, counting SHISMUN and BBIMUN once each).
+2. **SHISMUN appears three times** (2026 AAIB Best Delegate; 2025 CCC Best Delegate; 2024 FIA Verbal Mention). Likely the same conference in different years, but only the 2025 row expands the name ("Scottish High International School"). Whether SHISFEST (competition 3) belongs to the same school is not stated.
+3. **"Lotus MUN" (2023), "LVISMUN" (2026) and "Lotus Valley's MUN Club"** may or may not be the same body. Not stated.
+4. **"Nationally" and "winning at the national level"** in the profile is the client's own claim. The ranks (AIR 10, 54, 46) support "national level"; "winning" is not given a specific basis beyond the Best Delegate awards and SHISFEST First Position.
+
+**Dates and timing**
+5. **Grade X result dated "2025–26"** while he is currently in Grade 11. The label is odd for a Grade X exam. Reproduce as written; confirm the year (probably 2025).
+6. **Scholar Badge "from 2021 onwards … six consecutive years"** (2021–2026) is consistent in count, but its dates were not verified.
+7. **Education "2013 – Present"** is the school attendance span.
+8. **No date** for: SRCC FIC fellowship; Lotus Valley MUN Club chairpersonship; SOF Maths and GK Olympiads; HCL JigSaw 5; Quiz to Conquer.
+9. **SRCC FIC**: "FIC" is not expanded in the resume. "SRCC" is not expanded either (presumably Shri Ram College of Commerce, but not stated). Do not expand without confirmation.
+10. **"IITD MUN … Rapporteur, WHO; promoted to Vice Chair"**: the committee for the Vice Chair role is not repeated (presumably WHO). The reading is unconfirmed.
+11. **"We Care Foundation, NGO Internship, 2025"** and "Educated 50+ students across 2025": consistent, no month given.
+
+**Outcomes missing**
+12. **PRS Student Parliament 2026:** only "Qualified for North India Regionals"; the result is not given.
+13. **National Youth Parliament Scheme (2025):** the type of participation is not stated; it is listed only by name and year.
+14. **Wharton Global High School Investment Competition and GIC GITAM Pitch Competition:** both "Ongoing", with no team, stage or strategy. "GIC" and "GITAM" are not expanded. Wharton is confirmed by the client. Both need client details or stay as placeholders.
+15. **SHISFEST, Vision To Venture 2026, First Position:** no category, team or scale is given.
+16. **SRCC Finance Olympiad 2025, AIR 46:** the number of participants is not given (unlike the National Finance Olympiad).
+17. **SOF International English Olympiad "6 awards across multiple years"**: which awards (medal, zonal, etc.) is not stated. "SOF" is not expanded in the resume.
+18. **HCL JigSaw 5, "89 percentile"** carries no year, and unlike the other olympiads is not described as an award.
+19. **SHRITEQ Tech Quiz 2026**: "4th place in the finals, out of 45 teams". Whether 45 is the field overall or the finals is ambiguous. "Hosted by Rajiv Makhni" is presented as given. Do not imply endorsement.
+
+**Typos and unpolished text**
+20. **Rasmanjari paragraph** is rough draft text: "My schools flagship", "i was", "wasd dthe", missing punctuation, and "and all did compering" (probably "and also did the compering"). The structure of the sentence is unclear: it is not certain whether "first point of support and planning" refers to him or to the competitions. The text needs the client's rewrite or confirmation before publishing. It is not clear whether Rasmanjari is a Lotus Valley event. ("My schools" suggests it is, but the school name is not repeated.)
+21. **Green Captain**: "earning recognition to the school" is awkward (probably "earning recognition for the school"). Also "My School for Earth by the University of Melbourne": it is not stated whether this is a programme run by the University or a platform it supports. Do not imply he is affiliated with the University of Melbourne.
+22. **Interests line**: "Tennis : Aviation" uses a colon where a "·" separator is expected. Aviation is also named in the profile and the client's messages, so the intended meaning is clear (tennis and aviation), but it was not changed in the source.
+23. **"Other competitions"** has missing spaces and commas: "DPSI CAS Summit,RPS Pivot Quiz etc." The phrase "with distinctions" sits in the middle of the list, so it is unclear which items earned distinctions. The list also mixes participation and awards. "American Math Olympiad" is listed alongside "Singapore Math Challenge" and "DPSI CAS Summit". Whether "DPSI CAS Summit" is one event or "Singapore Math Challenge DPSI" and "CAS Summit" are separate is unclear. Treat this as participation only, with no distinctions claimed.
+24. **Table page break:** the delegate awards table header repeats mid-table (rows 1–5 and 6–16). The two blocks appear to be a layout artefact, not different categories. The first block is all Best Delegate awards, but the second block is not strictly ordered either.
+25. **"Current School Topper in Grade 11 Commerce"** and "School Topper" under the Grade X result: two separate claims. Keep both as written.
+26. **Experience heading** includes non-employment items (Green Captain, Rasmanjari). They may be better placed under Leadership on the site; that is a design/content-structure choice, not a fact change.
+
+**Client confirmation list (summary):** the Rasmanjari rewrite; what "19+ awards" counts; the Grade X year; the expansions of FIC, SRCC, GIC, GITAM, SOF; dates for undated items; whether the Lotus MUN, LVISMUN and MUN Club are linked; details on the Wharton and GIC GITAM competitions; the meaning of "with distinctions" in "Other competitions"; the biography, personal statement and interest descriptions (all placeholders); social links (none are given).
