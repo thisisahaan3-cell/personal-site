@@ -75,11 +75,13 @@ A successful build is not enough. Work is done when:
 | `content-researcher` | claude-sonnet-5-5, high | Facts, central content file, logo sourcing and licensing | `src/content/`, `content/research/`, `public/logos/` |
 | `qa-reviewer` | claude-sonnet-5-5, high | Independent browser testing; reports only | `qa/` |
 
+If the Agent tool reports an agent type as not found, run it headlessly with `scripts/agent.sh <agent> <prompt-file>` (see PROGRESS.md).
+
 The main session orchestrates: it briefs agents, relays their findings and makes no design decision the creative director has not approved. Agent Teams (experimental) is not enabled, at the client's request.
 
 ## Stack and commands
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, Motion (`motion/react`), GSAP with ScrollTrigger, Lenis, Lucide React, Playwright 1.63.0 for browser testing.
+Next.js 16 (App Router, static export to `out/`), React 19, TypeScript, Tailwind CSS v4, Motion (`motion/react`), GSAP with ScrollTrigger, Lenis, Lucide React, Playwright 1.63.0 for browser testing.
 
 This Next.js version has breaking changes compared with older releases. Read the relevant guide in `node_modules/next/dist/docs/` before using an API you are unsure of.
 
@@ -88,7 +90,7 @@ npm install          # dependencies (the SessionStart hook does this in cloud se
 npm run dev          # development server on :3000
 npm run lint
 npm run build
-npm run start        # serve the production build
+npm run start        # serve the static export in out/ on :3000
 node scripts/screenshot.mjs http://localhost:3000 qa/screenshots/run-name
 ```
 

@@ -30,7 +30,12 @@ for (const vp of viewports) {
   });
   const page = await context.newPage();
   page.on("console", (msg) => {
-    if (msg.type() === "error") problems.push(`[${vp.name}] console error: ${msg.text()}`);
+    // Failed resource loads are reported with their URL by the response listener below.
+    if (msg.type() === "error" && !msg.text().startsWith("Failed to load resource"))
+      problems.push(`[${vp.name}] console error: ${msg.text()}`);
+  });
+  page.on("response", (res) => {
+    if (res.status() >= 400) problems.push(`[${vp.name}] HTTP ${res.status()}: ${res.url()}`);
   });
   page.on("pageerror", (err) => problems.push(`[${vp.name}] page error: ${err.message}`));
   page.on("requestfailed", (req) =>
