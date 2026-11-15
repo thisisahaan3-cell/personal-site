@@ -174,3 +174,25 @@ None of these are resolved by guessing. Each needs the client's confirmation unl
 26. **Experience heading** includes non-employment items (Green Captain, Rasmanjari). They may be better placed under Leadership on the site; that is a design/content-structure choice, not a fact change.
 
 **Client confirmation list (summary):** the Rasmanjari rewrite; what "19+ awards" counts; the Grade X year; the expansions of FIC, SRCC, GIC, GITAM, SOF; dates for undated items; whether the Lotus MUN, LVISMUN and MUN Club are linked; details on the Wharton and GIC GITAM competitions; the meaning of "with distinctions" in "Other competitions"; the biography, personal statement and interest descriptions (all placeholders); social links (none are given).
+
+---
+
+## 11. Decisions made in `src/content/site.ts` (15 Nov 2026)
+
+**Abbreviations verified from official sources**
+- SRCC = Shri Ram College of Commerce (the college's own logo and site, https://www.srcc.edu).
+- FIC = Finance and Investment Cell (SRCC page "Finance and Investment Cell | SRCC", https://www.srcc.edu/node/3199). The resume's "SRCC FIC Finance Research Fellowship" is listed as the Cell's fellowship; the resume itself does not say so, so the expansion appears only in the organisation line.
+- SOF = Science Olympiad Foundation (https://sofworld.org page title). Used only for the logo mapping.
+- Not expanded (unverified): GIC, GITAM (site.ts only names GITAM as an organisation, no expansion), LVISMUN, AIKYAM, SHISMUN beyond the resume's own expansion, HCL JigSaw, DPSI, CAS, RPS.
+
+**Wording choices**
+- Age ("16-year-old") removed from the profile line; the client asked that age not be published. Rest of the profile unchanged.
+- Rasmanjari: stored as a minimal factual version (flagship interschool competition of his school, 30+ schools, 700+ participants, student coordinator for the commerce competitions, also compered), `needsConfirmation: true`. "First point of support and planning" is dropped because its subject is unclear.
+- Green Captain: "earning recognition to the school" dropped as unclear. No affiliation with the University of Melbourne is implied.
+- "Environment Committee" title is taken as "elected to", with no title added.
+- "19+ awards" shown only as the resume's own summary, beside the 16 table rows, with a note.
+- Interests: Formula 1 and tennis have no related resume facts, so evidence is empty.
+- Grade X ("2025–26") kept as written and flagged. Excluded from the timeline because the year is unconfirmed.
+- Timeline: 24 dated events, 2013 to 2026. Left out: undated items (SRCC FIC, MUN Club chair, SOF Maths/GK, HCL JigSaw 5, Quiz to Conquer) and the two ongoing competitions.
+
+**Artha** (client message): descriptor "Artha — Finance workbench" / "a finance workbench for learning, researching stocks and building portfolios. India first, global second." comes from the live site's title and meta description; it says "Made by Ahaan Gupta". Sections: Markets, Portfolio, Valuation, Plan, Learn. Description in his own words stays a placeholder.

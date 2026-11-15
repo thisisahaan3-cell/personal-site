@@ -137,7 +137,11 @@ export type Role = {
 // They never imply endorsement. Others fall back to the name in text.
 
 export const organisations: Record<string, Organisation> = {
-  lotusValley: { name: "Lotus Valley International School, Gurugram" },
+  lotusValley: {
+    name: "Lotus Valley International School, Gurugram",
+    logo: "/logos/lotus-valley.jpg",
+    url: "https://www.lotusvalleygurgaon.com",
+  },
   srcc: {
     name: "Shri Ram College of Commerce",
     logo: "/logos/srcc.png",
@@ -164,7 +168,13 @@ export const organisations: Record<string, Organisation> = {
     logo: "/logos/sof.jpg",
     url: "https://sofworld.org",
   },
-  wharton: { name: "Wharton Global Youth Program" },
+  // The Wharton mark identifies the competition's organiser only. Penn and Wharton
+  // restrict use of their marks; delete the `logo` line to show the name in text instead.
+  wharton: {
+    name: "Wharton Global Youth Program",
+    logo: "/logos/wharton.svg",
+    url: "https://globalyouth.wharton.upenn.edu/investment-competition/",
+  },
   prs: { name: "PRS Legislative Research", url: "https://prsindia.org" },
   gitam: { name: "GITAM" },
   melbourne: { name: "University of Melbourne" },
@@ -190,7 +200,7 @@ export const site = {
     stream: "Commerce",
     email: "thisisahaan@gmail.com", // the only public contact
     resumeFile: "/Ahaan-Gupta-Resume.pdf", // redacted copy, no phone number
-    portrait: "/portrait.webp", // set by the frontend when the portrait is processed
+    portrait: "/images/portrait.webp", // set by the frontend when the portrait is processed
   },
 
   // ── Hero ──
