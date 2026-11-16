@@ -16,6 +16,8 @@
   --color-night-text: #e9edf2;
   --color-night-slate: #9aa6b5;
   --color-night-hairline: #263349;
+  /* Small secondary marks on night: waypoints, station, cross-ticks, tape ticks (review 1). */
+  --color-night-mark: #55657f;
   --color-line-night: #ff6a3d;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1100px;
@@ -778,6 +780,9 @@ h3.sub {
   stroke: var(--rule);
   stroke-width: 1px;
   vector-effect: non-scaling-stroke;
+}
+.hl.nm {
+  stroke: var(--color-night-mark);
 }
 .dot-fill {
   fill: var(--line-color);
@@ -2181,7 +2186,7 @@ h3.sub {
   }
 }
 .night-last {
-  padding-bottom: calc(2 * var(--chapter-gap));
+  padding-bottom: var(--chapter-gap);
 }
 .night .rlist {
   border-top-color: var(--fg2);
@@ -2198,16 +2203,17 @@ h3.sub {
   overflow: hidden;
   z-index: 2;
 }
+/* The mask reaches 16px left of the first tick so its label is whole at rest. */
 .tape-strip {
   position: absolute;
-  inset: 0;
+  inset: 0 0 0 16px;
 }
 .tape-tick {
   position: absolute;
   top: 0;
   width: 1px;
   height: 6px;
-  background: var(--color-night-hairline);
+  background: var(--color-night-mark);
 }
 .tape-tick.is-major {
   height: 10px;

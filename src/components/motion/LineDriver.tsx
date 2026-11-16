@@ -98,10 +98,12 @@ export function LineDriver() {
             }
           }
         };
-        gsap.set(
-          labels.map((l) => l.el),
-          { opacity: 0 },
-        );
+        // No tween for a figure without labels: an empty target makes GSAP warn (QA defect 12).
+        if (labels.length)
+          gsap.set(
+            labels.map((l) => l.el),
+            { opacity: 0 },
+          );
         apply(0);
         ScrollTrigger.create({
           trigger: fig,

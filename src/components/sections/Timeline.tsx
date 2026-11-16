@@ -1,9 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion as m } from "motion/react";
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent, type Ref } from "react";
 import { site, type TimelineCategory, type TimelineEvent } from "@/content/site";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { tileFor } from "@/lib/content";
 import { useMotion } from "../motion/MotionProvider";
 import { Chapter, ChapterHead, ChapterNote, ChapterTitle, LogoTile, Run } from "../primitives";
 
@@ -36,11 +37,18 @@ function layout() {
   const placed: Placed[] = [];
   const ticks: { year: number; x: number }[] = [];
   const breaks: { x: number; from: number; to: number }[] = [];
+  // A year inside the Scholar Badge span with no events is a bay of its own: tick, label, ring.
+  const rings = events.find((e) => e.span?.style === "rings")?.span;
+  const inRings = (y: number) => !!rings && y >= rings.from && y <= rings.to;
   let x = FILLET + LEAD;
   let n = 0;
   for (let y = first; y <= last; ) {
     const evs = events.filter((e) => e.year === y);
-    if (evs.length) {
+    if (!evs.length && inRings(y)) {
+      ticks.push({ year: y, x });
+      x += 64;
+      y++;
+    } else if (evs.length) {
       ticks.push({ year: y, x });
       evs.forEach((ev, i) => {
         placed.push({ ev, index: events.indexOf(ev), x: x + 64 + 88 * i, up: n % 2 === 0 });
@@ -50,7 +58,7 @@ function layout() {
       y++;
     } else {
       const from = y;
-      while (y <= last && !events.some((e) => e.year === y)) y++;
+      while (y <= last && !events.some((e) => e.year === y) && !inRings(y)) y++;
       breaks.push({ x: x + 24, from, to: y - 1 });
       x += 48;
     }
@@ -64,6 +72,12 @@ function layout() {
 }
 
 const GEO = layout();
+
+/** Track position of the last entry the filter shows. */
+function lastMatchX(filterId: string) {
+  for (let k = GEO.placed.length - 1; k >= 0; k--) if (matches(GEO.placed[k].ev, filterId)) return GEO.placed[k].x;
+  return GEO.placed[GEO.placed.length - 1]?.x ?? 0;
+}
 
 /** Index of the matching entry nearest the reading mark at progress p. */
 function nearest(p: number, filterId: string) {
@@ -109,9 +123,9 @@ function BadgeRings({ gap }: { gap: number }) {
   );
 }
 
-function InProgress({ className = "" }: { className?: string }) {
+function InProgress({ className = "", ref }: { className?: string; ref?: Ref<HTMLDivElement> }) {
   return (
-    <div className={className}>
+    <div className={className} ref={ref}>
       <h3 className="t-title2">{ui.inProgressHeading}</h3>
       <ul className="tl-ongoing">
         {ongoing.map((c) => (
@@ -165,7 +179,7 @@ function VerticalTimeline({ filter, setFilter }: { filter: string; setFilter: (f
                     </summary>
                     <div className="tl-vdetail">
                       <p className="t-small fg2 measure">{ev.detail}</p>
-                      <LogoTile org={ev.org} />
+                      <LogoTile org={tileFor(ev.org, ev.title)} />
                     </div>
                   </details>
                   {ev.span?.style === "rings" && <BadgeRings gap={16} />}
@@ -199,7 +213,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
   const mx = useRef(0);
   const panelRef = useRef<HTMLDivElement>(null);
   const panelHidden = useRef(false);
-  const panelRight = useRef(0);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   // Pin, track movement and the approach draw.
   useEffect(() => {
@@ -207,14 +221,24 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
     if (!section) return;
     const update = (p: number) => {
       gsap.set(trackRef.current, { x: mx.current - p * L });
-      // The "In progress" block arrives under the panel near the end: let the panel give way to it.
+      // Hand-off at the end (§0.1 item 14), scroll-linked: once the last entry has reached the
+      // reading mark, the panel fades out over the next 120px of travel, then "In progress" fades in
+      // over the following 120px.
       const panel = panelRef.current;
-      if (panel) {
-        const progressX = mx.current + L + 114 - p * L;
-        const clash = progressX < panelRight.current + 24;
-        if (clash !== panelHidden.current) {
-          panelHidden.current = clash;
-          gsap.to(panel, { opacity: clash ? 0 : 1, duration: 0.15, overwrite: true });
+      const progress = progressRef.current;
+      if (panel && progress) {
+        const lastX = lastMatchX(filterRef.current);
+        const d = p * L + MARK - lastX;
+        const panelO = Math.min(1, Math.max(0, 1 - d / 120));
+        const progO = Math.min(1, Math.max(0, (d - 120) / 120));
+        gsap.set(panel, { opacity: panelO });
+        gsap.set(progress, { opacity: progO });
+        const hide = panelO === 0;
+        if (hide !== panelHidden.current) {
+          panelHidden.current = hide;
+          panel.toggleAttribute("inert", hide);
+          if (hide) panel.setAttribute("aria-hidden", "true");
+          else panel.removeAttribute("aria-hidden");
         }
       }
       const k = nearest(p, filterRef.current);
@@ -227,8 +251,6 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
       // Resolve the meridian in px once per refresh (cqw cannot be read from JS directly).
       const probe = section.querySelector<HTMLElement>(".tl-probe");
       mx.current = probe?.offsetLeft ?? 0;
-      const panel = panelRef.current;
-      panelRight.current = panel ? panel.offsetLeft + panel.offsetWidth : 0;
     };
     measure();
     const st = ScrollTrigger.create({
@@ -258,7 +280,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
         if (d >= 1 || x < vis - 12) gsap.to(el, { opacity: 1, duration: 0.3, overwrite: "auto" });
       });
     };
-    gsap.set(entries, { opacity: 0 });
+    if (entries.length) gsap.set(entries, { opacity: 0 });
     const drawST = ScrollTrigger.create({
       trigger: section,
       start: "top 40%",
@@ -271,7 +293,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
     return () => {
       st.kill();
       drawST.kill();
-      gsap.set(entries, { clearProps: "opacity" });
+      if (entries.length) gsap.set(entries, { clearProps: "opacity" });
       stRef.current = null;
     };
   }, [L]);
@@ -436,6 +458,12 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
                   setSel(k);
                   scrollToEntry(k);
                 }}
+                onFocus={(e) => {
+                  // Keyboard focus before the pin: jump to the pin start plus this entry's offset
+                  // so the focused entry is on screen (QA defect 11).
+                  const st = stRef.current;
+                  if (st && !st.isActive && e.currentTarget.matches(":focus-visible")) scrollToEntry(k, 0);
+                }}
               >
                 <span className="tl-ring" aria-hidden="true" />
                 <span className="tl-stem" aria-hidden="true" />
@@ -448,7 +476,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
           })}
         </div>
 
-        <InProgress className="tl-h-progress" />
+        <InProgress className="tl-h-progress" ref={progressRef} />
       </div>
 
       <div className="tl-panel" aria-live="polite" ref={panelRef}>
@@ -471,7 +499,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
                     {filterOf(cur.ev.category)?.label}
                   </p>
                 </div>
-                <LogoTile org={cur.ev.org} />
+                <LogoTile org={tileFor(cur.ev.org, cur.ev.title)} />
               </div>
             </m.div>
           )}

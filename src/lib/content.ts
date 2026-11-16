@@ -38,6 +38,11 @@ const NO_TILE = [/^Rasmanjari\b/, /^Lotus Young Leaders Summit\b/];
  * row that names it. Returns the org key to show per row, or null. The cell itself stays, so the
  * trailing column keeps its width.
  */
+/** The tile for a single entry outside a table (the timeline): none for an unconfirmed organiser. */
+export function tileFor(org: string | null | undefined, text: string) {
+  return org && !NO_TILE.some((re) => re.test(text)) ? org : null;
+}
+
 export function tilesFor<T>(rows: readonly T[], org: (r: T) => string | null | undefined, text: (r: T) => string) {
   const seen = new Set<string>();
   return rows.map((r) => {

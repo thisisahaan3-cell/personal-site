@@ -62,19 +62,27 @@ export function Header() {
   useEffect(() => {
     if (!ready) return;
     const triggers: ScrollTrigger[] = [];
+    const chapters: ScrollTrigger[] = [];
+    // The current chapter is the last one whose start has been passed, worked out from every
+    // trigger at once, so a long anchor jump or "Back to top" never leaves a stale label (QA defect 21).
+    const recompute = () => {
+      const y = window.scrollY;
+      let id: string | null = null;
+      for (const t of chapters) if (y >= t.start) id = (t.trigger as HTMLElement).id;
+      setCurrent(id);
+    };
     document.querySelectorAll<HTMLElement>("[data-chapter]").forEach((el) => {
-      triggers.push(
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top 40%",
-          end: "bottom 40%",
-          onToggle: (s) => {
-            if (s.isActive) setCurrent(el.id);
-            else if (el.id === "about" && s.direction < 0) setCurrent(null);
-          },
-        }),
-      );
+      const t = ScrollTrigger.create({
+        trigger: el,
+        start: "top 40%",
+        end: "bottom 40%",
+        onToggle: recompute,
+      });
+      chapters.push(t);
+      triggers.push(t);
     });
+    ScrollTrigger.addEventListener("scrollEnd", recompute);
+    ScrollTrigger.addEventListener("refresh", recompute);
     const nightEl = document.querySelector<HTMLElement>(".night");
     const law = document.getElementById("law");
     if (nightEl && law) {
@@ -88,7 +96,11 @@ export function Header() {
         }),
       );
     }
-    return () => triggers.forEach((t) => t.kill());
+    return () => {
+      ScrollTrigger.removeEventListener("scrollEnd", recompute);
+      ScrollTrigger.removeEventListener("refresh", recompute);
+      triggers.forEach((t) => t.kill());
+    };
   }, [ready]);
 
   const close = useCallback(

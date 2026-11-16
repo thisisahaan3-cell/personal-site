@@ -17,7 +17,7 @@ const ROUTE = {
     H: 640,
     out: "M 0 0 L 0 60 C 0 180 120 250 260 250 L 430 250 C 540 250 600 130 700 130 L 900 130 A 45 45 0 0 1 900 220 L 700 220 A 45 45 0 0 1 700 130 L 960 130 C 1040 130 1070 200 1070 290 L 1070 360 C 1070 470 980 520 860 520",
     back: "M 860 520 L 150 520 C 60 520 0 560 0 640",
-    rings: [110, 220, 330],
+    rings: [100, 200, 300],
     centre: [560, 330],
     waypoints: [
       [330, 250],
@@ -72,17 +72,17 @@ function Route({ v, tapeRef }: { v: "desk" | "phone"; tapeRef: (el: HTMLDivEleme
             <circle key={r} className="hl" cx={g.centre[0]} cy={g.centre[1]} r={r} />
           ))}
         </g>
-        <circle className="hl" cx={g.centre[0]} cy={g.centre[1]} r={2.5} />
+        <circle className="hl nm" cx={g.centre[0]} cy={g.centre[1]} r={2.5} />
         {g.waypoints.map(([x, yy]) => (
-          <path key={`${x}-${yy}`} className="hl route-wp" d={tri(x, yy)} />
+          <path key={`${x}-${yy}`} className="hl nm route-wp" d={tri(x, yy)} />
         ))}
         {crosses.map((x) => (
-          <line key={x} className="hl" x1={x} x2={x} y1={y - 6} y2={y + 6} />
+          <line key={x} className="hl nm" x1={x} x2={x} y1={y - 6} y2={y + 6} />
         ))}
       </Svg>
       <div
         className="tape"
-        style={{ left: `${(g.tape.x / W) * 100}%`, width: `${(tapeW / W) * 100}%` }}
+        style={{ left: `calc(${(g.tape.x / W) * 100}% - 16px)`, width: `calc(${(tapeW / W) * 100}% + 16px)` }}
         data-fade=""
       >
         <div className="tape-strip" ref={tapeRef}>
@@ -202,13 +202,16 @@ function useCircuitGeo(v: "desk" | "phone") {
       const nn = normalAt(loop, k);
       return { a: { x: p.x - nn.x * len, y: p.y - nn.y * len }, b: { x: p.x + nn.x * len, y: p.y + nn.y * len } };
     };
-    const labelAt = [N / 6, N / 2, (5 * N) / 6].map((k) => {
+    const labelAt = [N / 6, N / 2, (5 * N) / 6].map((k, i) => {
       const kk = Math.round(k);
       const p = loop[kk];
       let nn = normalAt(loop, kk);
-      // Point the label away from the middle of the circuit.
-      if ((p.x - g.centroid.x) * nn.x + (p.y - g.centroid.y) * nn.y < 0) nn = { x: -nn.x, y: -nn.y };
-      const off = v === "desk" ? 30 : 20;
+      // Point the label away from the middle of the circuit; "Sector 2" sits inside the loop,
+      // 16px clear of the band's inner edge (§0.1 item 10).
+      const inside = i === 1;
+      const outward = (p.x - g.centroid.x) * nn.x + (p.y - g.centroid.y) * nn.y >= 0;
+      if (outward === inside) nn = { x: -nn.x, y: -nn.y };
+      const off = inside ? g.band14 / 2 + 16 : v === "desk" ? 30 : 20;
       return { x: p.x + nn.x * off, y: p.y + nn.y * off, nx: nn.x };
     });
     return { g, loop, trace: `M ${tracePts.join(" L ")}`, sectorAt, tick, labelAt };
@@ -257,23 +260,21 @@ function Circuit({
           <path className="ln" d={g.exit} />
         </Svg>
       </Wipe>
-      {labelAt.map((l, i) =>
-        v === "phone" && i === 1 ? null : (
-          <FLabel
-            key={i}
-            x={l.x}
-            y={l.y}
-            w={W}
-            h={H}
-            align={l.nx > 0.3 ? "left" : l.nx < -0.3 ? "right" : "center"}
-            valign="middle"
-            at={0.3 + i * 0.2}
-            className="t-data fg2"
-          >
-            {figs.circuit.sectors[i]}
-          </FLabel>
-        ),
-      )}
+      {labelAt.map((l, i) => (
+        <FLabel
+          key={i}
+          x={l.x}
+          y={l.y}
+          w={W}
+          h={H}
+          align={l.nx > 0.3 ? "left" : l.nx < -0.3 ? "right" : "center"}
+          valign="middle"
+          at={0.3 + i * 0.2}
+          className="t-data fg2"
+        >
+          {figs.circuit.sectors[i]}
+        </FLabel>
+      ))}
       <span className="lap-dot mark-dot" ref={dotRef} style={pt(loop[0])} />
       <span
         className="lap-cursor"
