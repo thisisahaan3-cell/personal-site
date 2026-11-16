@@ -20,9 +20,11 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 - [x] 4. Assets: portrait, logos with provenance, Artha screenshots, redacted resume PDF in `public/` (still wanted: 5–7 verified quiz questions from the content researcher, once the design system says how many)
 - [x] 5. Site built by the frontend-engineer (claude-opus-5-5) and pushed in five commits (443c29d..ca5aec7): all chapters, line system, timeline, quiz. Lint and static build pass. Its report lists 10 small deviations for the creative director to rule on
 - [ ] 6. QA round 1 done: FAIL, 0 blocker / 3 major / 18 minor (`qa/reports/2026-11-16-round-1.md`). Creative-director review done: approved with changes, 18-item fix list in `design/reviews/2026-11-16-review-1.md` (rulings in design-system section 0.1). Engineer fix round 1 started ~05:15 UTC 16 Nov. Next: QA round 2 (re-check the fixes only), then deploy. Ruling: the resume PDF keeps the client's text including age (he approved phone-removed only)
-- [ ] 7. Deploy to Netlify, report the URL, disable the hourly scheduled task
+- [ ] 7. Deploy to Netlify. Project CREATED 16 Nov: name `ahaan-gupta`, siteId `36ccd93d-a2a8-4d47-9a9a-20715e27d896`, URL https://ahaan-gupta.netlify.app (no deploy yet). After the first deploy check visitor access: the new project reports team-login required for ALL deploys; set it to non-production only so the production site is public. Then report the URL and disable the hourly scheduled task (trig_016goFaCBE8QyDnd36Sc4opk)
 
 ## Log
+
+- 16 Nov 05:15 UTC: third usage limit hit as fix round 1 began (nothing changed). Reset 08:30. Resumed 08:38 with a FRESH frontend-engineer on fix round 1a (review items 1, 2, 3, 5, 6, 17 and phone sort buttons: the two QA majors plus quick items). Plan: narrow QA re-check of the majors → first deploy → round 1b (review items 4, 7–16, 18) → QA round 2 → redeploy. Lesson: resuming an agent with a 400k context is expensive; prefer fresh agents with tight briefs.
 
 - 15 Nov ~23:05 UTC: second usage limit hit just as the engineer started; reset 03:30 UTC 16 Nov; engineer resumed 03:38 and finished the build ~04:17.
 - 15 Nov 18:07 UTC: hit the 5-hour usage limit about 50 minutes in (Fable orchestrator plus two Fable agents in parallel is expensive). Resumed 22:38 UTC after the 21:50 reset. Both interrupted agents (creative-director writing `design/design-system.md`; visual-explorer drawing boards, Meridian first, A and B compact) were resumed with SendMessage.
