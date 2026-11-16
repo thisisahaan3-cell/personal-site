@@ -277,11 +277,11 @@ export function Record() {
                     {r.conference}
                     {r.conferenceFull && <span className="sub-sm">{r.conferenceFull}</span>}
                   </td>
-                  <td className="c-sm">
+                  <td className="c-sm c-comm">
                     {r.committee}
                     {r.committeeFull && <span className="fg2"> ({r.committeeFull})</span>}
                   </td>
-                  <td className="c-sm t-label">{r.award}</td>
+                  <td className="c-sm t-label c-award">{r.award}</td>
                   <td className="c-year">{r.year}</td>
                 </m.tr>
               </Fragment>

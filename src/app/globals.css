@@ -1913,7 +1913,47 @@ h3.sub {
 .record tbody tr[hidden] {
   display: none;
 }
+/* Phone (D1, round 2a): the record is not a table here. The fixed column widths above would
+   squeeze the row grids into the first column, so the table, its body and rows become blocks at
+   the full content width, each award a two-line entry: conference with the year on the first
+   line, committee with the award level on the second, both right-hand values on one edge. */
 @media (max-width: 767.98px) {
+  .record {
+    display: block;
+    table-layout: auto;
+  }
+  .record colgroup {
+    display: none;
+  }
+  .record tbody {
+    display: block;
+  }
+  .record tbody tr {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 16px;
+    align-items: baseline;
+  }
+  .record td.c-subj {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .record td.c-year {
+    grid-column: 2;
+    grid-row: 1;
+    padding-top: 0;
+  }
+  .record td.c-comm {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: 8px;
+  }
+  .record td.c-award {
+    grid-column: 2;
+    grid-row: 2;
+    padding-top: 8px;
+    text-align: right;
+    white-space: nowrap;
+  }
   .record .group-row {
     display: block;
     padding: 48px 0 16px;
@@ -1922,7 +1962,11 @@ h3.sub {
     padding-top: 32px;
   }
   .record .group-row td {
+    display: block;
     padding: 0;
+  }
+  .record .group-row .group-n {
+    white-space: nowrap;
   }
 }
 
