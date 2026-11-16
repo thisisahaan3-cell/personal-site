@@ -21,9 +21,16 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 - [x] 5. Site built by the frontend-engineer (claude-opus-5-5) and pushed in five commits (443c29d..ca5aec7): all chapters, line system, timeline, quiz. Lint and static build pass. Its report lists 10 small deviations for the creative director to rule on
 - [x] 6a. QA round 1 FAIL (3 major) → creative-director review (approved with changes) → fix round 1a → QA round 1b PASS (no blocker, no major; `qa/reports/2026-11-16-round-1b.md`)
 - [x] 6b. Fix round 1b done (commits 38698db, 9cfbf3c, d84dce4; timeline layout-shift fix skipped). QA round 2: FAIL on one major regression D1 (phone awards record squeezed to ~110px) plus 7 minors (`qa/reports/2026-11-16-round-2.md`)
-- [ ] 6c. Fix round 2a (D1–D8) started ~10:25 UTC 16 Nov with a fresh frontend-engineer. Then: narrow QA re-check of D1–D8, redeploy (see step 7 for how), a short creative-director sign-off on the QA screenshots if usage allows
+- [x] 6c. Fix round 2a done (0ba526d, f161635): D1–D8 fixed. QA round 2b: PASS, no blocker or major (`qa/reports/2026-11-16-round-2b.md`). REDEPLOYED 16 Nov ~10:50 UTC; live check at 1440/834/390: no console errors, failed requests or overflow; resume PDF served; phone number absent
 - [x] 7. DEPLOYED 16 Nov ~09:35 UTC: https://ahaan-gupta.netlify.app (project `ahaan-gupta`, siteId `36ccd93d-a2a8-4d47-9a9a-20715e27d896`). Production is public; team login applies to non-production previews only. Live check: 200, no console errors, no overflow, phone number absent, resume PDF served. To redeploy: call the Netlify MCP `deploy-site` with the siteId, then run the printed `npx @netlify/mcp` command with `NODE_USE_ENV_PROXY=1` (Node's fetch ignores the proxy otherwise), after temporarily moving `source-material/resume-original.pdf` out of the repo folder so it is never uploaded. Netlify injects a comment into <head>; `src/app/layout.tsx` strips it before hydration (do not remove that script). The 'Powered by Netlify' badge is Netlify's free-plan badge
-- [ ] 8. After round 1b is deployed: disable the hourly scheduled task (trig_016goFaCBE8QyDnd36Sc4opk)
+- [x] 8. Hourly scheduled task disabled on 16 Nov ~13:40 UTC (work complete)
+
+## Left for a later pass (not blocking)
+
+- Creative-director sign-off on the final build was not run (usage). The engineer changed four approved details in round 2a that the creative director has not ruled on: the sticky "400+" removed on phone and tablet; the timeline's "2013 – 2026" note moved above the title; about 370px more scroll in the pinned timeline; leadership ticks at 2px.
+- Minor QA remnants: leadership ticks render half-weight at 2x/3x pixel density (use a whole-pixel height); one aviation waypoint triangle is crossed by the route line; timeline layout shift on desktop from the pin (CLS, no visible jump) not fixed; Courses and Further competitions tables are plain; twelve single-line placeholders repeat until the client supplies text.
+- Not tested: Firefox and Safari, screen readers, 200% zoom, real touch gestures on the globe, finance figure and circuit.
+- Client decisions open: age in the resume PDF, Rasmanjari wording, what "19+ awards" counts, Grade X year, Wharton logo, biography and interest text, Wharton/GITAM details, social links.
 
 ## Log
 
