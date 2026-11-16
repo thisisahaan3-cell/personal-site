@@ -7,22 +7,23 @@ import { DESTINATIONS, statFor } from "@/lib/pages";
 import { prefersReducedMotion, prefersStillMedia } from "@/lib/motion";
 import { TransitionLink, useTransitionPhase } from "@/components/shell/Transition";
 import { Roll } from "./Roll";
+import { photoUnderStill, placePortrait } from "./composition";
 import { CandleWall, type Rect, type WallLayout } from "./wall";
 
 const MATTE = "/images/portrait-matte.webp";
-const STILL = "/images/portrait-candles.webp";
-const PORTRAIT_W = 797;
-const PORTRAIT_H = 1060;
+const TONE = "/images/portrait-tone.webp";
+const STILL_SRC = "/images/portrait-candles.webp";
 const PHONE_MAX = 760;
 
 type Mode = "pending" | "webgl" | "still";
 
-/** The portrait image rect: cover the frame, anchored top centre (bleeds off the bottom). */
-function coverTop(frame: DOMRect): Rect {
-  const s = Math.max(frame.width / PORTRAIT_W, frame.height / PORTRAIT_H);
-  const w = PORTRAIT_W * s;
-  const h = PORTRAIT_H * s;
-  return { x: frame.left + (frame.width - w) / 2, y: frame.top, w, h };
+const toRect = (r: DOMRect): Rect => ({ x: r.left, y: r.top, w: r.width, h: r.height });
+
+function loadImage(src: string) {
+  const img = new window.Image();
+  img.decoding = "async";
+  img.src = src;
+  return img.decode().then(() => img);
 }
 
 export function Home({ video }: { video: string | null }) {
@@ -37,6 +38,8 @@ export function Home({ video }: { video: string | null }) {
   const wall = useRef<CandleWall | null>(null);
   const imageRect = useRef<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const [mode, setMode] = useState<Mode>("pending");
+  const modeRef = useRef<Mode>("pending");
+  modeRef.current = mode;
   const [playing, setPlaying] = useState(false);
   const [wallReady, setWallReady] = useState(false);
   const phase = useTransitionPhase();
@@ -47,17 +50,19 @@ export function Home({ video }: { video: string | null }) {
     if (!f || !c) return null;
     const view = { w: c.clientWidth || window.innerWidth, h: c.clientHeight || window.innerHeight };
     const phone = view.w < PHONE_MAX;
-    const fr = f.getBoundingClientRect();
-    const image = coverTop(fr);
-    imageRect.current = image;
+    const fr = toRect(f.getBoundingClientRect());
+    const image = placePortrait(fr, phone);
+    // The lens maps onto the photograph under whatever is showing: the wall, or the still.
+    imageRect.current = modeRef.current === "still" ? photoUnderStill(fr) : image;
     const footTop = foot.current?.getBoundingClientRect().top ?? view.h;
     return {
       view,
+      frame: fr,
       image,
       backdropGrid: phone ? [60, 100] : [160, 90],
       portraitGrid: phone ? [56, 75] : [96, 128],
       footY: footTop,
-      clipY: phone ? fr.bottom : view.h + image.h,
+      clipY: phone ? fr.y + fr.h : view.h + image.h,
       phone,
     };
   }, []);
@@ -92,15 +97,11 @@ export function Home({ video }: { video: string | null }) {
       }
     }, 4000);
 
-    const img = new window.Image();
-    img.decoding = "async";
-    img.src = MATTE;
-    img
-      .decode()
-      .then(() => {
+    Promise.all([loadImage(MATTE), loadImage(TONE)])
+      .then(([matte, tone]) => {
         if (cancelled) return;
         window.clearTimeout(fallbackTimer);
-        w.setPortrait(img);
+        w.setPortrait(matte, tone);
         const l = measure();
         if (l) w.setLayout(l);
         wall.current = w;
@@ -266,11 +267,10 @@ export function Home({ video }: { video: string | null }) {
       <div className="home__frame" ref={frame}>
         <Image
           className="home__still"
-          src={STILL}
+          src={STILL_SRC}
           alt={site.identity.portraitAlt}
           fill
           sizes="(max-width: 760px) 100vw, 50vw"
-          preload
         />
       </div>
       <div className="home__lens" ref={lens} aria-hidden="true">

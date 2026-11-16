@@ -10,7 +10,9 @@
 export type Rect = { x: number; y: number; w: number; h: number };
 export type WallLayout = {
   view: { w: number; h: number };
-  /** Where the portrait image sits, in CSS px (may bleed off screen). */
+  /** The portrait layer's grid: the right half on desktop, the top region on phone. */
+  frame: Rect;
+  /** Where the (zoomed) portrait photograph sits, in CSS px; it may bleed past the frame. */
   image: Rect;
   backdropGrid: [number, number];
   portraitGrid: [number, number];
@@ -35,6 +37,8 @@ uniform vec4 uRect;
 uniform vec4 uImg;
 uniform sampler2D uPortrait;
 uniform sampler2D uSource;
+uniform sampler2D uTone;
+uniform vec4 uFrame;
 uniform float uUseVideo;
 uniform float uLod;
 uniform float uTime;
@@ -59,6 +63,8 @@ out vec2 vScreen;
 const float PI = 3.14159265;
 const vec3 TEXT = vec3(0.910, 0.929, 0.965);
 const vec3 DOWN = vec3(0.306, 0.404, 0.573);
+/* Portrait only: the down blue lifted so brightness, not hue, carries the face. */
+const vec3 DOWN_P = vec3(0.490, 0.646, 0.917);
 const vec3 AMBER = vec3(0.949, 0.647, 0.255);
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -96,10 +102,10 @@ float backdrop(vec2 uv) {
   return city(uv, uTime);
 }
 
-float portraitLum(vec4 s) {
-  float l = lum(s.rgb);
-  return pow(clamp((l - 0.04) / 0.78, 0.0, 1.0), 0.85);
-}
+/* Tone map -> 0..1. Height and brightness both follow L^0.7, so apparent brightness tracks the photograph. */
+float portraitTone(float t) { return smoothstep(0.1, 0.95, t); }
+
+bool insideRect(vec2 p, vec4 r) { return p.x >= r.x && p.x <= r.x + r.z && p.y >= r.y && p.y <= r.y + r.w; }
 
 void main() {
   vec2 cell = uRect.zw / uGrid;
@@ -109,22 +115,25 @@ void main() {
   bool portrait = uLayer > 0.5;
 
   float L, Ll, alpha;
+  vec2 puv = (c - uImg.xy) / uImg.zw;
+  bool onImage = puv.x > 0.0 && puv.x < 1.0 && puv.y > 0.0 && puv.y < 1.0;
   if (portrait) {
-    vec4 s = textureLod(uPortrait, uv, uLod);
-    vec4 sl = textureLod(uPortrait, uv - left, uLod);
-    L = portraitLum(s);
-    Ll = portraitLum(sl);
-    alpha = smoothstep(0.08, 0.55, s.a) * (1.0 - smoothstep(uClipY - cell.y * 3.0, uClipY, c.y));
+    vec2 step1 = vec2(cell.x / uImg.z, 0.0);
+    L = portraitTone(textureLod(uTone, puv, uLod).r);
+    Ll = portraitTone(textureLod(uTone, puv - step1, uLod).r);
+    float a = onImage ? textureLod(uPortrait, puv, uLod).a : 0.0;
+    alpha = smoothstep(0.08, 0.55, a)
+      * (1.0 - smoothstep(uClipY - cell.y * 3.0, uClipY, c.y))
+      * smoothstep(0.0, cell.x * 5.0, c.x - uRect.x);
   } else {
     L = backdrop(uv);
     Ll = backdrop(uv - left);
-    vec2 puv = (c - uImg.xy) / uImg.zw;
     float pa = 0.0;
-    if (puv.x > 0.0 && puv.x < 1.0 && puv.y > 0.0 && puv.y < 1.0 && c.y < uClipY) pa = textureLod(uPortrait, puv, uLod + 0.5).a;
+    if (onImage && insideRect(c, uFrame) && c.y < uClipY) pa = textureLod(uPortrait, puv, uLod + 0.5).a;
     alpha = 1.0 - smoothstep(0.05, 0.45, pa);
   }
 
-  bool up = L >= Ll;
+  bool up = portrait ? L + 0.02 >= Ll : L >= Ll;
   float r1 = hash(aCell + uLayer * 91.7);
   float r2 = hash(aCell * 1.37 + 4.1 + uLayer * 13.0);
   float r3 = hash(aCell * 2.11 + 9.7 + uLayer * 5.0);
@@ -185,8 +194,9 @@ void main() {
     pos += normalize(toLean) * uLean.z * 7.0 * (0.35 + 0.65 * (1.0 - c.y / uView.y));
 
   /* Geometry within the box. */
-  float bodyW = portrait ? 0.66 : 0.52;
-  float bh = 0.10 + 0.78 * h;
+  float bodyW = portrait ? 0.74 : 0.52;
+  float P = pow(clamp(h, 0.0, 1.2), 0.7);
+  float bh = portrait ? 0.06 + 0.86 * P : 0.10 + 0.78 * h;
   float restBodyW = mix(1.0, bodyW, e);
   float restBodyH = mix(1.0, bh, e);
   vec2 bodyHalf = vec2(box.x * 0.5 * restBodyW, box.y * 0.5 * restBodyH * sy);
@@ -195,8 +205,8 @@ void main() {
   wickHalf *= 1.0 - lens;
 
   /* Colour. */
-  vec3 restCol = up ? TEXT : DOWN;
-  float bright = portrait ? mix(0.28, 1.0, clamp(h, 0.0, 1.0)) : 0.26 * mix(0.3, 1.0, clamp(h, 0.0, 1.0));
+  vec3 restCol = up ? TEXT : (portrait ? DOWN_P : DOWN);
+  float bright = portrait ? 0.12 + 0.88 * min(P, 1.0) : 0.26 * mix(0.3, 1.0, clamp(h, 0.0, 1.0));
   vec3 col = mix(seriesUp ? TEXT : DOWN, restCol * bright, e);
 
   /* Amber "last print": one column at a time across the wall, with a short tail. */
@@ -303,6 +313,7 @@ export class CandleWall {
   private quad: WebGLBuffer;
   private texPortrait: WebGLTexture;
   private texSource: WebGLTexture;
+  private texTone: WebGLTexture;
   private sourceCanvas = document.createElement("canvas");
   private sourceCtx = this.sourceCanvas.getContext("2d", { willReadFrequently: false })!;
   private video: HTMLVideoElement | null = null;
@@ -345,7 +356,7 @@ export class CandleWall {
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog) ?? "link failed");
     this.prog = prog;
     for (const n of [
-      "uView", "uLayer", "uGrid", "uRect", "uImg", "uPortrait", "uSource", "uUseVideo", "uLod", "uTime",
+      "uView", "uLayer", "uGrid", "uRect", "uImg", "uFrame", "uPortrait", "uSource", "uTone", "uUseVideo", "uLod", "uTime",
       "uIntro", "uReplay", "uOrigin", "uPrint", "uPointer", "uVel", "uLean", "uFootY", "uClipY", "uSeries",
     ]) this.u[n] = gl.getUniformLocation(prog, n);
 
@@ -354,6 +365,7 @@ export class CandleWall {
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5]), gl.STATIC_DRAW);
 
     this.texPortrait = this.makeTexture();
+    this.texTone = this.makeTexture();
     this.texSource = this.makeTexture();
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
 
@@ -376,14 +388,20 @@ export class CandleWall {
     return t;
   }
 
-  setPortrait(img: HTMLImageElement) {
+  /** The alpha-matted photograph (alpha and the lens) and its tone map (candle heights). */
+  setPortrait(matte: HTMLImageElement, tone: HTMLImageElement) {
     const gl = this.gl;
-    gl.bindTexture(gl.TEXTURE_2D, this.texPortrait);
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-    gl.generateMipmap(gl.TEXTURE_2D);
-    this.portraitSize = { w: img.naturalWidth, h: img.naturalHeight };
+    for (const [tex, img] of [
+      [this.texPortrait, matte],
+      [this.texTone, tone],
+    ] as const) {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.generateMipmap(gl.TEXTURE_2D);
+    }
+    this.portraitSize = { w: matte.naturalWidth, h: matte.naturalHeight };
   }
 
   setVideo(video: HTMLVideoElement | null) {
@@ -535,8 +553,9 @@ export class CandleWall {
     if (this.autoLens) {
       const t = now / 1000;
       const img = l.image;
-      px = img.x + img.w * (0.5 + 0.2 * Math.sin(t * 0.55));
-      py = img.y + img.h * (0.27 + 0.06 * Math.sin(t * 0.9 + 1));
+      // Drifts across the face (centre at 52%, 39% of the photograph).
+      px = img.x + img.w * (0.52 + 0.13 * Math.sin(t * 0.55));
+      py = img.y + img.h * (0.39 + 0.07 * Math.sin(t * 0.9 + 1));
     }
     const lensTarget = p.active || this.autoLens ? 1 : 0;
     p.lens += (lensTarget - p.lens) * (1 - Math.exp(-dt / 0.12));
@@ -566,6 +585,7 @@ export class CandleWall {
     const u = this.u;
     gl.uniform2f(u.uView, l.view.w, l.view.h);
     gl.uniform4f(u.uImg, l.image.x, l.image.y, l.image.w, l.image.h);
+    gl.uniform4f(u.uFrame, l.frame.x, l.frame.y, l.frame.w, l.frame.h);
     gl.uniform1f(u.uUseVideo, this.useVideo && this.lastVideoTime >= 0 ? 1 : 0);
     gl.uniform1f(u.uTime, (now - this.t0) / 1000);
     gl.uniform1f(u.uIntro, intro);
@@ -585,10 +605,14 @@ export class CandleWall {
     gl.activeTexture(gl.TEXTURE1);
     gl.bindTexture(gl.TEXTURE_2D, this.texSource);
     gl.uniform1i(u.uSource, 1);
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, this.texTone);
+    gl.uniform1i(u.uTone, 2);
 
     const pg = l.portraitGrid;
     // Mip level where one texel is about one portrait cell, a little sharper.
-    const lod = Math.max(0, Math.log2(this.portraitSize.w / pg[0]) - 0.6);
+    const texelsPerCell = (l.frame.w / pg[0]) * (this.portraitSize.w / l.image.w);
+    const lod = Math.max(0, Math.log2(texelsPerCell) - 0.6);
     gl.uniform1f(u.uLod, lod);
 
     const drawLayer = (layer: Layer | undefined, index: number, rect: Rect) => {
@@ -600,7 +624,7 @@ export class CandleWall {
       gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, layer.count);
     };
     drawLayer(this.layers.backdrop, 0, { x: 0, y: 0, w: l.view.w, h: l.view.h });
-    drawLayer(this.layers.portrait, 1, l.image);
+    drawLayer(this.layers.portrait, 1, l.frame);
     gl.bindVertexArray(null);
   }
 
