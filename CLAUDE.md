@@ -4,6 +4,20 @@ A premium personal portfolio for Ahaan Gupta, a Grade 11 (Commerce) student at L
 
 If you are resuming after a restart, read `PROGRESS.md` first. It records what is done and what comes next.
 
+## VERSION 2 BRIEF (16 Nov 2026) — this supersedes the Meridian direction below
+
+The client rejected the first site (Meridian: a light, one-page scroll) as too basic. His instructions for the rebuild, in his words and order of weight:
+
+1. **Dark mode.**
+2. **The front page is only a cinematic, visually striking intro**: one screen, built around his face with an interesting animation linked to finance, and buttons that point to the sections. It must not be an endless scroll.
+3. **Separate sections reached by buttons/navigation**, as on the reference site (separate pages with a persistent nav).
+4. **Lead with impact.** The site encapsulates him: the most impressive things he has won, done and built (academics, awards, competitions, courses, projects) are at the forefront. Anything that does not show his ability is not given prominence.
+5. **No separate section per interest.** Interests are revealed through the other parts of the site (motifs, details, interactions). If he has done nothing in a field (for example motorsport), it gets no section.
+6. **Animation and moving objects on the level of aaravjuneja.in**, studied properly: see `design/reference-study/notes.md`. Each page gets one memorable moving or interactive set piece; Three.js/WebGL is welcome. Philosophy only: never copy that site's layout, assets, type or interactions.
+7. **Do not waste usage.** No three-direction exercises, no long design documents, no repeated review rounds. One short direction (`design/v2-direction.md`), then build, look at it moving, fix, ship. Show the client the intro page early.
+
+The approved v2 direction is `design/v2-direction.md`. `design/design-system.md`, `design/directions.md` and `design/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. Media is limited to the portrait, the Artha screenshots and official logos; set pieces must be generated (WebGL, canvas, SVG, CSS) and should leave room for photos or clips the client may send later.
+
 ## Sources of truth
 
 - `source-material/resume-original.pdf` is the primary source of facts. It contains a phone number and the GitHub repository is public, so it is git-ignored and exists only in the session's container. If it is missing after a restart, use `content/research/facts.md` (the full extraction) and `public/Ahaan-Gupta-Resume.pdf` (the redacted copy offered for download).
@@ -27,7 +41,7 @@ Facts the client gave in conversation (not in the resume):
 5. The phone number is never published. The public contact is `thisisahaan@gmail.com`. The downloadable resume is a redacted copy with the phone number removed.
 6. Logos come from official sources or clearly licensed files, are used unmodified, and only indicate where something took place. No fabricated or approximated logos, and nothing that implies an organisation endorses him.
 
-## Creative direction
+## Creative direction (original brief; read together with the version 2 brief above)
 
 Brief from the client:
 
@@ -69,8 +83,8 @@ A successful build is not enough. Work is done when:
 
 | Agent | Model | Role | Writes to |
 | --- | --- | --- | --- |
-| `creative-director` | claude-fable-5-2, high | Owns the identity, writes and approves the design system, reviews screenshots | `design/` |
-| `visual-explorer` | claude-fable-5-2, high | Static reference boards and motif studies; never the production site | `design/explorations/` |
+| `creative-director` | claude-opus-5-5, high | Owns the identity, writes and approves the design system, reviews screenshots | `design/` |
+| `visual-explorer` | claude-opus-5-5, high | Static reference boards and motif studies; never the production site | `design/explorations/` |
 | `frontend-engineer` | claude-opus-5-5, high | Implements the approved system | `src/`, `public/`, `scripts/` |
 | `content-researcher` | claude-sonnet-5-5, high | Facts, central content file, logo sourcing and licensing | `src/content/`, `content/research/`, `public/logos/` |
 | `qa-reviewer` | claude-sonnet-5-5, high | Independent browser testing; reports only | `qa/` |

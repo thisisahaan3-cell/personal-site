@@ -2,6 +2,18 @@
 
 Read this first when resuming after a restart or a usage-limit reset. Keep it current.
 
+## VERSION 2 REBUILD (started 16 Nov 2026 ~19:10 UTC)
+
+The client rejected the first site as too basic. New brief is at the top of CLAUDE.md. Reference study: `design/reference-study/notes.md`. Design agents now run on claude-opus-5-5 (client's instruction). The hourly scheduled task is ON again; disable it when v2 is deployed. Everything under "Phases" below is the finished, superseded v1.
+
+- [ ] V2-1. Short direction `design/v2-direction.md` (creative-director, one pass, under ~8 kB)
+- [ ] V2-2. Shell + intro: dark tokens, persistent nav, page transitions, the home intro set piece (frontend-engineer). SHOW THE CLIENT (screenshots/short capture, then deploy) before going further
+- [ ] V2-3. Section pages with one set piece each (frontend-engineer), reusing v1 data and components where they fit
+- [ ] V2-4. One QA pass (qa-reviewer), fixes, redeploy to the same Netlify project (`ahaan-gupta`, how-to under v1 step 7)
+- [ ] V2-5. Disable the hourly scheduled task
+
+Usage rules: one agent at a time, tight briefs, fresh agents rather than resuming huge contexts, judge motion from frame sequences or video rather than stills.
+
 ## Client decisions (15 Nov 2026)
 
 - Netlify: approved. Create a NEW project (not artha-finance, suhanuaanu or resolvd) and deploy once QA passes.
