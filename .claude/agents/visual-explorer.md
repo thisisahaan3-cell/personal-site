@@ -1,7 +1,7 @@
 ---
 name: visual-explorer
 description: Produces visual explorations for the portfolio as standalone static HTML/SVG reference boards and motion studies, briefed by the creative director. Use for moodboards, type specimens, palette tests and interest-motif studies. Never implements the production website.
-model: claude-fable-5-2
+model: claude-opus-5-5
 effort: high
 tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Skill
 skills:

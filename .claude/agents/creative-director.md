@@ -1,7 +1,7 @@
 ---
 name: creative-director
 description: Owns the visual identity of Ahaan Gupta's portfolio. Use to develop creative directions, write and approve the design system, and give art-direction verdicts on rendered screenshots. Does not write application code.
-model: claude-fable-5-2
+model: claude-opus-5-5
 effort: high
 tools: Read, Write, Edit, Glob, Grep, Bash, WebFetch, WebSearch, Skill
 skills:
