@@ -1933,9 +1933,14 @@ h3.sub {
     column-gap: 16px;
     align-items: baseline;
   }
+  /* The conference spans the row, keeping clear of the year; its expansion runs the full width. */
   .record td.c-subj {
-    grid-column: 1;
+    grid-column: 1 / -1;
     grid-row: 1;
+    padding-right: 56px;
+  }
+  .record td.c-subj .sub-sm {
+    margin-right: -56px;
   }
   .record td.c-year {
     grid-column: 2;
@@ -1961,11 +1966,16 @@ h3.sub {
   .record .group-row.is-first {
     padding-top: 32px;
   }
+  /* Value and count on one line: the count sits on the right edge with the years and awards. */
   .record .group-row td {
-    display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
     padding: 0;
   }
   .record .group-row .group-n {
+    margin-left: 0;
     white-space: nowrap;
   }
 }
