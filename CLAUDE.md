@@ -16,7 +16,10 @@ The client rejected the first site (Meridian: a light, one-page scroll) as too b
 6. **Animation and moving objects on the level of aaravjuneja.in**, studied properly: see `design/reference-study/notes.md`. Each page gets one memorable moving or interactive set piece; Three.js/WebGL is welcome. Philosophy only: never copy that site's layout, assets, type or interactions.
 7. **Do not waste usage.** No three-direction exercises, no long design documents, no repeated review rounds. One short direction (`design/v2-direction.md`), then build, look at it moving, fix, ship. Show the client the intro page early.
 
-The approved v2 direction is `design/v2-direction.md`. `design/design-system.md`, `design/directions.md` and `design/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. Media is limited to the portrait, the Artha screenshots and official logos; set pieces must be generated (WebGL, canvas, SVG, CSS) and should leave room for photos or clips the client may send later.
+8. **Do not hold back, and do not let missing media limit the design** (his follow-up message): "I want a grand, amazing, mind-blowing, cinematic site." Set pieces may be built on real media. Use licensed stock video, photographs and CC0 3D models as placeholders now; he will send his own media later to replace them. Every stock asset is recorded in `content/research/assets.md` with source and licence, is marked as replaceable in the content file, and is atmosphere only: never captioned or framed as him or as his own event.
+9. **Spend usage on building the design, not on review rounds and tests.** Keep verification to the minimum that shows things broadly work. Do not ask him questions; work continues after every usage-limit reset. Subagents do the work; anything that ran on Fable now runs on Opus 5.5.
+
+The approved v2 direction is `design/v2-direction.md`. `design/design-system.md`, `design/directions.md` and `design/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. His own media so far: the portrait, the Artha screenshots and official logos.
 
 ## Sources of truth
 
