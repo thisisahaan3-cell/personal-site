@@ -995,6 +995,13 @@ h3.sub {
   padding: 0 0.2em 0.3em;
   margin: 0 -0.2em -0.3em;
 }
+/* While the name rises, its mask ends 8px above the rule so no glyph is drawn across the line.
+   At rest the mask is back to full depth so the descender of "p" is never clipped. */
+.pre-entrance .name-mask:last-child,
+.hero.is-entering .name-mask:last-child {
+  padding-bottom: calc(0.19em - 8px);
+  margin-bottom: calc(8px - 0.19em);
+}
 .name-word {
   display: block;
 }
@@ -1012,7 +1019,12 @@ h3.sub {
   width: calc(100% - 56px);
   aspect-ratio: 4 / 5;
   overflow: hidden;
-  background: var(--color-hairline);
+  background: var(--color-stone);
+}
+.hero-portrait picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .hero-portrait img {
   width: 100%;
@@ -1645,6 +1657,12 @@ h3.sub {
   font-size: var(--fs-tfig);
   line-height: 1.15;
 }
+.mun-sum {
+  row-gap: 0;
+}
+.school {
+  row-gap: 32px;
+}
 .mun-sum-cap {
   margin-top: 16px;
 }
@@ -1661,6 +1679,13 @@ h3.sub {
   }
 }
 @media (min-width: 768px) {
+  .mun-sum {
+    align-items: end;
+  }
+  /* The list's last rule sits on the numeral's baseline, not on its line box. */
+  .mun-sum-list {
+    margin-bottom: calc(var(--fs-numeral) * 0.11);
+  }
   .mun-sum-num,
   .mun-sum-list {
     grid-row: 1;
@@ -1901,9 +1926,6 @@ h3.sub {
   margin-top: 8px;
 }
 /* A log along the line: no visible head row, no Period column (§0.1 item 4). */
-.roles {
-  table-layout: fixed;
-}
 .roles .sr-only-head {
   position: absolute;
   width: 1px;
@@ -1935,18 +1957,17 @@ h3.sub {
   .roles .col-role {
     width: calc(5 * var(--col) + 5 * var(--gutter));
   }
-  .roles .col-points {
-    width: calc(4 * var(--col) + 4 * var(--gutter));
-  }
   .roles .col-logo {
-    width: auto;
+    width: 136px;
   }
   /* A zero-width inline-flex anchor on the role's first baseline; its one item overflows to the
      left, so the date's first baseline sits on the role's and its right edge on meridian − 12. */
   .roles .r-date {
     display: inline-flex;
     justify-content: flex-end;
+    align-items: flex-start;
     width: 0;
+    height: 0;
     margin: 0;
     vertical-align: baseline;
     position: relative;
@@ -2445,11 +2466,19 @@ h3.sub {
   position: absolute;
   translate: 0 -50%;
 }
-.stack-count.is-right {
-  translate: -100% -50%;
+/* Tablet: left-aligned 104 from the meridian, baseline on the group's last mark. */
+.stack-count.is-desk {
+  left: 104px;
+  translate: 0 -12px;
 }
-.stack-desk,
-.court-desk {
+/* Desktop: in the note column, right-aligned to meridian − 12. */
+@media (min-width: 1100px) {
+  .stack-count.is-desk {
+    left: -12px;
+    translate: -100% -12px;
+  }
+}
+.stack-desk {
   display: none;
 }
 .stack-band {
@@ -2475,12 +2504,10 @@ h3.sub {
   display: none;
 }
 @media (min-width: 768px) {
-  .stack-desk,
-  .court-desk {
+  .stack-desk {
     display: block;
   }
-  .stack-phone,
-  .court-phone {
+  .stack-phone {
     display: none;
   }
 }
@@ -2515,66 +2542,10 @@ h3.sub {
     margin-top: 48px;
   }
 }
-.court-gap {
-  height: 96px;
-}
-.court-row {
-  position: relative;
-}
-.court {
-  position: relative;
-  margin-left: var(--meridian-x);
-}
-.court svg {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-}
-.court-side {
-  position: absolute;
-  background: var(--line-color);
-}
-.court-top {
-  left: -0.75px;
-  right: -0.75px;
-  top: -0.75px;
-  height: 1.5px;
-  transform-origin: 0 50%;
-}
-.court-right {
-  right: -0.75px;
-  top: -0.75px;
-  bottom: -0.75px;
-  width: 1.5px;
-  transform-origin: 50% 0;
-}
-.court-bottom {
-  left: -0.75px;
-  right: -0.75px;
-  bottom: -0.75px;
-  height: 1.5px;
-  transform-origin: 100% 50%;
-}
-.court-copy {
-  padding-top: 48px;
-}
-@media (min-width: 1100px) {
-  .court-copy {
-    position: absolute;
-    inset: 0;
-    padding-top: 0;
-  }
-  .court-copy > .spine {
-    display: none;
-  }
-}
-.court-after {
-  height: var(--chapter-gap);
-}
-@media (max-width: 1099.98px) {
-  .court-after {
-    height: 0;
-  }
+/* Tennis: 96 below the end of the stack, at column 3; the line runs straight on to Contact. */
+.tennis {
+  padding-top: 96px;
+  padding-bottom: var(--gap-block);
 }
 
 /* ───────────────────────── Contact (§3.11) ───────────────────────── */

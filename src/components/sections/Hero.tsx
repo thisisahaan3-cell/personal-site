@@ -29,7 +29,7 @@ export function Hero() {
     const fillet = hero.querySelector(".hero-fillet");
     const spine = hero.querySelector<HTMLElement>(".hero-spine-track .spine")!;
     const track = hero.querySelector<HTMLElement>(".hero-spine-track")!;
-    const portrait = hero.querySelector(".hero-portrait");
+    const portrait = hero.querySelector(".hero-portrait picture");
     const img = hero.querySelector(".hero-portrait img");
     const desc = hero.querySelector(".hero-desc");
     const tip = hero.querySelector<HTMLElement>(".hero-tip")!;
@@ -37,6 +37,7 @@ export function Hero() {
     const phone = window.innerWidth < 768;
 
     spine.dataset.hold = "1";
+    hero.classList.add("is-entering");
     gsap.set(words, { y: 0, yPercent: 140 });
     gsap.set(rule, { scaleX: 0 });
     gsap.set(fillet, { opacity: 0 });
@@ -64,6 +65,7 @@ export function Hero() {
     tl.eventCallback("onComplete", () => {
       spine.dataset.min = String(target);
       delete spine.dataset.hold;
+      hero.classList.remove("is-entering");
       ScrollTrigger.refresh();
     });
 
@@ -99,6 +101,7 @@ export function Hero() {
       evts.forEach((e) => window.removeEventListener(e, hurry));
       window.removeEventListener("scroll", onScroll);
       tl.progress(1).kill();
+      hero.classList.remove("is-entering");
     };
   }, [ready, motion, fine]);
 
@@ -149,8 +152,9 @@ export function Hero() {
       <p className="hero-desc t-body" data-enter="">
         {site.hero.descriptor.text}
       </p>
-      <div className="hero-portrait" data-enter="">
-        <picture>
+      {/* The frame is opaque stone from first paint and sits above the line; only the photograph fades in. */}
+      <div className="hero-portrait">
+        <picture data-enter="">
           <source type="image/webp" srcSet={webp ?? "/images/portrait.webp"} />
           <img {...jpg} alt={site.identity.portraitAlt} fetchPriority="high" />
         </picture>

@@ -17,8 +17,11 @@ function Stack({ v }: { v: "desk" | "phone" }) {
   const desk = v === "desk";
   const step = desk ? 3 : 2;
   const gap = desk ? 12 : 8;
-  // Lengths mean nothing; the last mark of each group is kept short so its count reads clear.
-  const L = lengths(400, desk ? 28 : 20, desk ? 92 : 64).map((l, i) => (i % 50 === 49 ? Math.min(l, desk ? 64 : 44) : l));
+  // Lengths mean nothing. Every mark keeps its full length; on tablet and desktop the counts
+  // sit clear of the marks (note column on desktop, x = 104 on tablet).
+  const L = desk
+    ? lengths(400, 28, 92)
+    : lengths(400, 20, 64).map((l, i) => (i % 50 === 49 ? Math.min(l, 44) : l));
   const yOf = (i: number) => i * step + Math.floor(i / 50) * gap + 0.5;
   const H = Math.ceil(yOf(399) + 1);
   const W = desk ? 140 : 110;
@@ -35,7 +38,12 @@ function Stack({ v }: { v: "desk" | "phone" }) {
       {Array.from({ length: 8 }, (_, g) => {
         const y = yOf(g * 50 + 49);
         return (
-          <span key={g} className={`t-data fg2 stack-count ${desk ? "is-right" : ""}`} style={{ top: y, left: desk ? 108 : 76 }} data-at={y / H}>
+          <span
+            key={g}
+            className={`t-data fg2 stack-count ${desk ? "is-desk" : ""}`}
+            style={desk ? { top: y - 1 } : { top: y, left: 76 }}
+            data-at={y / H}
+          >
             {(g + 1) * 50}
           </span>
         );
@@ -44,31 +52,7 @@ function Stack({ v }: { v: "desk" | "phone" }) {
   );
 }
 
-function Court({ v }: { v: "desk" | "phone" }) {
-  const desk = v === "desk";
-  const W = desk ? 234 : 195;
-  const H = desk ? 108 : 90;
-  const u = W / 78;
-  const singles = 4.5 * u;
-  const service = 21 * u;
-  return (
-    <div className={`court court-${v}`} style={{ width: W, height: H }} data-figure="" aria-hidden="true">
-      <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} data-fade="">
-        <line className="hl" x1={W / 2} x2={W / 2} y1={0} y2={H} />
-        <line className="hl" x1={0} x2={W} y1={singles} y2={singles} />
-        <line className="hl" x1={0} x2={W} y1={H - singles} y2={H - singles} />
-        <line className="hl" x1={W / 2 - service} x2={W / 2 - service} y1={singles} y2={H - singles} />
-        <line className="hl" x1={W / 2 + service} x2={W / 2 + service} y1={singles} y2={H - singles} />
-        <line className="hl" x1={W / 2 - service} x2={W / 2 + service} y1={H / 2} y2={H / 2} />
-      </svg>
-      <span className="court-side court-top" data-scale="x" data-from={0} data-to={0.4} />
-      <span className="court-side court-right" data-scale="y" data-from={0.4} data-to={0.6} />
-      <span className="court-side court-bottom" data-scale="-x" data-from={0.6} data-to={1} />
-    </div>
-  );
-}
-
-/** Reading, with the stack of 400 and the tennis court (§3.10). */
+/** Reading, with the stack of 400; then Tennis (§3.10, §0.1 item 13). */
 export function Reading() {
   const reading = interest("reading");
   const tennis = interest("tennis");
@@ -95,25 +79,17 @@ export function Reading() {
           <EditableText value={reading.description} slot={slots.reading} />
         </div>
       </Run>
-      <Run className="court-gap" />
-      <div className="court-row">
-        <Court v="desk" />
-        <Court v="phone" />
-        <Run className="court-copy">
-          <div className="grid10">
-            <Col d={[6, 10]}>
-              <h3 className="t-title2 italic sub">{site.ui.reading.tennisHeading}</h3>
-              {tennis.statedLine && (
-                <p className="t-small fg2" style={{ marginBottom: 24 }}>
-                  {tennis.statedLine}
-                </p>
-              )}
+      <Run className="tennis">
+        <div className="grid10">
+          <Col d={[3, 8]} t={[1, 4]}>
+            <h3 className="t-title2 italic sub">{site.ui.reading.tennisHeading}</h3>
+            {tennis.statedLine && <p className="t-body measure">{tennis.statedLine}</p>}
+            <div style={{ marginTop: 32 }}>
               <EditableText value={tennis.description} slot={slots.tennis} />
-            </Col>
-          </div>
-        </Run>
-      </div>
-      <Run className="court-after" />
+            </div>
+          </Col>
+        </div>
+      </Run>
     </section>
   );
 }

@@ -36,23 +36,30 @@ export function Academics() {
         </div>
       </Run>
 
+      {/* Two parts: the institution and its period; beside it, the same ruled list as beside the numeral. */}
       <Run className="pb-block">
-        <ul className="rlist hov t-small">
-          <li>
-            <span className="rl-main">
-              <span className="t-tfig block">{edu.institution}</span>
-            </span>
-            <span className="rl-side">
-              <span className="t-data">{edu.period}</span>
-              <LogoTile org={edu.org} />
-            </span>
-          </li>
-          <li>{edu.current}</li>
-          <li>{edu.consistency}</li>
-          {honours.map((h) => (
-            <li key={h}>{h}</li>
-          ))}
-        </ul>
+        <div className="grid10 school">
+          <Col d={[3, 7]} t={[1, 3]}>
+            <h3 className="t-title2">{edu.institution}</h3>
+            <p className="t-data fg2" style={{ marginTop: 8 }}>
+              {edu.period}
+            </p>
+          </Col>
+          <Col d={[8, 12]} t={[4, 6]}>
+            <ul className="rlist hov t-small">
+              <li>
+                <span className="rl-main">{edu.current}</span>
+                <span className="rl-side">
+                  <LogoTile org={edu.org} />
+                </span>
+              </li>
+              <li>{edu.consistency}</li>
+              {honours.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+          </Col>
+        </div>
       </Run>
 
       <Run className="pb-block">
