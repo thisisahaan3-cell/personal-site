@@ -6,8 +6,9 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 
 The client rejected the first site as too basic. New brief is at the top of CLAUDE.md. Reference study: `design/reference-study/notes.md`. Design agents now run on claude-opus-5-5 (client's instruction). The hourly scheduled task is ON again; disable it when v2 is deployed. Everything under "Phases" below is the finished, superseded v1.
 
-- [ ] V2-1. Short direction `design/v2-direction.md` (creative-director, one pass, under ~8 kB)
-- [ ] V2-2. Shell + intro: dark tokens, persistent nav, page transitions, the home intro set piece (frontend-engineer). SHOW THE CLIENT (screenshots/short capture, then deploy) before going further
+- [x] V2-1. Direction written: `design/v2-direction.md`, "Price Discovery" (a WebGL wall of candlesticks settles into his face; six routes: Home, Finance, Model UN, Academics, Leadership, Contact; one pinned set piece per page; stock footage M1–M9 as replaceable atmosphere). NOTE: that run was served by Fable 5.2 because the session held the old agent definition; ALWAYS pass `model: "opus"` on Agent calls to creative-director, visual-explorer and frontend-engineer, and check the served model in the subagent transcript
+- [ ] V2-1b. Stock media M1–M9 into `public/media/` with provenance (content-researcher) — started ~19:35 UTC 16 Nov
+- [ ] V2-2. (started ~19:35 UTC 16 Nov, frontend-engineer on Opus) Shell + intro: dark tokens, persistent nav, page transitions, the home intro set piece (frontend-engineer). SHOW THE CLIENT (screenshots/short capture, then deploy) before going further
 - [ ] V2-3. Section pages with one set piece each (frontend-engineer), reusing v1 data and components where they fit
 - [ ] V2-4. One QA pass (qa-reviewer), fixes, redeploy to the same Netlify project (`ahaan-gupta`, how-to under v1 step 7)
 - [ ] V2-5. Disable the hourly scheduled task
