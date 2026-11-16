@@ -1,6 +1,6 @@
 # Meridian: design system
 
-Approved by the creative director, 15 Nov 2026. This is the only document the frontend engineer builds from. Content comes from `src/content/site.ts`; nothing in this file is copy unless it is listed under "Interface strings" (section 9).
+Approved by the creative director, 15 Nov 2026; amended after review 1 on 16 Nov 2026 (section 0.1, read it first). This is the only document the frontend engineer builds from. Content comes from `src/content/site.ts`; nothing in this file is copy unless it is listed under "Interface strings" (section 9).
 
 **The idea in one paragraph.** One hairline, "the line", enters the page from off the right edge, runs under his name, turns down and travels to the bottom of the page, where it ends as the underline of his email address. Its home is a fixed vertical, "the meridian", near the left edge. In eight places it leaves or changes meaning and becomes a figure: a time axis, a meridian of a globe, two ranked fields, a flight route, a circuit, the margin rule of a legal document, a constellation of quiz subjects, a stack of 400 books. Everything else is a calm, pale page with very large serif type and ruled tables. The line is the one bold thing. Keep everything around it quiet.
 
@@ -15,7 +15,27 @@ These override the directions file where they differ.
 5. **Text reveals.** Only three things reveal on scroll: the line and its figures, chapter titles, and figure labels. Body text, tables and lists are never animated in.
 6. **Motorsport.** The telemetry trace is a secondary element, not drawn by the line. No timing table.
 7. **MUN figure.** The globe is centred on the meridian so the line is its central meridian. No great-circle arcs, no points.
-8. **Reading.** The books are a vertical stack on the meridian, not a horizontal shelf. The tennis court corner becomes a small court traced on three sides.
+8. **Reading.** The books are a vertical stack on the meridian, not a horizontal shelf. The tennis court corner becomes a small court traced on three sides. (The court was removed in review 1; see 0.1.)
+
+## 0.1 Amendments from review 1 (16 Nov 2026)
+
+From `design/reviews/2026-11-16-review-1.md`. Where a line in sections 2 to 5 differs from this list, this list wins. Sections 1.1, 2.6, 2.7, 5.1, 8.1 and 8.2 have been edited in place.
+
+1. **Line ink.** `line-ink` is used only for the selected entry's title on the horizontal timeline. Inline links are navy (2.7).
+2. **Placeholders.** Three forms; the single-row placeholder line is the default (2.6).
+3. **Logos (2.5, 2.8).** In any table an organisation's tile appears once, on the first row that names it. No tile on the Rasmanjari row or the Lotus Young Leaders Summit row.
+4. **Date notes (1.4, 3.5).** On desktop the Leadership tables have no visible head row and no Period column. The period hangs in the note column in `data` navy, right-aligned to meridian − 12, at most 132px wide and two lines, beside a 12px line-colour tick across the meridian. Role and organisation in columns 3 to 7, points in columns 8 to 11. Tablet and phone: the period is the row's first line, 8px above the role.
+5. **Academic profile (3.2).** Row 2 is two parts: institution in `title-2` with the period beneath, columns 3 to 7; the ruled list of `education.current`, `education.consistency` and honours 1, 3 and 4 in columns 8 to 12, aligned with the list beside the numeral.
+6. **MUN summary (3.4 item 2).** Not three figures in a row. "16" in `numeral` type with its captions at column 3; from column 8 a two-row ruled list: "20+" and "19+" in `table-figure`, each with its stat label.
+7. **MUN, Geopolitics column (3.4 item 3).** Desktop: placeholder line, placard and roll all span columns 7 to 11. Tablet: the block sits beside the globe in tablet columns 3 to 6, 64 below the globe's top, placard 148 high; at least 32px between the globe's limb and the column. Committee roll: uniform 24px gaps, no minimum button width.
+8. **MUN record (3.4).** Group rows carry the group's value in `title-2` and the count beside it in `data` slate ("3 awards"), 64 above (32 above the first), 16 below. Column widths are fixed in every state.
+9. **Finance (3.6).** No arrow: the fellowship figure reads "100 of 2,000". The "Finance and economics" placeholder line sits 32 below the "Finance" heading, before figure 3. Phone scale runs from x = 28 to x = 288. On the lower run the labels "100" and "cohort of 100" sit to the right of the raised step. The Artha phone screenshot shares the desktop screenshot's left edge and overlaps its bottom edge by 64, hanging below it.
+10. **Night (3.7, 5.2).** `night-mark` for waypoints, station circle, cross-ticks and tape ticks. Range rings have radii 100, 200 and 300. The first tape label is fully visible at rest. "Sector 2" sits inside the loop, 16px clear of the band. The first Night chapter's top space is 2x the chapter gap including the 240 of 5.2; the last one's bottom space is 1x the chapter gap. The Aviation placeholder line sits under the evidence list in columns 3 to 8. The phone circuit is the engineer's six-corner drawing, approved.
+11. **Law (3.8).** Six empty ruled lines follow the paragraph 2 label. No minimum height.
+12. **Quizzing, phone (3.9).** No label beside a node. The current subject's name is printed once in `small` navy at the figure's top left (content-left edge, baseline 30 below the figure top), at least 8px clear of every run and ring.
+13. **Reading (3.10).** The court is removed; the line runs straight from the stack to Contact, and "*Tennis*" (heading, stated-interest sentence, placeholder line) sits at column 3, 96 below the stack. Marks keep their full lengths. Counts: desktop in the note column, right-aligned to meridian − 12; tablet left-aligned at x = 104; phone at x = 76.
+14. **Timeline (4.1).** A year inside the Scholar Badge span that has no events is a bay of its own (64 wide, tick, label, ring). At the end of the pin, "In progress" stays at opacity 0 until the last entry reaches the reading mark; over the next 120px of travel the detail panel fades out, and over the following 120px "In progress" fades in (scroll-linked). Focusing an entry before the pin scrolls to the pin start plus that entry's offset.
+15. **Hero entrance (5.1).** The portrait's frame is opaque stone from first paint; the name's mask ends 8px above the rule.
 
 ## 1. Tokens
 
@@ -30,12 +50,13 @@ These override the directions file where they differ.
 | `sky` | `#E9EEF3` | The one tint: row hover, fill under a figure element | navy on sky 14.8:1 |
 | `white` | `#FFFFFF` | Logo tiles only | |
 | `line` | `#E8451E` | The line, and dots and ticks that sit on it. Nothing else | 3.6:1, never text |
-| `line-ink` | `#B8330F` | Text in the line's hue: inline links, the selected timeline label | 5.5:1 on stone |
+| `line-ink` | `#B8330F` | One use only: the title of the selected entry on the horizontal timeline | 5.5:1 on stone |
 | `navy-hover` | `#1C2B44` | Primary button hover layer | stone text 13.0:1 |
 | `night` | `#0B1424` | Ground of the Night chapter | |
 | `night-text` | `#E9EDF2` | Text on night | 15.7:1 |
 | `night-slate` | `#9AA6B5` | Secondary text on night | 7.5:1 |
 | `night-hairline` | `#263349` | Rules, rings, track band on night | decorative |
+| `night-mark` | `#55657F` | Small secondary marks on night that must be seen: waypoints, station circle, cross-ticks, tape ticks | about 3:1, never text |
 | `line-night` | `#FF6A3D` | The line on night | 6.5:1 |
 
 No other colours, no opacity tints of these except where stated, no gradients, no shadows, no blur. `::selection` is sky on stone, night-hairline on night. `<meta name="theme-color">` is stone.
@@ -192,13 +213,15 @@ The pattern for every list of facts. There are no cards anywhere on the site.
 
 For every `placeholder: true` value that this document says is shown.
 
-- One line in `data` slate: the slot's name at the left (for example "Biography", "Aviation") and "In Ahaan's words, to come" at the right. Then three hairline rules 30px apart (two in the compact form), the width of the text measure. On night: night-slate and night-hairline.
+- **Placeholder line (the default).** One row 44px high: the slot's name at the left (for example "Aviation") and "In Ahaan's words, to come" at the right, both `data` slate on one baseline, and a single hairline rule at the bottom of the row. Width: its column, at most the text measure. No blank rules beneath. On phone, if the two strings do not fit on one line the phrase drops to a second line, left-aligned; neither string wraps inside itself. Always a standalone row 32px below the block before it, never a row inside a list of resume facts. On night: night-slate and night-hairline.
+- **Full block.** The same label line followed by three hairline rules 30px apart. Used once: "Biography and personal statement" in About.
+- **Document form.** Paragraph 2 of the Law document (3.8): its number, the label, and six empty ruled lines.
 - No box, no fill, no icon, no lorem ipsum. The `ph()` prompt text from the content file is not printed. When the value stops being a placeholder the block is replaced by the text in `body` (or as the section states).
 - Not shown while placeholders: `hero.tagline`, `contact.prompt`, `social` and `socialNote`. They have no slot until filled. `hero.tagline`, when filled, appears under the descriptor in `lead` slate; `contact.prompt` above the email in `lead`; social links as text links in the footer.
 
 ### 2.7 Links and buttons
 
-- **Inline link**: line-ink, 1px underline 0.18em below the baseline. Hover: a 1.5px line-ink underline wipes in from the left over it (`scaleX`, `--dur-base`).
+- **Inline link**: navy (night-text on night), 1px underline in the same colour 0.18em below the baseline. Hover: a 1.5px underline in the same colour wipes in from the left over it (`scaleX`, `--dur-base`). Links are never orange.
 - **Text button** ("Contents", sort heads, filters, committee roll): `label` type, navy. Selected: 1.5px navy underline. Hover: the same underline wipes in. Hit area at least 44 × 44.
 - **Primary button** ("Download resume (PDF)"): navy ground, stone text, `label` type at 16px, height 52, padding 0 28px, radius 0. Hover: a navy-hover layer fades in (`--dur-fast`).
 - **Secondary button** ("Copy email address", "Visit Artha"): 1px navy border, navy text, no ground, same size. Hover: a sky layer fades in.
@@ -226,7 +249,7 @@ After the contact chapter, inside `<footer>`, above a hairline rule across the c
 
 Conventions. "Columns" are the desktop 12-column grid. Tablet uses the same order with two-part splits becoming 4 + 2 of its six columns, or stacking where stated. Figure coordinates are viewBox units with x = 0 on the meridian; a figure is listed as `W × H`. Coordinates are reference geometry: the engineer may refine curves, the composition and proportions are fixed, and the creative director reviews the rendered result. Editor-only fields are never printed: `needsConfirmation`, `confirmationNote`, `profileSource`, `otherCompetitionsNote`, `mun.summary.note`, `mun.summary.line`, competition `note`, and any stat `note` that mentions confirmation.
 
-There are eight figures: timeline axis, globe, two fields, route, circuit, document, constellation, stack and court. Do not add a ninth.
+There are eight figures: timeline axis, globe, two fields, route, circuit, document, constellation and stack (the court was removed in review 1). Do not add a ninth.
 
 ### 3.0 Hero (`#top`)
 
@@ -421,7 +444,7 @@ Start when fonts are ready (`document.fonts.ready`, or after 1,200ms at most). S
 | 100ms | The line enters from the right viewport edge and wipes left along the rule to the turn | 900ms, `--ease-in-out` |
 | 450ms | "Ahaan" rises from behind its mask | 800ms, `--ease-out` |
 | 570ms | "*Gupta*" rises | 800ms, `--ease-out` |
-| 700ms | The portrait fades in while the image settles from scale 1.08 to 1 inside its fixed frame, covering the line where it passes behind | 900ms, `--ease-out` |
+| 700ms | The portrait fades in while the image settles from scale 1.12 to 1.06 inside its fixed, opaque stone frame (it rests at 1.06 so parallax never shows an edge), covering the line where it passes behind | 900ms, `--ease-out` |
 | 1000ms | The line rounds the fillet and descends the meridian to 96px above the hero's bottom edge (`scaleY`) | 600ms, `--ease-in-out` |
 | 1300ms | The descriptor fades in (opacity only) | 500ms, `--ease-out` |
 | 1600ms | A 7px dot appears at the line's tip (scale 0 to 1) | 200ms, `--ease-out` |
@@ -484,7 +507,7 @@ The night ground is a layer behind the two Night chapters that extends 50vh belo
 ### 8.1 Do not
 
 1. Do not add cards, tiles, pills, chips, badges, rounded corners, shadows, gradients, blur, glass, noise textures or background imagery.
-2. Do not use the line colour for anything but the line and marks on it: no orange text, buttons, underlines, icons or hover states.
+2. Do not use the line colour for anything but the line and marks on it: no orange text, links, buttons, underlines, icons or hover states. The single exception is `line-ink` on the title of the selected entry on the horizontal timeline, which names a mark on the line.
 3. Do not let the line branch, cross text, or miss the meridian by even a pixel at any width.
 4. Do not animate `stroke-dashoffset`, `clip-path` or layout properties, and do not fade or slide body text, tables or lists into view.
 5. Do not add a ninth figure, a statistics band, an "interests" grid, a skills meter, icons, a typed tagline, a scroll cue, a cursor follower, a preloader or a dark-mode toggle.
@@ -503,14 +526,14 @@ The night ground is a layer behind the two Night chapters that extends 50vh belo
 Checked at 1440, 834 and 390, and again with reduced motion.
 
 1. The line is unbroken from the hero rule to the dot under the email; every figure meets the meridian at entry and exit; the colour changes exactly at the Night edges.
-2. The meridian is at 210, 40 and 20 px; text starts at 324, 88 and 44 px; nothing but figures, chapter notes and the Law text enters the margin.
-3. The line colour appears nowhere except the line and its marks.
+2. The meridian is at 210, 40 and 20 px; text starts at 324, 88 and 44 px; nothing but figures, chapter notes, date notes (Leadership periods, Reading counts) and the Law text enters the margin.
+3. The line colour appears nowhere except the line and its marks; `line-ink` appears only on the selected timeline title. Links are navy.
 4. The hero holds only name, portrait, descriptor and line; the name is the largest thing on the page; the portrait is sharp.
 5. Type: Instrument Serif renders (no fallback serif, no faux bold or italic); roman and italic titles follow 2.3; no capitals in labels; measures at or under 62 characters; no orphaned single words in titles.
 6. Tables are ruled, aligned and legible at 390; the awards record shows 16 rows; counts in the tally strip and group rows match the data.
 7. Every figure reads as a drawing, not a diagram placeholder: curves smooth, labels clear of the line, secondary elements quiet. Phone drawings are simpler, not shrunken.
 8. Finance figure shows exactly four real values and no MUN data. Globe has no borders. Route and circuit carry no names or numbers except the compass and sector labels.
-9. Placeholders are the ruled block, labelled, never lorem ipsum, never prompt text; hidden slots stay hidden.
+9. Placeholders are labelled, never lorem ipsum, never prompt text; the three-rule block appears once (About), every other slot is the single placeholder line or the Law document form; hidden slots stay hidden.
 10. Whitespace: chapter gaps as specified; no two figures crowd each other; no section looks like a template (cards, icon rows, centred hero).
 11. Night is one continuous dark chapter with readable text, entered and left once.
 12. Timeline: horizontal on desktop with the selected entry and panel in step; vertical elsewhere with all 24 events reachable.

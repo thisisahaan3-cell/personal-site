@@ -19,7 +19,7 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 - [x] 3. Approved design system: `design/design-system.md` (Meridian). Quiz questions and `site.ui` strings added to `src/content/site.ts`
 - [x] 4. Assets: portrait, logos with provenance, Artha screenshots, redacted resume PDF in `public/` (still wanted: 5–7 verified quiz questions from the content researcher, once the design system says how many)
 - [x] 5. Site built by the frontend-engineer (claude-opus-5-5) and pushed in five commits (443c29d..ca5aec7): all chapters, line system, timeline, quiz. Lint and static build pass. Its report lists 10 small deviations for the creative director to rule on
-- [ ] 6. QA round 1 started 16 Nov ~04:20 UTC (report will be `qa/reports/2026-11-16-round-1.md`, screenshots in `qa/screenshots/round-1`). Then: creative-director reviews those screenshots plus the engineer's deviations, one consolidated fix round by the engineer, QA re-check, deploy
+- [ ] 6. QA round 1 done: FAIL, 0 blocker / 3 major / 18 minor (`qa/reports/2026-11-16-round-1.md`). Creative-director review done: approved with changes, 18-item fix list in `design/reviews/2026-11-16-review-1.md` (rulings in design-system section 0.1). Engineer fix round 1 started ~05:15 UTC 16 Nov. Next: QA round 2 (re-check the fixes only), then deploy. Ruling: the resume PDF keeps the client's text including age (he approved phone-removed only)
 - [ ] 7. Deploy to Netlify, report the URL, disable the hourly scheduled task
 
 ## Log
