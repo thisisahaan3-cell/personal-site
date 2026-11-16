@@ -34,7 +34,7 @@ export function LineDriver() {
         ScrollTrigger.create({
           trigger,
           start: "top 70%",
-          end: "bottom 70%",
+          end: "clamp(bottom 70%)",
           onUpdate: (s) => apply(s.progress),
           onRefresh: (s) => apply(s.progress),
         });
@@ -106,7 +106,7 @@ export function LineDriver() {
         ScrollTrigger.create({
           trigger: fig,
           start: "top 70%",
-          end: "bottom 70%",
+          end: "clamp(bottom 70%)",
           onUpdate: (s) => apply(s.progress),
           onRefresh: (s) => apply(s.progress),
         });
