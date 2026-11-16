@@ -207,11 +207,12 @@ function useCircuitGeo(v: "desk" | "phone") {
       const p = loop[kk];
       let nn = normalAt(loop, kk);
       // Point the label away from the middle of the circuit; "Sector 2" sits inside the loop,
-      // 16px clear of the band's inner edge (§0.1 item 10).
+      // at least 16px clear of the band's inner edge (§0.1 item 10). The offset is to the label's
+      // centre, so the phone adds the half-height of its smaller, scaled-down text (D7).
       const inside = i === 1;
       const outward = (p.x - g.centroid.x) * nn.x + (p.y - g.centroid.y) * nn.y >= 0;
       if (outward === inside) nn = { x: -nn.x, y: -nn.y };
-      const off = inside ? g.band14 / 2 + 16 : v === "desk" ? 30 : 20;
+      const off = inside ? g.band14 / 2 + (v === "desk" ? 16 : 28) : v === "desk" ? 30 : 20;
       return { x: p.x + nn.x * off, y: p.y + nn.y * off, nx: nn.x };
     });
     return { g, loop, trace: `M ${tracePts.join(" L ")}`, sectorAt, tick, labelAt };

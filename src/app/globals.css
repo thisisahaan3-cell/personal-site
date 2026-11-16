@@ -1144,6 +1144,11 @@ h3.sub {
   transform: scaleY(0);
   animation: failsafe-show 0.01s linear 2.6s forwards;
 }
+/* The end dot is drawn by default (reduced motion, no script); the entrance grows it in (D8). */
+.pre-entrance .hero-tip {
+  transform: scale(0);
+  animation: failsafe-show 0.01s linear 2.6s forwards;
+}
 
 /* ───────────────────────── Night (§3.7, §5.2) ───────────────────────── */
 
@@ -1409,8 +1414,13 @@ h3.sub {
   gap: 24px;
   --chapter-gap: 0px;
 }
+/* The track's inbound line sweeps through the note column as the pin starts, so here the note sits
+   above the title at the content edge, where the line never goes (D5). */
 .tl-head .chapter-note {
-  top: calc(0.84 * var(--fs-title) - 12px);
+  top: -32px;
+  left: var(--content-left);
+  right: auto;
+  text-align: left;
 }
 .tl-head .tl-filters {
   justify-content: flex-end;
@@ -1797,6 +1807,17 @@ h3.sub {
   min-height: 0;
   padding-block: 12px;
 }
+/* Hit area at least 44 x 44 without changing the look or the gaps: an invisible centred box that
+   reaches 11px into the 24px gap at most, so neighbours never overlap (D2). */
+.placard-roll .roll-btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100%, 44px);
+  height: max(100%, 44px);
+  transform: translate(-50%, -50%);
+}
 @media (min-width: 1100px) {
   .globe-side .ph-line,
   .placard-roll,
@@ -2050,6 +2071,15 @@ h3.sub {
     height: 1.5px;
     background: var(--line-color);
     z-index: 1;
+  }
+}
+/* At 1x a 1.5px box on a fractional baseline snaps to 1px or 2px depending on the row, so some
+   ticks read faint (D6). 2px, centred on the same point, snaps to 2px everywhere and matches the
+   meridian as it renders at 1x. At 2x and above, 1.5px is a whole number of device pixels. */
+@media (min-width: 1100px) and (max-resolution: 1.49dppx) {
+  .roles .r-tick {
+    top: 7px;
+    height: 2px;
   }
 }
 @media (max-width: 767.98px) {
@@ -2545,18 +2575,6 @@ h3.sub {
   position: relative;
   margin: 48px 0 0 calc(var(--meridian-x) - var(--content-left));
 }
-.stack-sticky-track {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-}
-.stack-sticky {
-  position: sticky;
-  top: 40vh;
-  display: block;
-  line-height: 1;
-}
 .reading-ph-phone {
   padding-top: 48px;
 }
@@ -2593,7 +2611,6 @@ h3.sub {
   .reading-copy {
     z-index: 2;
   }
-  .stack-sticky-track,
   .reading-ph-phone {
     display: none;
   }

@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion as m } from "motion/react";
-import { useEffect, useRef, useState, type KeyboardEvent, type Ref } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent, type Ref } from "react";
 import { site, type TimelineCategory, type TimelineEvent } from "@/content/site";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { tileFor } from "@/lib/content";
@@ -79,9 +79,9 @@ function lastMatchX(filterId: string) {
   return GEO.placed[GEO.placed.length - 1]?.x ?? 0;
 }
 
-/** Index of the matching entry nearest the reading mark at progress p. */
-function nearest(p: number, filterId: string) {
-  const markX = MARK + p * GEO.L;
+/** Index of the matching entry nearest the reading mark after `travel` px of track movement. */
+function nearest(travel: number, filterId: string) {
+  const markX = MARK + travel;
   let best = -1;
   let bestD = Infinity;
   GEO.placed.forEach((pl, k) => {
@@ -200,7 +200,10 @@ function VerticalTimeline({ filter, setFilter }: { filter: string; setFilter: (f
 
 function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: (f: string) => void }) {
   const { scrollToY } = useMotion();
-  const { placed, ticks, breaks, L, yearX } = GEO;
+  const { placed, ticks, breaks, yearX } = GEO;
+  // Extra tail so the outbound line stays right of the detail panel until the panel has faded (D4).
+  const [extra, setExtra] = useState(0);
+  const L = GEO.L + extra;
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const drawRef = useRef<HTMLDivElement>(null);
@@ -214,6 +217,26 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
   const panelRef = useRef<HTMLDivElement>(null);
   const panelHidden = useRef(false);
   const progressRef = useRef<HTMLDivElement>(null);
+
+  // The outbound stub sits at (L - lastX) + mark - travel on screen. The panel is fully faded 120px of
+  // travel after the last entry reaches the mark; by then the stub must be 24px right of the panel.
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const panel = panelRef.current;
+    if (!section || !panel) return;
+    const fit = () => {
+      if (!panel.offsetWidth) return;
+      const probe = section.querySelector<HTMLElement>(".tl-probe");
+      const meridian = probe?.offsetLeft ?? 0;
+      const right = panel.offsetLeft + panel.offsetWidth;
+      const lastX = GEO.placed[GEO.placed.length - 1]?.x ?? 0;
+      const need = Math.ceil(right + 24 + 120 - meridian - MARK + lastX - GEO.L);
+      setExtra(Math.max(0, need));
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
 
   // Pin, track movement and the approach draw.
   useEffect(() => {
@@ -241,7 +264,7 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
           else panel.removeAttribute("aria-hidden");
         }
       }
-      const k = nearest(p, filterRef.current);
+      const k = nearest(p * L, filterRef.current);
       if (k >= 0 && k !== selRef.current) {
         selRef.current = k;
         setSel(k);
@@ -302,12 +325,12 @@ function HorizontalTimeline({ filter, setFilter }: { filter: string; setFilter: 
   useEffect(() => {
     filterRef.current = filter;
     const st = stRef.current;
-    const k = nearest(st ? st.progress : 0, filter);
+    const k = nearest(st ? st.progress * L : 0, filter);
     if (k >= 0) {
       selRef.current = k;
       setSel(k);
     }
-  }, [filter]);
+  }, [filter, L]);
 
   const scrollToEntry = (k: number, duration?: number) => {
     const st = stRef.current;

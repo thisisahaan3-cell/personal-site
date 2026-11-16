@@ -71,9 +71,6 @@ export function Reading() {
         <div className="stack-band">
           <Stack v="desk" />
           <Stack v="phone" />
-          <span className="stack-sticky-track" aria-hidden="true">
-            <span className="t-title2 stack-sticky">{books.value}</span>
-          </span>
         </div>
         <div className="reading-ph-phone">
           <EditableText value={reading.description} slot={slots.reading} />

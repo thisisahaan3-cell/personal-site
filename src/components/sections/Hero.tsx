@@ -148,7 +148,7 @@ export function Hero() {
       <div className="hero-spine-track" aria-hidden="true">
         <span className="spine" data-spine="" />
       </div>
-      <span className="mark-dot hero-tip" aria-hidden="true" style={{ opacity: 0 }} />
+      <span className="mark-dot hero-tip" aria-hidden="true" />
       <p className="hero-desc t-body" data-enter="">
         {site.hero.descriptor.text}
       </p>
