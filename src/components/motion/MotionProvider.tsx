@@ -102,7 +102,9 @@ export function MotionProvider({ children }: { children: ReactNode }) {
 
   const scrollToY = useCallback((y: number, duration?: number) => {
     const lenis = lenisRef.current;
-    if (lenis) {
+    if (lenis && duration === 0) {
+      lenis.scrollTo(y, { immediate: true, force: true });
+    } else if (lenis) {
       const dist = Math.abs(y - window.scrollY);
       lenis.scrollTo(y, {
         duration: duration ?? Math.min(1.4, 0.4 + dist / 6000),

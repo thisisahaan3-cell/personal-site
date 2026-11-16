@@ -6,6 +6,9 @@ import { About } from "@/components/sections/About";
 import { Academics } from "@/components/sections/Academics";
 import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
+import { Leadership } from "@/components/sections/Leadership";
+import { Mun } from "@/components/sections/Mun";
+import { Timeline } from "@/components/sections/Timeline";
 
 export default function Home() {
   return (
@@ -19,6 +22,9 @@ export default function Home() {
           <Hero />
           <About />
           <Academics />
+          <Timeline />
+          <Mun />
+          <Leadership />
         </main>
         <Footer />
       </div>
