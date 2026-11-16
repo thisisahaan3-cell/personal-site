@@ -1,6 +1,6 @@
 "use client";
 
-import { motion as m } from "motion/react";
+import { AnimatePresence, motion as m } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
 import { fill } from "@/lib/content";
@@ -83,8 +83,8 @@ function Constellation({
       {pts.map(([x, y], i) => (
         <span key={i} className="mark-ring" style={{ left: `${(x / W) * 100}%`, top: `${(y / H) * 100}%` }} data-at={0.05 + (x / W) * 0.7} />
       ))}
-      {pts.map(([x, y], i) =>
-        v === "phone" && i !== current ? null : (
+      {v === "desk" &&
+        pts.map(([x, y], i) => (
           <FLabel
             key={i}
             x={g.place[i] === "r" ? x + 14 : g.place[i] === "l" ? x - 14 : x}
@@ -98,7 +98,23 @@ function Constellation({
           >
             {nodes[i].label}
           </FLabel>
-        ),
+        ))}
+      {v === "phone" && (
+        // Phone: no label beside a node; the current subject is named once at the figure's top left (review 1, item 1).
+        <span className="quiz-current t-small">
+          <AnimatePresence initial={false}>
+            <m.span
+              key={current}
+              className="quiz-current-name"
+              initial={animate ? { opacity: 0 } : false}
+              animate={{ opacity: 1 }}
+              exit={animate ? { opacity: 0 } : undefined}
+              transition={{ duration: 0.15 }}
+            >
+              {nodes[current].label}
+            </m.span>
+          </AnimatePresence>
+        </span>
       )}
       <m.span
         className="quiz-dot"
