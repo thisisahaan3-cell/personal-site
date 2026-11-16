@@ -18,12 +18,13 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 - [x] 2. Three creative directions in `design/directions.md`: A Almanac, B Placard, C Meridian. Creative director recommends C, Meridian; client pre-authorised building the recommendation. Reference boards done: `design/explorations/01-almanac.html`, `02-placard.html`, `03-meridian.html` with screenshots in `shots/` (sent to the client)
 - [x] 3. Approved design system: `design/design-system.md` (Meridian). Quiz questions and `site.ui` strings added to `src/content/site.ts`
 - [x] 4. Assets: portrait, logos with provenance, Artha screenshots, redacted resume PDF in `public/` (still wanted: 5–7 verified quiz questions from the content researcher, once the design system says how many)
-- [ ] 5. Build the site (frontend-engineer) — started 15 Nov ~23:00 UTC in four milestones, each committed and pushed by the engineer (1 foundation + hero/about/academics; 2 timeline, MUN, leadership; 3 competitions/Artha, Night, law, quiz, reading, contact; 4 self-check). If interrupted, check `git log` for the last milestone and resume the engineer from there
-- [ ] 6. Independent QA rounds (qa-reviewer), creative-director review, fixes, repeat
+- [x] 5. Site built by the frontend-engineer (claude-opus-5-5) and pushed in five commits (443c29d..ca5aec7): all chapters, line system, timeline, quiz. Lint and static build pass. Its report lists 10 small deviations for the creative director to rule on
+- [ ] 6. QA round 1 started 16 Nov ~04:20 UTC (report will be `qa/reports/2026-11-16-round-1.md`, screenshots in `qa/screenshots/round-1`). Then: creative-director reviews those screenshots plus the engineer's deviations, one consolidated fix round by the engineer, QA re-check, deploy
 - [ ] 7. Deploy to Netlify, report the URL, disable the hourly scheduled task
 
 ## Log
 
+- 15 Nov ~23:05 UTC: second usage limit hit just as the engineer started; reset 03:30 UTC 16 Nov; engineer resumed 03:38 and finished the build ~04:17.
 - 15 Nov 18:07 UTC: hit the 5-hour usage limit about 50 minutes in (Fable orchestrator plus two Fable agents in parallel is expensive). Resumed 22:38 UTC after the 21:50 reset. Both interrupted agents (creative-director writing `design/design-system.md`; visual-explorer drawing boards, Meridian first, A and B compact) were resumed with SendMessage.
 - Budget rule from here: critical path first (design system → frontend build → QA → deploy). Keep briefs tight; avoid running more than two agents at once.
 
