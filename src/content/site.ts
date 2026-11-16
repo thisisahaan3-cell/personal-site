@@ -247,6 +247,38 @@ export const site = {
       "Head-and-shoulders photograph of Ahaan Gupta, smiling, in a navy blazer and light blue shirt, outdoors.",
   },
 
+  // ── Media (version 2) ──
+  /**
+   * Footage and stills used as atmosphere behind each page.
+   * To use your own photo or clip, replace the `src` (and `poster`, for a loop) with the path of
+   * your file in /public/media/ and set `stock` to false.
+   * Items marked `stock: true` are free-to-use stock media: atmosphere only. They are not
+   * pictures of Ahaan, his school or any event he attended, and the site never captions them.
+   * `pending: true` means the file has not been supplied yet (the page must render without it).
+   * Sources and licences: content/research/assets.md, "Stock media".
+   */
+  media: {
+    m1: { src: "/media/m1-home.mp4", poster: "/media/m1-home.jpg", kind: "loop", stock: true, alt: "" }, // Home: aerial city at night
+    m2: { src: "/media/m2-finance.mp4", poster: "/media/m2-finance.jpg", kind: "loop", stock: true, alt: "" }, // Finance: towers at blue hour
+    m3: { src: "/media/m3-model-un.mp4", poster: "/media/m3-model-un.jpg", kind: "loop", stock: true, alt: "" }, // Model UN: flags on masts
+    m4: { src: "/media/m4-chamber.webp", kind: "still", stock: true, alt: "", pending: true }, // Model UN: empty chamber
+    m5: { src: "/media/m5-clouds.mp4", poster: "/media/m5-clouds.jpg", kind: "loop", stock: true, alt: "" }, // Academics: clouds from the wing
+    m6: { src: "/media/m6-aircraft.mp4", poster: "/media/m6-aircraft.jpg", kind: "loop", stock: true, alt: "" }, // Academics: aircraft overhead
+    m7: { src: "/media/m7-colonnade.webp", kind: "still", stock: true, alt: "", pending: true }, // Academics: colonnade
+    m8: { src: "/media/m8-canopy.mp4", poster: "/media/m8-canopy.jpg", kind: "loop", stock: true, alt: "" }, // Leadership: forest canopy
+    m9: { src: "/media/m9-library.webp", kind: "still", stock: true, alt: "", pending: true }, // Contact: library shelves
+  } as Record<
+    "m1" | "m2" | "m3" | "m4" | "m5" | "m6" | "m7" | "m8" | "m9",
+    {
+      src: string;
+      poster?: string;
+      kind: "loop" | "still";
+      stock: boolean;
+      alt: string;
+      pending?: boolean;
+    }
+  >,
+
   // ── Hero ──
   hero: {
     /** One-line descriptor taken from the resume profile ("interested in civil aviation and finance"). */
@@ -799,6 +831,37 @@ export const site = {
   // the site; leave them in place when editing.
   ui: {
     skipLink: "Skip to content",
+
+    // ── Version 2 interface words ──
+    /** Page names, used in the board, the home destinations, the page transition and page titles. */
+    pages: {
+      home: "Home",
+      finance: "Finance",
+      modelUn: "Model UN",
+      academics: "Academics",
+      leadership: "Leadership",
+      contact: "Contact",
+    },
+    /** The board: the persistent navigation. */
+    board: {
+      label: "Main",
+      homeLink: "Ahaan Gupta, home",
+      menu: "Menu",
+      close: "Close menu",
+      resume: "Download resume",
+      resumeNote: "PDF",
+    },
+    home: {
+      destinationsLabel: "Sections",
+      replay: "Replay the intro",
+      /** Short context beside each figure on the home destinations. Restates `stats`; adds no facts. */
+      figureNotes: {
+        nfo: "National Finance Olympiad 2025",
+        delegateAwards: "Delegate awards",
+        gradeX: "CBSE Grade X",
+        books: "Books read",
+      } as Record<string, string>,
+    },
     nav: {
       chaptersLabel: "Chapters",
       contents: "Contents",

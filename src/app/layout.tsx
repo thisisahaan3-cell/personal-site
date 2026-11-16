@@ -1,56 +1,50 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Bodoni_Moda, Martian_Mono, Schibsted_Grotesk } from "next/font/google";
+import { Shell } from "@/components/shell/Shell";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const display = Instrument_Serif({
-  weight: "400",
-  style: ["normal", "italic"],
+const display = Bodoni_Moda({
   subsets: ["latin"],
+  style: ["normal"],
+  axes: ["opsz"],
   display: "swap",
   variable: "--ff-display",
 });
 
-const text = Geist({
-  weight: ["400", "500"],
+const text = Schibsted_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--ff-text",
 });
 
-const data = Geist_Mono({
-  weight: ["400", "500"],
+const figure = Martian_Mono({
   subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
-  variable: "--ff-data",
+  variable: "--ff-figure",
 });
 
-const title = site.identity.name;
+const name = site.identity.name;
 const description = site.about.profile.text;
 
 export const metadata: Metadata = {
-  title,
+  title: { default: name, template: `%s, ${name}` },
   description,
-  openGraph: {
-    title,
-    description,
-    type: "profile",
-    siteName: title,
-    locale: "en_IN",
-  },
-  twitter: { card: "summary", title, description },
+  openGraph: { title: name, description, type: "profile", siteName: name, locale: "en_IN" },
+  twitter: { card: "summary", title: name, description },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F6F5F1",
-  colorScheme: "light",
+  themeColor: "#0A101C",
+  colorScheme: "dark",
 };
 
 /**
- * Runs before first paint. Motion start states (the hero entrance) apply only when
- * this class is present, so with scripts off or reduced motion the page is complete.
+ * Runs before first paint. Intro start states apply only when `js-motion` is present, so
+ * with scripts off or reduced motion every page is complete and still.
  */
-const motionScript = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion','pre-entrance')}}catch(e){}`;
+const motionScript = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion')}}catch(e){}`;
 
 /**
  * Netlify inserts an HTML comment (and a line break before it) into <head> when it
@@ -65,13 +59,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en-IN"
-      className={`${display.variable} ${text.variable} ${data.variable}`}
+      className={`${display.variable} ${text.variable} ${figure.variable}`}
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `${motionScript};${headCleanupScript}` }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <Shell>{children}</Shell>
+      </body>
     </html>
   );
 }
