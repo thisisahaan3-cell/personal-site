@@ -1,10 +1,11 @@
 import { site, type Role } from "@/content/site";
-import { shown } from "@/lib/content";
+import { shown, tilesFor } from "@/lib/content";
 import { Chapter, ChapterHead, LogoTile, Run } from "../primitives";
 
 const ui = site.ui.leadership;
 
 function RoleTable({ rows }: { rows: Role[] }) {
+  const tiles = tilesFor(rows, (r) => r.org, (r) => r.organisation);
   return (
     <table className="ruled roles">
       <colgroup>
@@ -22,7 +23,7 @@ function RoleTable({ rows }: { rows: Role[] }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map((r) => (
+        {rows.map((r, i) => (
           <tr key={r.title + r.organisation} className="hov">
             <td className="c-year c-period">{shown(r.period)}</td>
             <td className="c-subj">
@@ -37,7 +38,7 @@ function RoleTable({ rows }: { rows: Role[] }) {
               ))}
             </td>
             <td className="c-logo">
-              <LogoTile org={r.org} />
+              <LogoTile org={tiles[i]} />
             </td>
           </tr>
         ))}

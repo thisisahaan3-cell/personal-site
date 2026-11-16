@@ -389,7 +389,7 @@ h3.sub {
 /* ───────────────────────── Links and buttons (§2.7) ───────────────────────── */
 
 .ilink {
-  color: var(--color-line-ink);
+  color: var(--fg);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
@@ -402,7 +402,7 @@ h3.sub {
   right: 0;
   bottom: calc(-0.18em - 0.5px);
   height: 1.5px;
-  background: var(--color-line-ink);
+  background: currentColor;
   transform: scaleX(0);
   transform-origin: 0 50%;
   transition: transform var(--dur-base) var(--ease-in-out);
@@ -2491,6 +2491,24 @@ h3.sub {
 @keyframes nudge {
   50% {
     translate: 6px 0;
+  }
+}
+/* Phone: 44px hit areas through padding, offset by negative margins so nothing moves (review 1, item 17). */
+@media (max-width: 767.98px) {
+  .email-link {
+    padding-block: max(0px, calc((44px - 1em) / 2));
+    margin-block: min(0px, calc((1em - 44px) / 2));
+  }
+  .footer-top {
+    display: inline-block;
+    padding-block: 12px;
+    margin-block: -12px;
+  }
+  .footer-top::after {
+    bottom: calc(12px - 0.18em - 0.5px);
+  }
+  .record-sort .tbtn {
+    padding-block: 12px;
   }
 }
 .contact-actions {

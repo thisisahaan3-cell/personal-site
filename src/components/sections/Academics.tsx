@@ -1,10 +1,12 @@
 import { site } from "@/content/site";
+import { tilesFor } from "@/lib/content";
 import { Chapter, ChapterHead, Col, LogoTile, Run } from "../primitives";
 
 const ui = site.ui;
 const edu = site.education;
 
 export function Academics() {
+  const courseTiles = tilesFor(site.courses, (c) => c.org, (c) => c.title);
   const gx = edu.gradeX;
   const honours = [edu.honours[0], edu.honours[2], edu.honours[3]];
   return (
@@ -88,7 +90,7 @@ export function Academics() {
             </tr>
           </thead>
           <tbody>
-            {site.courses.map((c) => (
+            {site.courses.map((c, i) => (
               <tr key={c.title} className="hov">
                 <td className="c-year">{c.year}</td>
                 <td className="c-subj" style={{ maxWidth: 320 }}>
@@ -97,7 +99,7 @@ export function Academics() {
                 <td className="c-sm">{c.provider}</td>
                 <td className="c-sm c-desc">{c.detail}</td>
                 <td className="c-logo">
-                  <LogoTile org={c.org} />
+                  <LogoTile org={courseTiles[i]} />
                 </td>
               </tr>
             ))}

@@ -30,6 +30,24 @@ export function shown(value?: string | number | null) {
   return /not stated/i.test(s) ? "" : s;
 }
 
+/** Rows that do not name their organisation, so they never carry its tile (review 1, item 5). */
+const NO_TILE = [/^Rasmanjari\b/, /^Lotus Young Leaders Summit\b/];
+
+/**
+ * Which rows of one table show a logo tile: an organisation's tile appears once, on the first
+ * row that names it. Returns the org key to show per row, or null. The cell itself stays, so the
+ * trailing column keeps its width.
+ */
+export function tilesFor<T>(rows: readonly T[], org: (r: T) => string | null | undefined, text: (r: T) => string) {
+  const seen = new Set<string>();
+  return rows.map((r) => {
+    const key = org(r);
+    if (!key || seen.has(key) || NO_TILE.some((re) => re.test(text(r)))) return null;
+    seen.add(key);
+    return key;
+  });
+}
+
 /** Native pixel sizes of the logo files, so tiles never upscale (§2.8: at most native ÷ 2). */
 const NATIVE: Record<string, [number, number, boolean?]> = {
   "/logos/cbse.png": [173, 200],

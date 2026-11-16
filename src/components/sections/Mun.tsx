@@ -1,5 +1,5 @@
 import { site } from "@/content/site";
-import { interest, stat } from "@/lib/content";
+import { interest, stat, tilesFor } from "@/lib/content";
 import { Chapter, ChapterHead, EditableText, LogoTile, Run } from "../primitives";
 import { Globe, MunProvider, Placard, Record, Tally } from "./MunClient";
 
@@ -7,6 +7,7 @@ const ui = site.ui;
 const mun = site.mun;
 
 export function Mun() {
+  const boardTiles = tilesFor(mun.executiveBoard, (b) => ("org" in b ? b.org : null), (b) => b.conference);
   const summary = [stat("conferences"), stat("awardsSummary"), stat("delegateAwards")];
   return (
     <Chapter id="mun" className="clip-x">
@@ -54,13 +55,15 @@ export function Mun() {
               </tr>
             </thead>
             <tbody>
-              {mun.executiveBoard.map((b) => (
+              {mun.executiveBoard.map((b, i) => (
                 <tr key={b.conference} className="hov">
                   <td className="c-subj">{b.conference}</td>
                   <td className="c-sm">{b.role}</td>
                   <td className="c-sm">{b.committee}</td>
                   <td className="c-year">{b.year ?? ""}</td>
-                  <td className="c-logo">{"org" in b && <LogoTile org={b.org} />}</td>
+                  <td className="c-logo">
+                    <LogoTile org={boardTiles[i]} />
+                  </td>
                 </tr>
               ))}
             </tbody>

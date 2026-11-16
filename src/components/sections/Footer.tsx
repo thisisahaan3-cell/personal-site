@@ -17,7 +17,7 @@ export function Footer() {
         <p>
           <a
             href="#top"
-            className="ilink"
+            className="ilink footer-top"
             onClick={(e) => {
               e.preventDefault();
               scrollToId("top");

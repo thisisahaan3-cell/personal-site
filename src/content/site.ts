@@ -277,7 +277,7 @@ export const site = {
     { id: "awardsSummary", value: "19+", label: "Awards (resume's own summary line)", editorNote: "The awards table lists 16 delegate awards; what the 19+ counts is to be confirmed." },
     { id: "delegateAwards", value: "16", label: "Delegate awards listed in the table", note: "6 Best Delegate" },
     { id: "nfo", value: "AIR 54", label: "National Finance Olympiad 2025, Nationals", note: "Out of 10,000+ participants. Round 1: AIR 10." },
-    { id: "fellowship", value: "2,000 → 100", label: "SRCC FIC Finance Research Fellowship", note: "Selected from 2,000 candidates into a cohort of 100." },
+    { id: "fellowship", value: "100 of 2,000", label: "SRCC FIC Finance Research Fellowship", note: "Selected from 2,000 candidates into a cohort of 100." },
     { id: "books", value: "400+", label: "Books read", note: "Across fiction, non-fiction and philosophy." },
   ] as Stat[],
 
@@ -908,7 +908,7 @@ export const site = {
         { id: "nfo-round-1", figure: "AIR 10", name: "National Finance Olympiad", stage: "Round 1", year: "2025", results: ["All India Rank 10"], org: "nfo" },
         { id: "nfo-nationals", figure: "AIR 54", name: "National Finance Olympiad", stage: "Nationals", year: "2025", results: ["All India Rank 54 out of 10,000+ participants", "Certificate of National Excellence"], org: "nfo" },
         { id: "srcc-olympiad", figure: "AIR 46", name: "SRCC Finance Olympiad", year: "2025", results: ["All India Rank 46"], org: "srcc" },
-        { id: "srcc-fic", figure: "2,000 → 100", name: "SRCC FIC Finance Research Fellowship", year: "Date not stated", results: ["Selected from 2,000 candidates into a cohort of 100"], org: "srcc" },
+        { id: "srcc-fic", figure: "100 of 2,000", name: "SRCC FIC Finance Research Fellowship", year: "Date not stated", results: ["Selected from 2,000 candidates into a cohort of 100"], org: "srcc" },
       ],
       /** Figure 3 (two fields). Only these four values are plotted. */
       financeFigure: {

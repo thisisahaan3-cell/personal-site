@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "@/content/site";
-import { interest, shown } from "@/lib/content";
+import { interest, shown, tilesFor } from "@/lib/content";
 import { Drift } from "../motion/Drift";
 import { Chapter, ChapterHead, Col, EditableText, LogoTile, Placeholder, Run, SerifSafe } from "../primitives";
 import { FinanceFigure } from "./FinanceFigure";
@@ -14,6 +14,8 @@ export function Competitions() {
   const ongoing = site.competitions.filter((c) => c.ongoing);
   const shownInFinance = new Set(["National Finance Olympiad", "SRCC Finance Olympiad"]);
   const further = site.competitions.filter((c) => !c.ongoing && !shownInFinance.has(c.name));
+  const financeTiles = tilesFor(finance, (r) => r.org, (r) => r.name);
+  const furtherTiles = tilesFor(further, (c) => c.org, (c) => c.name);
   const desc = artha.siteDescriptor!;
 
   return (
@@ -35,7 +37,7 @@ export function Competitions() {
             </tr>
           </thead>
           <tbody>
-            {finance.map((r) => (
+            {finance.map((r, i) => (
               <tr key={r.id} className="hov">
                 <td className="c-subj" style={{ whiteSpace: "nowrap" }}>
                   <SerifSafe text={r.figure} />
@@ -53,7 +55,7 @@ export function Competitions() {
                 </td>
                 <td className="c-year">{shown(r.year)}</td>
                 <td className="c-logo">
-                  <LogoTile org={r.org} />
+                  <LogoTile org={financeTiles[i]} />
                 </td>
               </tr>
             ))}
@@ -160,7 +162,7 @@ export function Competitions() {
             </tr>
           </thead>
           <tbody>
-            {further.map((c) => (
+            {further.map((c, i) => (
               <tr key={c.name} className="hov">
                 <td className="c-subj" style={{ maxWidth: 380 }}>
                   {c.name}
@@ -168,7 +170,7 @@ export function Competitions() {
                 <td className="c-sm c-desc">{c.results.join(" ")}</td>
                 <td className="c-year">{shown(c.year)}</td>
                 <td className="c-logo">
-                  <LogoTile org={c.org} />
+                  <LogoTile org={furtherTiles[i]} />
                 </td>
               </tr>
             ))}
