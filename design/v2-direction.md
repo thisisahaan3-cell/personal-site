@@ -23,17 +23,9 @@ Also: down-candle `#4E6792`. Amber means "his figure" and nothing else. No gradi
 
 Type (`next/font/google`, all verified present): display **Bodoni Moda** (variable, `opsz` 96 for display, weight 500), text **Schibsted Grotesk**, figures **Martian Mono** (`wdth` 80, tabular; figures and dates only, never labels). Sentence case everywhere; no all-caps eyebrows.
 
-| Token | Desktop / phone | Face |
-|---|---|---|
-| display-xl (name, hero figure) | `clamp(52px, 11vw, 176px)`, lh 0.9, -0.02em | Bodoni |
-| display-l (page title) | `clamp(44px, 7vw, 112px)`, lh 0.95 | Bodoni |
-| heading | 40 / 28, lh 1.1 (Bodoni never below 28px) | Bodoni |
-| lead | 21 / 18, lh 1.45 | Schibsted 400 |
-| body | 17 / 16, lh 1.6, max 62ch | Schibsted 400 |
-| small | 14, lh 1.45 | Schibsted 500 |
-| figure | 15 / 13 | Martian Mono 400 |
+Scale (desktop / phone): display-xl `clamp(52px, 11vw, 176px)` lh 0.9, -0.02em (name, hero figures); display-l `clamp(44px, 7vw, 112px)` (page titles); heading 40 / 28 (Bodoni never below 28px); lead 21 / 18; body 17 / 16, lh 1.6, max 62ch; small 14; figure 15 / 13.
 
-Grid 12 col, 24px gutter, 64px side margin (20px phone). Spacing 4, 8, 16, 24, 40, 64, 104, 168. Radius 0 everywhere. Focus: 2px accent outline, 3px offset.
+Grid 12 col, 24px gutter, 64px margin (20px phone). Spacing 4, 8, 16, 24, 40, 64, 104, 168. Radius 0. Focus: 2px accent outline, 3px offset.
 Motion: 120ms hover, 300ms settle, 600ms reveal, 900ms page transition cap, 2.9s home intro. Easings: `settle` cubic-bezier(0.2, 1.3, 0.3, 1); `glide` cubic-bezier(0.16, 1, 0.3, 1). DOM animates transform and opacity only.
 
 ## 3. Site map
@@ -55,7 +47,7 @@ Placeholders: fields with `placeholder: true` are not rendered, except three sin
 ## 4. Home intro
 One screen, `100svh`, no scroll. Left: name in display-xl on two lines, bottom-left, overlapping the field edge; below it `hero.descriptor`. Right 46% of width, full height, bleeding off the bottom: the **candle portrait**. Foot: one hairline-ruled row of four destinations (Bodoni name, mono figure) plus Contact.
 
-Candle portrait: WebGL, one instanced draw call. Portrait sampled to a 96 x 128 grid (12,288 candles) from an alpha-matted copy (engineer makes `portrait-matte.webp` once, 12px feather; background cells are empty so he emerges from the ground). Each cell is a candle: body height = 15% to 100% of cell by luminance, brightness by luminance, thin wick at 35% alpha. Candle is "up" (text colour) if brighter than its left neighbour, else "down" (`#4E6792`). So every row is literally a chart of the photo's brightness. No axes, tickers or prices.
+Candle portrait: WebGL, one instanced draw call. Portrait sampled to a 96 x 128 grid (12,288 candles) from an alpha-matted copy (engineer makes `portrait-matte.webp` once, 12px feather; background cells stay empty). Each cell is a candle: body height 15% to 100% of the cell by luminance, brightness by luminance, wick at 35% alpha; "up" (text colour) if brighter than its left neighbour, else "down" (`#4E6792`). Every row is a chart of the photo's brightness. No axes, tickers or prices.
 
 - 0s: empty ground, one amber hairline at 62% height. A schematic 96-candle series (seeded random walk, unlabelled) draws left to right along it.
 - 1.0s: series spans the screen. Name starts a masked rise. Each candle splits into its 128 cells, which travel to grid positions while the columns compress into the portrait rectangle (1.0 to 2.2s, 6ms column stagger, `glide`).
