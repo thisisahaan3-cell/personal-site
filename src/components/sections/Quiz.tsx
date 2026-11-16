@@ -26,7 +26,7 @@ const GEO = {
       [860, 400],
     ],
     entry: "M 0 0 L 0 40 C 0 90 90 110 150 110",
-    /** Where each node's label sits: a = above, b = below, r = right. */
+    /** Where each node's label sits: a = above, b = below, r = right, l = left. */
     place: ["a", "b", "a", "b", "a", "r", "b"],
   },
   phone: {
@@ -43,7 +43,7 @@ const GEO = {
       [250, 240],
     ],
     entry: "M 0 0 L 0 20 C 0 50 25 70 50 70",
-    place: ["a", "b", "a", "b", "a", "r", "b"],
+    place: ["r", "b", "a", "b", "a", "l", "b"],
   },
 };
 
@@ -87,11 +87,11 @@ function Constellation({
         v === "phone" && i !== current ? null : (
           <FLabel
             key={i}
-            x={g.place[i] === "r" ? x + 14 : x}
+            x={g.place[i] === "r" ? x + 14 : g.place[i] === "l" ? x - 14 : x}
             y={g.place[i] === "b" ? y + 14 : g.place[i] === "a" ? y - 14 : y}
             w={W}
             h={H}
-            align={g.place[i] === "r" ? "left" : "center"}
+            align={g.place[i] === "r" ? "left" : g.place[i] === "l" ? "right" : "center"}
             valign={g.place[i] === "b" ? "top" : g.place[i] === "a" ? "bottom" : "middle"}
             at={0.1 + (x / W) * 0.7}
             className={`t-small node-label ${i === current ? "is-current" : ""}`}

@@ -2477,3 +2477,11 @@ h3.sub {
     width: 100%;
   }
 }
+@media (min-width: 768px) and (max-width: 1099.98px) {
+  .roles col:nth-child(1) {
+    width: 14% !important;
+  }
+  .roles col:nth-child(2) {
+    width: 32% !important;
+  }
+}
