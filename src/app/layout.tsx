@@ -52,6 +52,15 @@ export const viewport: Viewport = {
  */
 const motionScript = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-motion','pre-entrance')}}catch(e){}`;
 
+/**
+ * Netlify inserts an HTML comment (and a line break before it) into <head> when it
+ * serves the page. React counts that as a hydration mismatch and re-renders the whole
+ * page, which restarts the entrance. This removes the comment and any whitespace-only
+ * text from <head> before React starts. React's own markers are a few characters long
+ * and never sit in <head>, so only long comments go.
+ */
+const headCleanupScript = `try{for(const n of Array.from(document.head.childNodes)){if((n.nodeType===8&&n.data.length>8)||(n.nodeType===3&&!n.data.trim()))n.remove()}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
@@ -60,7 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: motionScript }} />
+        <script dangerouslySetInnerHTML={{ __html: `${motionScript};${headCleanupScript}` }} />
       </head>
       <body>{children}</body>
     </html>
