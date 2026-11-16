@@ -26,6 +26,8 @@ const GEO = {
       [860, 400],
     ],
     entry: "M 0 0 L 0 40 C 0 90 90 110 150 110",
+    /** Where each node's label sits: a = above, b = below, r = right. */
+    place: ["a", "b", "a", "b", "a", "r", "b"],
   },
   phone: {
     W: 350,
@@ -41,6 +43,7 @@ const GEO = {
       [250, 240],
     ],
     entry: "M 0 0 L 0 20 C 0 50 25 70 50 70",
+    place: ["a", "b", "a", "b", "a", "r", "b"],
   },
 };
 
@@ -64,7 +67,6 @@ function Constellation({
   const [gx, gy] = pts[5];
   const [rx, ry] = pts[6];
   const back = `M ${gx} ${gy} L ${rx} ${ry} L ${f} ${ry} A ${f} ${f} 0 0 0 0 ${ry + f} L 0 ${H}`;
-  const low = (y: number) => y > H * 0.5;
   const [dx, dy] = pts[dotIndex];
   return (
     <FigureBox w={W} h={H} variant={v} className="constellation">
@@ -85,12 +87,12 @@ function Constellation({
         v === "phone" && i !== current ? null : (
           <FLabel
             key={i}
-            x={x}
-            y={low(y) ? y + 14 : y - 14}
+            x={g.place[i] === "r" ? x + 14 : x}
+            y={g.place[i] === "b" ? y + 14 : g.place[i] === "a" ? y - 14 : y}
             w={W}
             h={H}
-            align="center"
-            valign={low(y) ? "top" : "bottom"}
+            align={g.place[i] === "r" ? "left" : "center"}
+            valign={g.place[i] === "b" ? "top" : g.place[i] === "a" ? "bottom" : "middle"}
             at={0.1 + (x / W) * 0.7}
             className={`t-small node-label ${i === current ? "is-current" : ""}`}
           >

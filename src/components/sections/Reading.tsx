@@ -17,7 +17,8 @@ function Stack({ v }: { v: "desk" | "phone" }) {
   const desk = v === "desk";
   const step = desk ? 3 : 2;
   const gap = desk ? 12 : 8;
-  const L = lengths(400, desk ? 28 : 20, desk ? 92 : 64);
+  // Lengths mean nothing; the last mark of each group is kept short so its count reads clear.
+  const L = lengths(400, desk ? 28 : 20, desk ? 92 : 64).map((l, i) => (i % 50 === 49 ? Math.min(l, desk ? 64 : 44) : l));
   const yOf = (i: number) => i * step + Math.floor(i / 50) * gap + 0.5;
   const H = Math.ceil(yOf(399) + 1);
   const W = desk ? 140 : 110;
@@ -34,7 +35,7 @@ function Stack({ v }: { v: "desk" | "phone" }) {
       {Array.from({ length: 8 }, (_, g) => {
         const y = yOf(g * 50 + 49);
         return (
-          <span key={g} className="t-data fg2 stack-count" style={{ top: y, left: desk ? 104 : 76 }} data-at={y / H}>
+          <span key={g} className={`t-data fg2 stack-count ${desk ? "is-right" : ""}`} style={{ top: y, left: desk ? 108 : 76 }} data-at={y / H}>
             {(g + 1) * 50}
           </span>
         );

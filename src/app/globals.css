@@ -150,6 +150,7 @@ body {
 .page {
   container-type: inline-size;
   position: relative;
+  isolation: isolate;
 }
 
 .sr-only {
@@ -282,6 +283,7 @@ body {
 .chapter {
   position: relative;
   scroll-margin-top: 24px;
+  overflow-x: clip;
 }
 .clip-x {
   overflow-x: clip;
@@ -1189,7 +1191,7 @@ h3.sub {
 }
 .badge-tick {
   position: absolute;
-  left: calc(var(--meridian-x) - 6px);
+  left: calc(var(--meridian-x) - var(--content-left) - 6px);
   width: 12px;
   height: 1.5px;
   margin-top: -0.75px;
@@ -1199,7 +1201,7 @@ h3.sub {
 .badge-year {
   position: absolute;
   top: 0;
-  left: var(--content-left);
+  left: 0;
   color: var(--fg);
 }
 @media (max-width: 1099.98px) {
@@ -1209,17 +1211,21 @@ h3.sub {
 }
 @media (min-width: 1100px) {
   .badge-tick {
-    left: calc(var(--meridian-x) - 8px);
+    left: calc(var(--meridian-x) - var(--content-left) - 8px);
     width: 16px;
   }
   .badge-year {
     left: auto;
-    right: calc(100% - var(--meridian-x) + 16px);
+    right: calc(100% + var(--content-left) - var(--meridian-x) + 16px);
     top: 0;
   }
 }
 .rl-main {
   min-width: 0;
+  flex: 1 1 14rem;
+}
+.rlist li {
+  flex-wrap: wrap;
 }
 .rl-side {
   display: flex;
@@ -1940,7 +1946,7 @@ h3.sub {
   }
   .artha-phone {
     right: auto;
-    left: calc(-1 * var(--gutter) - 8px);
+    left: -8px;
     bottom: auto;
     top: calc(100% - 64px);
     width: 236px;
@@ -2252,6 +2258,9 @@ h3.sub {
 .stack-count {
   position: absolute;
   translate: 0 -50%;
+}
+.stack-count.is-right {
+  translate: -100% -50%;
 }
 .stack-desk,
 .court-desk {

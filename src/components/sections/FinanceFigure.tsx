@@ -31,7 +31,7 @@ type Geo = {
   ticks: boolean;
 };
 const DESK: Geo = { W: 1110, H: 320, x0: 90, x1: 1050, up: 100, lo: 220, f: 24, r: 60, rise: 28, riseW: 48, dot: 95, ticks: true };
-const PHONE: Geo = { W: 350, H: 300, x0: 28, x1: 326, up: 90, lo: 210, f: 16, r: 60, rise: 20, riseW: 15, dot: 30, ticks: false };
+const PHONE: Geo = { W: 350, H: 300, x0: 28, x1: 288, up: 90, lo: 210, f: 16, r: 60, rise: 20, riseW: 15, dot: 30, ticks: false };
 
 const RUNS = [
   { total: 10000, totalText: F.upper.field.split(" ")[0], mark: 54, snap: F.readout.snapUpper },
