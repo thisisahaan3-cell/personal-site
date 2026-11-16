@@ -64,7 +64,7 @@ const float PI = 3.14159265;
 const vec3 TEXT = vec3(0.910, 0.929, 0.965);
 const vec3 DOWN = vec3(0.306, 0.404, 0.573);
 /* Portrait only: the down blue lifted so brightness, not hue, carries the face. */
-const vec3 DOWN_P = vec3(0.490, 0.646, 0.917);
+const vec3 DOWN_P = vec3(0.560, 0.660, 0.840);
 const vec3 AMBER = vec3(0.949, 0.647, 0.255);
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -195,7 +195,7 @@ void main() {
 
   /* Geometry within the box. */
   float bodyW = portrait ? 0.74 : 0.52;
-  float P = pow(clamp(h, 0.0, 1.2), 0.7);
+  float P = pow(clamp(h, 0.0, 1.2), 0.62);
   float bh = portrait ? 0.06 + 0.86 * P : 0.10 + 0.78 * h;
   float restBodyW = mix(1.0, bodyW, e);
   float restBodyH = mix(1.0, bh, e);
@@ -247,9 +247,9 @@ uniform sampler2D uPortrait;
 uniform vec4 uImg;
 out vec4 o;
 
-float boxMask(vec2 p, vec2 half) {
+float boxMask(vec2 p, vec2 hs) {
   vec2 w = max(fwidth(p), vec2(1e-4));
-  vec2 m = clamp(0.5 - (abs(p) - half) / w, 0.0, 1.0);
+  vec2 m = clamp(0.5 - (abs(p) - hs) / w, 0.0, 1.0);
   return m.x * m.y;
 }
 
@@ -315,7 +315,7 @@ export class CandleWall {
   private texSource: WebGLTexture;
   private texTone: WebGLTexture;
   private sourceCanvas = document.createElement("canvas");
-  private sourceCtx = this.sourceCanvas.getContext("2d", { willReadFrequently: false })!;
+  private sourceCtx = this.sourceCanvas.getContext("2d", { willReadFrequently: true })!;
   private video: HTMLVideoElement | null = null;
   private useVideo = false;
   private portraitSize = { w: 1, h: 1 };
@@ -451,6 +451,8 @@ export class CandleWall {
   /** Seconds since the intro started; before it starts the wall is black. */
   startIntro() {
     this.introStart = performance.now();
+    // Lets frame-by-frame capture tools align their clock with the intro (scripts/capture-home.mjs).
+    this.canvas.dataset.introStart = String(this.introStart);
     this.lastPrint = this.introStart + 2900;
     this.updateRunning();
   }

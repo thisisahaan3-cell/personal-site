@@ -33,7 +33,7 @@ COLS, ROWS = 96, 128
 SS = 3
 
 TEXT = np.array([0.910, 0.929, 0.965])
-DOWN_P = np.array([0.490, 0.646, 0.917])  # wall.ts DOWN_P
+DOWN_P = np.array([0.560, 0.660, 0.840])  # wall.ts DOWN_P
 
 
 def smoothstep(a, b, x):
@@ -91,7 +91,7 @@ def main():
     ri = np.minimum((yy / chs).astype(int), ROWS - 1)
     lx = xx + 0.5 - (ci + 0.5) * cws
     ly = yy + 0.5 - (ri + 0.5) * chs
-    P = L[ri, ci] ** 0.7
+    P = L[ri, ci] ** 0.62
     body_h = chs * 0.5 * (0.06 + 0.86 * P)
     body = (np.abs(lx) <= cws * 0.5 * 0.74) & (np.abs(ly) <= body_h)
     wick = (np.abs(lx) <= SS * 0.5) & (np.abs(ly) <= np.minimum(chs * 0.5, chs * 0.5 * (0.06 + 0.86 * P + 0.3)))

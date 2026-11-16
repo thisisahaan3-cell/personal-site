@@ -39,7 +39,9 @@ export function Home({ video }: { video: string | null }) {
   const imageRect = useRef<Rect>({ x: 0, y: 0, w: 0, h: 0 });
   const [mode, setMode] = useState<Mode>("pending");
   const modeRef = useRef<Mode>("pending");
-  modeRef.current = mode;
+  useEffect(() => {
+    modeRef.current = mode;
+  }, [mode]);
   const [playing, setPlaying] = useState(false);
   const [wallReady, setWallReady] = useState(false);
   const phase = useTransitionPhase();
@@ -141,8 +143,11 @@ export function Home({ video }: { video: string | null }) {
   // Start the intro once the wall is ready and any page transition has finished.
   useEffect(() => {
     if (!wallReady || phase !== "idle" || playing) return;
-    wall.current?.startIntro();
-    setPlaying(true);
+    const id = requestAnimationFrame(() => {
+      wall.current?.startIntro();
+      setPlaying(true);
+    });
+    return () => cancelAnimationFrame(id);
   }, [wallReady, phase, playing]);
 
   useEffect(() => {
