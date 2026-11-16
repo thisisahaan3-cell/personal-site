@@ -9,39 +9,49 @@ function RoleTable({ rows }: { rows: Role[] }) {
   return (
     <table className="ruled roles">
       <colgroup>
-        <col style={{ width: "20%" }} />
-        <col style={{ width: "40%" }} />
-        <col />
-        <col style={{ width: 136 }} />
+        <col className="col-role" />
+        <col className="col-points" />
+        <col className="col-logo" />
       </colgroup>
-      <thead>
+      <thead className="sr-only-head">
         <tr>
-          <th scope="col">{ui.columns.period}</th>
           <th scope="col">{ui.columns.role}</th>
           <th scope="col">{ui.columns.points}</th>
           <th scope="col" className="c-logo" />
         </tr>
       </thead>
       <tbody>
-        {rows.map((r, i) => (
-          <tr key={r.title + r.organisation} className="hov">
-            <td className="c-year c-period">{shown(r.period)}</td>
-            <td className="c-subj">
-              {r.title}
-              <span className="sub-sm">{r.organisation}</span>
-            </td>
-            <td className="c-sm c-points">
-              {r.points.map((p) => (
-                <p key={p} className="measure">
-                  {p}
-                </p>
-              ))}
-            </td>
-            <td className="c-logo">
-              <LogoTile org={tiles[i]} />
-            </td>
-          </tr>
-        ))}
+        {rows.map((r, i) => {
+          const period = shown(r.period);
+          return (
+            <tr key={r.title + r.organisation} className="hov">
+              <td className="c-subj">
+                {period && (
+                  /* Desktop: hangs in the note column beside a tick on the meridian (§0.1 item 4).
+                     Tablet and phone: the row's first line. */
+                  <span className="r-date">
+                    <span className="r-date-text t-data">
+                      {period}
+                      <span className="r-tick" data-appear="" aria-hidden="true" />
+                    </span>
+                  </span>
+                )}
+                {r.title}
+                <span className="sub-sm">{r.organisation}</span>
+              </td>
+              <td className="c-sm c-points">
+                {r.points.map((p) => (
+                  <p key={p} className="measure">
+                    {p}
+                  </p>
+                ))}
+              </td>
+              <td className="c-logo">
+                <LogoTile org={tiles[i]} />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

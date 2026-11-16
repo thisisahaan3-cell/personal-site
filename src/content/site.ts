@@ -881,6 +881,9 @@ export const site = {
         /** Group rows when the record is sorted: year -> "2026, 3 awards"; award and committee -> "Best Delegate, 6". */
         groupRowByYear: "{group}, {n} awards",
         groupRowByOther: "{group}, {n}",
+        /** Count beside a group row's value (review 1, fix 9). */
+        groupCountOne: "1 award",
+        groupCountMany: "{n} awards",
       },
       placard: {
         rollLabel: "Committees",

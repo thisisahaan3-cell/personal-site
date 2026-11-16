@@ -106,7 +106,7 @@ export function Placard() {
           <button
             key={c}
             type="button"
-            className={`tbtn ${face === c ? "is-on" : ""}`}
+            className={`tbtn roll-btn ${face === c ? "is-on" : ""}`}
             aria-pressed={active === c}
             onClick={() => choose(c)}
           >
@@ -213,6 +213,9 @@ export function Record() {
   const ariaSort = (k: SortKey) => (k === key ? (dir === "asc" ? "ascending" : "descending") : "none");
   const sb = { cur: key, dir, onSort: sortBy };
   const heads = rows.map((r, idx) => idx === 0 || groupOf(rows[idx - 1], key) !== groupOf(r, key));
+  const groupShown = (g: string) =>
+    year === null || (key === "year" ? Number(g) === year : rows.some((x) => groupOf(x, key) === g && x.year === year));
+  const firstGroup = rows.findIndex((r, idx) => heads[idx] && groupShown(groupOf(r, key)));
 
   return (
     <>
@@ -223,6 +226,12 @@ export function Record() {
         <SortBtn {...sb} k="committee" label={ui.sort.committee} />
       </div>
       <table className="ruled record">
+        <colgroup>
+          <col className="rc-conf" />
+          <col className="rc-comm" />
+          <col className="rc-award" />
+          <col className="rc-year" />
+        </colgroup>
         <thead>
           <tr>
             <th scope="col">{ui.columns.conference}</th>
@@ -242,14 +251,18 @@ export function Record() {
             const g = groupOf(r, key);
             const head = heads[idx];
             const visible = year === null || r.year === year;
-            const groupVisible = year === null || (key === "year" ? Number(g) === year : rows.some((x) => groupOf(x, key) === g && x.year === year));
+            const groupVisible = groupShown(g);
             const n = year === null ? counts.get(g) : rows.filter((x) => groupOf(x, key) === g && x.year === year).length;
             return (
               <Fragment key={r.i}>
                 {head && (
-                  <tr className="group-row" hidden={!groupVisible}>
-                    <td colSpan={4} className="t-data fg2">
-                      {fill(key === "year" ? ui.sort.groupRowByYear : ui.sort.groupRowByOther, { group: g, n: n ?? 0 })}
+                  <tr className={`group-row ${idx === firstGroup ? "is-first" : ""}`} hidden={!groupVisible}>
+                    <td colSpan={4}>
+                      <span className="t-title2">{g}</span>
+                      <span className="sr-only">, </span>
+                      <span className="t-data fg2 group-n">
+                        {n === 1 ? ui.sort.groupCountOne : fill(ui.sort.groupCountMany, { n: n ?? 0 })}
+                      </span>
                     </td>
                   </tr>
                 )}

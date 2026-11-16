@@ -23,6 +23,11 @@ export function Competitions() {
       <ChapterHead id="competitions" />
       <Run className="pb-fig">
         <h3 className="t-title2 italic">{ui.financeHeading}</h3>
+        <div className="grid10" style={{ marginTop: 32 }}>
+          <Col d={[3, 8]} t={[1, 4]}>
+            <EditableText value={interest("finance").description} slot={slots.finance} />
+          </Col>
+        </div>
       </Run>
       <FinanceFigure />
 
@@ -61,14 +66,6 @@ export function Competitions() {
             ))}
           </tbody>
         </table>
-      </Run>
-
-      <Run className="pb-block">
-        <div className="grid10">
-          <Col d={[3, 8]} t={[1, 4]}>
-            <EditableText value={interest("finance").description} slot={slots.finance} />
-          </Col>
-        </div>
       </Run>
 
       <Run className="pb-block">
@@ -136,7 +133,7 @@ export function Competitions() {
                   <LogoTile org={c.org} />
                 </div>
                 {details.some((d) => d.placeholder) ? (
-                  <Placeholder slot={slot} compact />
+                  <Placeholder slot={slot} />
                 ) : (
                   details.map((d) => (
                     <p key={d.text} className="t-body measure">

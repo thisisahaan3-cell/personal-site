@@ -108,7 +108,7 @@ export function Reading() {
                   {tennis.statedLine}
                 </p>
               )}
-              <EditableText value={tennis.description} slot={slots.tennis} compact />
+              <EditableText value={tennis.description} slot={slots.tennis} />
             </Col>
           </div>
         </Run>

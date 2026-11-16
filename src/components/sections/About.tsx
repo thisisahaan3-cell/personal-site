@@ -23,6 +23,7 @@ export function About() {
             <EditableText
               value={[site.hero.statement, ...site.about.biography]}
               slot={ui.placeholder.slots.biography}
+              form="block"
             />
           </Col>
           <Col d={[10, 12]} t={[5, 6]}>

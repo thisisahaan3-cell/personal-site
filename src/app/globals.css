@@ -516,6 +516,24 @@ h3.sub {
   height: 30px;
   border-bottom: 1px solid var(--rule);
 }
+/* The placeholder line: one 44px row, two strings on one baseline, one hairline beneath.
+   On a narrow column the phrase drops to a second line, left-aligned; neither string wraps. */
+.ph-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  align-content: flex-end;
+  column-gap: 16px;
+  min-height: 44px;
+  max-width: 34rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--fg2);
+}
+.ph-line > span {
+  white-space: nowrap;
+}
 
 /* ───────────────────────── Logo tile (§2.8) ───────────────────────── */
 
@@ -1615,17 +1633,40 @@ h3.sub {
 
 /* ───────────────────────── Model UN (§3.4) ───────────────────────── */
 
-.mun-summary {
-  display: grid;
-  gap: 32px;
+/* Summary: "16" with its captions; a two-row ruled list beside it (§0.1 item 6). */
+.mun-sum-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.mun-sum-row .t-tfig {
+  flex: 0 0 auto;
+  min-width: 3.2ch;
+  font-size: var(--fs-tfig);
+  line-height: 1.15;
+}
+.mun-sum-cap {
+  margin-top: 16px;
+}
+@media (max-width: 767.98px) {
+  .mun-sum-num {
+    order: 0;
+  }
+  .mun-sum-cap {
+    order: 1;
+  }
+  .mun-sum-list {
+    order: 2;
+    margin-top: 32px;
+  }
 }
 @media (min-width: 768px) {
-  .mun-summary {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--gutter);
+  .mun-sum-num,
+  .mun-sum-list {
+    grid-row: 1;
   }
-  .mun-summary > div {
-    max-width: 16rem;
+  .mun-sum-cap {
+    grid-row: 2;
   }
 }
 .globe-mer {
@@ -1714,11 +1755,25 @@ h3.sub {
 .placard-meta {
   margin-top: 12px;
 }
+/* Committee roll: a wrapping row, 24px between names, 4px between rows; 44px hit area by padding. */
 .placard-roll {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 20px;
+  gap: 4px 24px;
   margin-top: 16px;
+}
+.placard-roll .roll-btn {
+  min-width: 0;
+  min-height: 0;
+  padding-block: 12px;
+}
+@media (min-width: 1100px) {
+  .globe-side .ph-line,
+  .placard-roll,
+  .placard-meta {
+    width: calc(5 * var(--col) + 4 * var(--gutter));
+    max-width: calc(5 * var(--col) + 4 * var(--gutter));
+  }
 }
 
 .tally {
@@ -1797,8 +1852,27 @@ h3.sub {
   padding-top: 4px;
   padding-bottom: 4px;
 }
+/* Group rows are the breaks in the record: the value in title-2, its count beside it (fix 9). */
+.record {
+  table-layout: fixed;
+}
+.record .rc-conf {
+  width: 34%;
+}
+.record .rc-comm {
+  width: 30%;
+}
+.record .rc-award {
+  width: 22%;
+}
 .record .group-row td {
-  padding: 28px 0 8px;
+  padding: 64px 0 16px;
+}
+.record .group-row.is-first td {
+  padding-top: 32px;
+}
+.record .group-row .group-n {
+  margin-left: 16px;
 }
 .record .group-row {
   border-top: 0;
@@ -1812,7 +1886,10 @@ h3.sub {
 @media (max-width: 767.98px) {
   .record .group-row {
     display: block;
-    padding: 24px 0 4px;
+    padding: 48px 0 16px;
+  }
+  .record .group-row.is-first {
+    padding-top: 32px;
   }
   .record .group-row td {
     padding: 0;
@@ -1823,20 +1900,81 @@ h3.sub {
 .c-points p + p {
   margin-top: 8px;
 }
-.roles .c-period {
-  white-space: normal;
-  padding-right: 24px;
+/* A log along the line: no visible head row, no Period column (§0.1 item 4). */
+.roles {
+  table-layout: fixed;
+}
+.roles .sr-only-head {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+.roles tbody tr:first-child {
+  border-top-color: var(--fg);
+}
+.roles .col-role {
+  width: 40%;
+}
+.roles .col-logo {
+  width: 136px;
+}
+.roles .r-date {
+  display: block;
+  margin-bottom: 8px;
+}
+.roles .r-date-text {
+  display: block;
+  color: var(--fg);
+}
+.roles .r-tick {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .roles .col-role {
+    width: calc(5 * var(--col) + 5 * var(--gutter));
+  }
+  .roles .col-points {
+    width: calc(4 * var(--col) + 4 * var(--gutter));
+  }
+  .roles .col-logo {
+    width: auto;
+  }
+  /* A zero-width inline-flex anchor on the role's first baseline; its one item overflows to the
+     left, so the date's first baseline sits on the role's and its right edge on meridian − 12. */
+  .roles .r-date {
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 0;
+    margin: 0;
+    vertical-align: baseline;
+    position: relative;
+    left: calc(var(--meridian-x) - 12px - var(--content-left));
+  }
+  .roles .r-date-text {
+    flex: 0 0 auto;
+    position: relative;
+    max-width: 132px;
+    width: max-content;
+    text-align: right;
+    white-space: normal;
+    line-height: 16px;
+  }
+  .roles .r-tick {
+    display: block;
+    position: absolute;
+    top: 7.25px;
+    left: calc(100% + 12px - 6px);
+    width: 12px;
+    height: 1.5px;
+    background: var(--line-color);
+    z-index: 1;
+  }
 }
 @media (max-width: 767.98px) {
   .roles col {
     width: auto !important;
-  }
-  .roles td.c-period {
-    grid-column: 1;
-    grid-row: auto;
-    text-align: left;
-    padding-top: 0;
-    order: -1;
   }
   .roles td.c-points {
     padding-top: 10px;
@@ -1995,6 +2133,18 @@ h3.sub {
 .ongoing-item > * + * {
   margin-top: 16px;
 }
+.ongoing-item > .ph-line {
+  margin-top: 24px;
+}
+.artha-copy > .ph-line {
+  margin-top: 32px;
+}
+.globe-side h3.sub {
+  margin-bottom: 32px;
+}
+.globe-side .ph-line {
+  max-width: none;
+}
 
 /* Night figures */
 .night-ground,
@@ -2075,7 +2225,6 @@ h3.sub {
 .doc {
   --lh: calc(var(--fs-doc) * 1.5);
   position: relative;
-  min-height: 640px;
   padding-top: var(--lh);
   color: var(--fg);
 }
@@ -2122,8 +2271,12 @@ h3.sub {
 .doc-ph {
   line-height: var(--lh);
 }
+/* Exactly six empty ruled lines after the label, then the document ends. */
 .doc-blank {
-  height: calc(3 * var(--lh));
+  height: calc(6 * var(--lh));
+}
+.doc-paras li:last-child {
+  margin-bottom: 0;
 }
 .doc-side {
   margin-top: 8px;
@@ -2528,11 +2681,4 @@ h3.sub {
     width: 100%;
   }
 }
-@media (min-width: 768px) and (max-width: 1099.98px) {
-  .roles col:nth-child(1) {
-    width: 14% !important;
-  }
-  .roles col:nth-child(2) {
-    width: 32% !important;
-  }
-}
+

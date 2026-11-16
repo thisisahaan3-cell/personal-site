@@ -25,9 +25,9 @@ export function Night() {
                   <li key={e.text}>{e.text}</li>
                 ))}
               </ul>
-            </Col>
-            <Col d={[9, 12]} t={[5, 6]}>
-              <EditableText value={aviation.description} slot={slots.aviation} />
+              <div style={{ marginTop: 32 }}>
+                <EditableText value={aviation.description} slot={slots.aviation} />
+              </div>
             </Col>
           </div>
         </Run>

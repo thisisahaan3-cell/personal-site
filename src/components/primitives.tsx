@@ -106,7 +106,21 @@ export function ChapterHead({ id }: { id: string }) {
 
 /* ── Placeholder (§2.6) ── */
 
-export function Placeholder({ slot, compact = false }: { slot: string; compact?: boolean }) {
+/**
+ * "line": the default single row (slot name left, label right, one hairline).
+ * "block": the label line and three hairline rules (About's biography only).
+ */
+export type PlaceholderForm = "line" | "block";
+
+export function Placeholder({ slot, form = "line" }: { slot: string; form?: PlaceholderForm }) {
+  if (form === "line") {
+    return (
+      <p className="ph-line t-data" data-placeholder="">
+        <span>{slot}</span>
+        <span>{site.ui.placeholder.label}</span>
+      </p>
+    );
+  }
   return (
     <div className="ph" data-placeholder="">
       <p className="ph-head t-data">
@@ -116,26 +130,26 @@ export function Placeholder({ slot, compact = false }: { slot: string; compact?:
       <div className="ph-rules" aria-hidden="true">
         <span />
         <span />
-        {!compact && <span />}
+        <span />
       </div>
     </div>
   );
 }
 
-/** Shows the text once it is no longer a placeholder; until then, the ruled block. */
+/** Shows the text once it is no longer a placeholder; until then, the placeholder line (or block). */
 export function EditableText({
   value,
   slot,
-  compact,
+  form,
   className = "t-body measure",
 }: {
   value: Editable | Editable[];
   slot: string;
-  compact?: boolean;
+  form?: PlaceholderForm;
   className?: string;
 }) {
   const items = Array.isArray(value) ? value : [value];
-  if (items.some((v) => v.placeholder)) return <Placeholder slot={slot} compact={compact} />;
+  if (items.some((v) => v.placeholder)) return <Placeholder slot={slot} form={form} />;
   return (
     <div className={className}>
       {items.map((v, i) => (

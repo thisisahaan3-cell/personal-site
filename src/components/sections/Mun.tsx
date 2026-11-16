@@ -1,6 +1,6 @@
 import { site } from "@/content/site";
 import { interest, stat, tilesFor } from "@/lib/content";
-import { Chapter, ChapterHead, EditableText, LogoTile, Run } from "../primitives";
+import { Chapter, ChapterHead, Col, EditableText, LogoTile, Run } from "../primitives";
 import { Globe, MunProvider, Placard, Record, Tally } from "./MunClient";
 
 const ui = site.ui;
@@ -8,27 +8,41 @@ const mun = site.mun;
 
 export function Mun() {
   const boardTiles = tilesFor(mun.executiveBoard, (b) => ("org" in b ? b.org : null), (b) => b.conference);
-  const summary = [stat("conferences"), stat("awardsSummary"), stat("delegateAwards")];
+  const lead = stat("delegateAwards");
+  const listed = [stat("conferences"), stat("awardsSummary")];
   return (
     <Chapter id="mun" className="clip-x">
       <MunProvider>
         <ChapterHead id="mun" />
+        {/* The Academic chapter's pattern: one numeral, then a two-row ruled list (§0.1 item 6). */}
         <Run className="pb-fig">
-          <div className="mun-summary">
-            {summary.map((s) => (
-              <div key={s.id}>
-                <p className="t-title">{s.value}</p>
-                <p className="t-small fg2" style={{ marginTop: 8 }}>
-                  {s.label}
-                  {s.note && (
-                    <>
-                      <br />
-                      {s.note}
-                    </>
-                  )}
-                </p>
-              </div>
-            ))}
+          <div className="grid10 align-last-baseline mun-sum">
+            <Col d={[3, 7]} t={[1, 3]} className="mun-sum-num">
+              <p className="t-numeral">{lead.value}</p>
+            </Col>
+            <Col d={[8, 12]} t={[4, 6]} className="mun-sum-list">
+              <ul className="rlist t-small">
+                {listed.map((s) => (
+                  <li key={s.id}>
+                    <span className="mun-sum-row">
+                      <span className="t-tfig">{s.value}</span>
+                      <span>{s.label}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Col>
+            <Col d={[3, 7]} t={[1, 3]} className="mun-sum-cap">
+              <p className="t-small fg2">
+                {lead.label}
+                {lead.note && (
+                  <>
+                    <br />
+                    {lead.note}
+                  </>
+                )}
+              </p>
+            </Col>
           </div>
         </Run>
 
