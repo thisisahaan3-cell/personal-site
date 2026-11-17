@@ -86,7 +86,11 @@ function Headline() {
   return (
     <header className="chamber__head">
       <h2 id="chamber-title" className="display-l chamber__title">
-        {HEADLINE}
+        {HEADLINE.split(/(?<=,) /).map((part, i) => (
+          <span key={i} className="chamber__title-line">
+            {part}
+          </span>
+        ))}
       </h2>
     </header>
   );
