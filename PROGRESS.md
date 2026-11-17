@@ -5,16 +5,16 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 ## V2.1 checklist (client's 17 Nov feedback; refine, do not restart) — tick each when DONE and deployed
 
 Design
-- [ ] C1. Home background pure black (only Home)
-- [ ] C2. Home candle wall more realistically coloured (market greens/reds; natural colour in the face reveal)
+- [x] C1. Home background pure black (only Home) — deployed
+- [ ] C2. Home candle wall in real market colours — deployed, BUT the settled portrait came out too dim; brightness fix is item 1 of Run B1
 - [ ] C3. Each other page has its own design language and colour; site overall much more colourful and varied
 - [ ] C4. Realistic 3D models (PBR, HDRI lighting, shadows) replace primitive shapes; mouse rotation, scroll camera, hotspots, object animation, scene transitions; lazy-loaded, compressed, phone fallbacks
-- [ ] C5. Finance page looks truly amazing
+- [x] C5. Finance: bronze bull with hotspots, camera push into the point field, Artha on the real laptop — deployed (client to judge)
 - [ ] C6. Leadership page uses an original take on the "Volumes"/"Pavement" idea
 - [ ] C7. Contact page properly visualised and cinematic
 
 Structure and content
-- [ ] C8. Model UN page renamed (Law & Diplomacy or similar); Executive Board appearances emphasised most; IIT Madras Introduction to Law course (8 weeks, take-home project) added there
+- [x] C8. (deployed) Model UN page renamed (Law & Diplomacy or similar); Executive Board appearances emphasised most; IIT Madras Introduction to Law course (8 weeks, take-home project) added there
 - [ ] C9. New Interests page, interactive: aviation (IIT Madras aerospace course, 8 weeks, exemplary-performance certificate; photo gallery slots for his aviation photos), reading (400+ books), Formula 1 (watches every race), tennis (participated in and won tournaments)
 - [ ] C10. Leadership renamed "Leadership & Work Experience": internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit
 - [ ] C11. Academics: topper in Grade 10; topper every year Grade 7–11; NFO shown as AIR 10 (Round 1), SRCC AIR 46 of 3,000, SOF IEO 6 awards; then SHRITEQ, Quiz to Conquer and the rest with ranks where given
@@ -30,6 +30,8 @@ Assets and code
 - [ ] C18. Deployed; hourly task disabled when everything above is done
 
 (17 Nov: the client stopped the Run A engineer by mistake and asked to continue; it was resumed from the Finance rework. Home recolour is committed in 73b6c73.)
+
+CURRENT STATE (17 Nov, after Run A): DEPLOYED Home (black, market colours), Finance, Law & Diplomacy with real models, credits footer, new nav. Run B1 started (fresh frontend-engineer, model opus): Home brightness fix, Academics content changes + a real-object moment, Leadership & Work Experience as flying dossiers. AFTER B1: look at `qa/screenshots/v21-b1/`, deploy, then Run B2 (Interests page with airliner / formula-car / tennis-racket / books on a selectable stage plus aviation photo frames; cinematic Contact desk scene with Email, Resume, LinkedIn, Instagram; `MEDIA.md`; final check), deploy, tick the checklist, final message telling the client what to upload where, disable the hourly task.
 
 Work log for V2.1
 - 17 Nov ~05:45 UTC: content-researcher (Sonnet) updated `src/content/site.ts` additively (`academics`, `lawDiplomacy`, `work`, `interestsPage`, `contact.links`, new `ui.pages`; `nfo` stat now "AIR 10" Round 1 with AIR 54 secondary; SRCC "AIR 46 of 3,000"); tsc passes.
