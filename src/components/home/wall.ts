@@ -196,9 +196,10 @@ void main() {
     pos += normalize(toLean) * uLean.z * 7.0 * (0.35 + 0.65 * (1.0 - c.y / uView.y));
 
   /* Geometry within the box. */
-  float bodyW = portrait ? 0.74 : 0.52;
+  float bodyW = portrait ? 0.84 : 0.52;
   float P = pow(clamp(h, 0.0, 1.2), 0.62);
-  float bh = portrait ? 0.06 + 0.86 * P : 0.10 + 0.78 * h;
+  /* Portrait bodies keep a generous minimum so dark cells still carry the photograph's colour. */
+  float bh = portrait ? 0.3 + 0.66 * P : 0.10 + 0.78 * h;
   float restBodyW = mix(1.0, bodyW, e);
   float restBodyH = mix(1.0, bh, e);
   vec2 bodyHalf = vec2(box.x * 0.5 * restBodyW, box.y * 0.5 * restBodyH * sy);
@@ -214,10 +215,15 @@ void main() {
   if (portrait) {
     float bright = 0.12 + 0.88 * min(P, 1.0);
     /* From 2.5s to 3.2s each body cross-fades to the portrait's own colour; at rest it is
-       70% photograph, 30% market, so skin and blazer read naturally with a teal/red edge. */
+       82% photograph, 18% market (raised from 70% so skin is not tinted green), so skin and blazer read naturally with a teal/red edge. */
     vec3 sampled = onImage ? textureLod(uPortrait, puv, uLod).rgb : market * bright;
+    /* Lift the photograph so the face is recognisable at rest: exposure up, a gentle
+       S-curve for contrast, and the shadows opened (gamma) so skin keeps its warmth. */
+    vec3 lifted = pow(clamp(sampled * 1.38, 0.0, 1.0), vec3(0.8));
+    lifted = clamp(mix(lifted, smoothstep(0.0, 1.0, lifted), 0.45), 0.0, 1.0);
     float natural = smoothstep(2.5, 3.2, uIntro);
-    vec3 rest = mix(market * bright, sampled, 0.7 * natural);
+    /* The market share carries its own full colour (not dimmed) so it reads as an edge, not mud. */
+    vec3 rest = mix(market * (0.55 + 0.45 * bright), lifted, 0.82 * natural);
     col = mix(seriesCol, rest, e);
     wickCol = mix(seriesCol, market * (0.35 + 0.65 * bright), e);
   } else {
