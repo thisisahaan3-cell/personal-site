@@ -34,6 +34,21 @@ export function Board() {
     if (open) setOpen(false);
   }
 
+  // Once a section page scrolls, the strip takes the ground so it reads over images.
+  useEffect(() => {
+    const html = document.documentElement;
+    const on = () => {
+      if (window.scrollY > 40) html.dataset.scrolled = "";
+      else delete html.dataset.scrolled;
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", on);
+      delete html.dataset.scrolled;
+    };
+  }, [pathname]);
+
   useEffect(() => {
     if (!open) return;
     const el = sheet.current;

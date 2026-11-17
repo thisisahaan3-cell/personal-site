@@ -279,6 +279,16 @@ export const site = {
     }
   >,
 
+  /**
+   * Empty slots for Ahaan's own photo or clip, one per page. Nothing renders while `src` is empty.
+   * To fill one: put the file in /public/media/ and set `src` (and `poster` for a clip) and `alt`.
+   * `aspect` reserves the space, so the page does not shift when the file loads.
+   */
+  mediaSlots: {
+    finance: { src: "", poster: "", kind: "still", alt: "", aspect: "16 / 9" },
+    modelUn: { src: "", poster: "", kind: "still", alt: "", aspect: "16 / 9" },
+  } as Record<"finance" | "modelUn", { src: string; poster: string; kind: "loop" | "still"; alt: string; aspect: string }>,
+
   // ── Hero ──
   hero: {
     /** One-line descriptor taken from the resume profile ("interested in civil aviation and finance"). */
@@ -861,6 +871,55 @@ export const site = {
         gradeX: "CBSE Grade X",
         books: "Books read",
       } as Record<string, string>,
+    },
+    /** Finance page (version 2). Figures restate `stats`, `competitions` and `experience`; nothing new. */
+    finance: {
+      fieldHeading: "The field",
+      fieldIntro: "Each point is one participant. Scroll, swipe or choose a result.",
+      stepsLabel: "Results",
+      previous: "Previous result",
+      next: "Next result",
+      /** The four results, in the order the field plays them. `scale` states how the points are drawn. */
+      steps: {
+        nfo: {
+          figure: "AIR 54",
+          pool: "10,000+",
+          scale: "10,000+ participants, drawn as 10,000",
+          scalePhone: "10,000+ participants, drawn as 1,000: one point for every 10",
+        },
+        fellowship: {
+          figure: "100 of 2,000",
+          scale: "2,000 candidates, drawn as 2,000; the 100 selected stay lit",
+          scalePhone: "2,000 candidates, drawn as 200: one point for every 10",
+        },
+        srcc: { figure: "AIR 46", scale: "Field size not stated, so only the rank is drawn" },
+        shisfest: { figure: "1st", scale: "Field size not stated, so only the position is drawn" },
+      },
+      /** Pointer readout over the field. */
+      readoutRank: "{n}{suffix} of {total}",
+      readoutPlace: "{n}{suffix}",
+      readoutBin: "{from} to {to} of {total}",
+      rankTop: "1",
+      inProgressHeading: "In progress",
+      recordHeading: "Finance and pitch competitions",
+    },
+    /** Model UN page (version 2). */
+    modelUn: {
+      /** Computed from `mun.awards`: {n} rows, {best} of them Best Delegate. */
+      headline: "{n} delegate awards, {best} Best Delegate",
+      chamberLabel: "The chamber: one placard for each award, Executive Board role and parliamentary programme",
+      hint: "Drag to look around. Hover or tap a placard.",
+      hintPlan: "Tap a seat.",
+      filtersLabel: "Filter the placards",
+      all: "All",
+      byYear: "By year",
+      byAward: "By award",
+      shown: "{n} of {total} lit",
+      floor: "Delegate awards",
+      dais: "Executive Board",
+      bench: "Parliamentary programmes",
+      close: "Close",
+      docketHeading: "The record",
     },
     nav: {
       chaptersLabel: "Chapters",
