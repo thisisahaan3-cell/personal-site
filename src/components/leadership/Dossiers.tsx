@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { fill, shown } from "@/lib/content";
 import { useSetPieceMode } from "@/lib/three/quality";
@@ -13,24 +13,15 @@ import { ENTRIES, type WorkEntry } from "./entries";
 
 const ui = site.ui.work;
 const N = ENTRIES.length;
-const PHONE_MAX = 760;
 
 /**
  * The set piece of Leadership & Work Experience: seven dossiers flying through window light,
- * each opening in turn (desktop, full motion). Phones, reduced motion and no-WebGL get the
+ * each opening in turn (full motion, phones included). Reduced motion and no-WebGL get the
  * same entries as a stacked file drawer. Every entry is real DOM text in both versions.
  */
 export function Dossiers({ video }: { video: string | null }) {
   const mode = useSetPieceMode();
-  const [phone, setPhone] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${PHONE_MAX - 1}px)`);
-    const on = () => setPhone(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  const live = mode === "motion" && phone === false;
+  const live = mode === "motion";
   return live ? <Flight video={video} /> : <Drawer />;
 }
 

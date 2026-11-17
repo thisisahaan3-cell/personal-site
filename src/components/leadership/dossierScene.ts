@@ -499,7 +499,7 @@ export async function buildDossiers(engine: Engine, o: DossierOptions) {
       dust.position.y = 0.1 + Math.sin(time * 0.15) * 0.03;
       const phone = size.w < 760;
       camera.updateProjectionMatrix();
-      shiftFrame(camera, phone ? 0 : 0.06, 0);
+      shiftFrame(camera, phone ? 0 : 0.06, phone ? 0.2 : 0);
       return true;
     },
   });

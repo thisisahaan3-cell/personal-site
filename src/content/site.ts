@@ -367,10 +367,10 @@ const core = {
 
   // ── Headline figures (only numbers present in the resume) ──
   stats: [
-    { id: "gradeX", value: "99.4%", label: "CBSE Grade X Secondary Examinations", editorNote: "Resume dates this \"2025–26\"; year to be confirmed." },
+    { id: "gradeX", value: "99.4%", label: "CBSE Grade X Secondary Examinations", editorNote: "Year 2026 (client message, 17 Nov)." },
     { id: "consistency", value: "96%+", label: "Consistent across all academic years" },
     { id: "conferences", value: "20+", label: "Prestigious MUN and debate conferences" },
-    { id: "awardsSummary", value: "19+", label: "Awards (resume's own summary line)", editorNote: "The awards table lists 16 delegate awards; what the 19+ counts is to be confirmed." },
+    { id: "awardsSummary", value: "19+", label: "Awards (resume's own summary line)", editorNote: "Client message, 17 Nov: show \"19+ awards\" only, not a count of the table rows." },
     { id: "delegateAwards", value: "16", label: "Delegate awards listed in the table", note: "6 Best Delegate" },
     {
       id: "nfo",
@@ -393,8 +393,8 @@ const core = {
     gradeX: {
       score: "99.4%",
       exam: "CBSE Grade X Secondary Examinations",
-      yearAsWritten: "2025–26",
-      needsConfirmation: true, // odd label for a Grade X exam; confirm the year
+      yearAsWritten: "2026", // client message, 17 Nov (resume printed "2025–26")
+      needsConfirmation: false,
       org: "cbse",
       extras: ["School Topper", "50% School Merit Scholarship"],
     },
@@ -495,7 +495,7 @@ const core = {
       conferences: "20+",
       awards: "19+",
       line: "20+ prestigious conferences · 19+ awards · Demonstrated proficiency in International Relations and debate",
-      note: "The resume's own summary line. The awards table below lists 16 rows; what \"19+\" counts is to be confirmed.",
+      note: "The resume's own summary line. Client (17 Nov): show \"19+ awards\" only.",
     },
     executiveBoard: [
       { conference: "IITD MUN 2026", location: "IIT Delhi", org: "iitDelhi", role: "Rapporteur, promoted to Vice Chair", committee: "WHO", year: 2026 },
@@ -759,7 +759,7 @@ const core = {
       statedIn: ["client message"],
       evidence: [
         { text: "20+ prestigious conferences · 19+ awards (resume summary).", source: "resume" },
-        { text: "16 delegate awards listed, including 6 Best Delegate.", source: "resume" },
+        { text: "19+ awards, including 6 Best Delegate.", source: "resume" },
         { text: "Executive Board roles: IITD MUN 2026 (Rapporteur, promoted to Vice Chair, WHO), AIKYAM MUN 2026 (Vice Chairperson, UNESCO), Lotus Valley's MUN Club (Chairperson, ECOSOC).", source: "resume" },
         { text: "PRS Student Parliament 2026: qualified for North India Regionals.", source: "resume" },
         { text: "National Youth Parliament Scheme, Ministry of Parliamentary Affairs (2025).", source: "resume" },
@@ -1390,7 +1390,7 @@ export const site = {
     /** School-topper record. Grade 10 is on the resume (School Topper, CBSE Grade X, 99.4%); every year from Grade 7 to 11 is from the client. */
     schoolTopper: {
       grade10: {
-        text: "School topper in Grade 10 (CBSE Grade X Secondary Examinations, 99.4%).",
+        text: "School topper in Grade 10 (CBSE Grade X Secondary Examinations 2026, 99.4%).",
         source: "resume and client message" as FactSource,
       },
       everyYear: {
@@ -1495,7 +1495,7 @@ export const site = {
     title: "Law & Diplomacy",
     /** Neutral, made only of facts that are on the resume. */
     descriptor:
-      "Three Executive Board roles, 16 delegate awards, two parliamentary programmes and the IIT Madras Introduction to Law course.",
+      "Three Executive Board roles, 19+ awards, two parliamentary programmes and the IIT Madras Introduction to Law course.",
     /** The page shows these in this order: the Executive Board comes first. */
     order: ["executiveBoard", "delegateAwards", "parliamentary", "course"] as const,
     executiveBoard: core.mun.executiveBoard, // IITD MUN 2026, AIKYAM MUN 2026, Lotus Valley's MUN Club

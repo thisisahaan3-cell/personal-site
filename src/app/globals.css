@@ -1054,9 +1054,6 @@ html:has(.home) body {
   .dest-row {
     grid-template-columns: 1fr;
   }
-  .dest-row__item:last-child {
-    display: none;
-  }
   .dest-row__item {
     border-bottom: 1px solid var(--hairline);
   }
@@ -5372,6 +5369,67 @@ html:has(.home) body {
 @media (prefers-reduced-motion: reduce) {
   .dossiers__entry {
     animation: none;
+  }
+}
+@media (max-width: 759px) {
+  /* Phones: the folders fly in the upper part of the screen, the open entry sits below on a scrim. */
+  .dossiers {
+    height: 760vh;
+  }
+  .dossiers__stage::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 42% 0 0;
+    background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--ground) 86%, transparent) 30%, var(--ground) 100%);
+    pointer-events: none;
+  }
+  .dossiers__copy {
+    top: auto;
+    right: var(--margin);
+    bottom: calc(var(--bar, 56px) + 14px);
+    width: auto;
+  }
+  .dossiers__entry {
+    margin-top: 10px;
+  }
+  .dossier__org {
+    font-size: 15px;
+  }
+  .dossier__title {
+    margin-top: 6px;
+    font-size: clamp(26px, 7.6vw, 34px);
+  }
+  .dossier__period {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .dossier__points {
+    margin-top: 12px;
+  }
+  .dossier__points li {
+    padding-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.42;
+  }
+  .dossiers__hint {
+    display: none;
+  }
+  .dossiers__index {
+    top: 18px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dossiers__index ol {
+    display: none;
+  }
+  .dossiers__count {
+    margin: 0;
+  }
+  .dossiers__steps {
+    margin-top: 0;
   }
 }
 @media (max-width: 759px) {
