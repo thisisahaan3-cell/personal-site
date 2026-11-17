@@ -161,7 +161,7 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   scene.environmentIntensity = o.motion ? 0.03 : 0.25;
   const camera = new THREE.PerspectiveCamera(30, 1, 0.05, 20);
   const camPos = new THREE.Vector3(0.36, 1.5, 1.8);
-  const camTarget = new THREE.Vector3(0.12, 0.94, -0.1);
+  const camTarget = new THREE.Vector3(0.12, 0.99, -0.1);
 
   // ── The desk ──
   const deskB = bounds(desk);
@@ -215,10 +215,27 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
     roughness: 0.22,
     side: THREE.DoubleSide,
   });
+  // The source screen quad's UVs do not show a whole image: lay a fresh panel of the same size
+  // just in front of it and hide the original.
+  screen.flipY = true;
+  const quads: THREE.Mesh[] = [];
   laptop.traverse((c) => {
     const m = c as THREE.Mesh;
-    if (m.isMesh && /screen/i.test((m.material as THREE.Material).name)) m.material = screenMat;
+    if (m.isMesh && /screen/i.test((m.material as THREE.Material).name)) quads.push(m);
   });
+  for (const m of quads) {
+    m.geometry.computeBoundingBox();
+    const bb = m.geometry.boundingBox!;
+    const w = (bb.max.x - bb.min.x) * m.scale.x;
+    const h = (bb.max.y - bb.min.y) * m.scale.y;
+    const panel = new THREE.Mesh(new THREE.PlaneGeometry(w * 0.96, h * 0.95), screenMat);
+    const c = bb.getCenter(new THREE.Vector3()).multiply(m.scale);
+    panel.position.copy(m.position).add(c);
+    panel.position.z += 0.002;
+    panel.quaternion.copy(m.quaternion);
+    m.parent?.add(panel);
+    m.visible = false;
+  }
   // The portrait in the frame.
   const art = /artwork/i;
   const artSize = sizeOfMaterial(frame, art);
@@ -352,7 +369,7 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
       camera.lookAt(camTarget);
       camera.updateProjectionMatrix();
       const narrow = size.w / size.h < 1.15;
-      shiftFrame(camera, narrow ? 0 : 0.24, 0.02);
+      shiftFrame(camera, narrow ? 0 : 0.27, 0.02);
       return moving;
     },
     afterRender: (s) => {

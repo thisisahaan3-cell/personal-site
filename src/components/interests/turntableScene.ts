@@ -343,10 +343,20 @@ export async function buildTurntable(engine: Engine, o: TurntableOptions) {
   specHolder.position.set(0.03, 0, 0.1);
   specHolder.rotation.y = -0.25;
   readGroup.add(specHolder);
-  const bookTop = (() => {
-    const b = bounds(books);
-    return (b.max.y - b.min.y) / Math.max(1e-6, books.parent!.getWorldScale(new THREE.Vector3()).y) + 0.002;
-  })();
+  // The lenses are dark in the source; make them clear glass.
+  specs.traverse((c) => {
+    const m = c as THREE.Mesh;
+    if (!m.isMesh) return;
+    for (const mat of Array.isArray(m.material) ? m.material : [m.material])
+      if (/glass/i.test(mat.name)) {
+        const g = mat as THREE.MeshStandardMaterial;
+        g.transparent = true;
+        g.opacity = 0.18;
+        g.roughness = 0.04;
+        g.metalness = 0;
+        g.depthWrite = false;
+      }
+  });
   read.spin.add(readGroup);
 
   // Tennis: the racket lies flat, then stands facing the camera; the ball bounces at its foot.
@@ -552,10 +562,10 @@ export async function buildTurntable(engine: Engine, o: TurntableOptions) {
       // Reading: the spectacles lift and turn to the camera.
       {
         const f = read.focus.value;
-        // They lift off the turntable and settle folded open on top of the books.
-        specHolder.position.set(0.03 - 0.05 * f, bookTop * f + Math.sin(time * 0.9) * 0.004 * f, 0.1 - 0.13 * f);
-        specHolder.rotation.x = -0.08 * f;
-        specHolder.rotation.y = -0.25 - 0.25 * f;
+        // They lift a little off the turntable in front of the books and tip toward the light.
+        specHolder.position.set(0.03, 0.035 * f + Math.sin(time * 0.9) * 0.004 * f, 0.1 + 0.03 * f);
+        specHolder.rotation.x = -0.45 * f;
+        specHolder.rotation.y = -0.25 + 0.6 * f;
       }
       // Tennis: the racket stands, the ball bounces with damping.
       {

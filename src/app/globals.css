@@ -5408,6 +5408,16 @@ html:has(.home) body {
 .desk3d .contact__email {
   white-space: nowrap;
 }
+/* A scrim so the links stay legible where the desk runs under them. */
+.desk3d::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 auto 0 0;
+  width: min(820px, 60vw);
+  background: linear-gradient(90deg, var(--ground) 0%, color-mix(in srgb, var(--ground) 82%, transparent) 58%, transparent 100%);
+  pointer-events: none;
+}
 .desk3d .contact__copy {
   position: absolute;
   z-index: 2;
@@ -5417,6 +5427,8 @@ html:has(.home) body {
 }
 .contact__copy:not([data-live]) {
   position: relative;
+  min-height: 84svh;
+  box-sizing: border-box;
   padding: 120px var(--margin) 96px;
   max-width: 900px;
 }
@@ -5583,7 +5595,7 @@ html:has(.home) body {
     padding: 104px var(--margin) 72px;
   }
   .contact__email {
-    font-size: clamp(28px, 8.6vw, 44px);
+    font-size: clamp(24px, 7.4vw, 44px);
   }
   .contact__link {
     grid-template-columns: 1fr auto;
