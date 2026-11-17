@@ -70,6 +70,7 @@ export class Engine {
   private progress = new Map<string, Progress>();
   private progressListeners = new Set<(fraction: number) => void>();
   private views = new Set<ViewEntry>();
+  private drawn: ViewEntry[] = [];
   private io: IntersectionObserver;
   private raf = 0;
   private last = performance.now();
@@ -168,6 +169,7 @@ export class Engine {
       // Clear once so no stale frame lingers, then sleep until a view comes back.
       this.renderer.setScissorTest(false);
       this.renderer.clear();
+      this.drawn = [];
       return;
     }
     const dt = Math.min(0.1, (now - this.last) / 1000);
@@ -200,6 +202,10 @@ export class Engine {
       if (moving || v.dirty) dirty = true;
       draws.push(v);
     }
+    // A view that scrolled out of the canvas (but is still within the observer's margin) must be
+    // cleared away, or its last frame lingers over the page.
+    if (draws.length !== this.drawn.length || draws.some((v, i) => v !== this.drawn[i])) dirty = true;
+    this.drawn = draws;
 
     if (dirty) {
       const r = this.renderer;

@@ -4383,3 +4383,24 @@ html:has(.home) body {
     padding-top: 72px;
   }
 }
+
+/* Finance opens on the bronze: the page title sits in the set piece's copy (no cold open). */
+.bronze__sub {
+  margin: 12px 0 0;
+  font-family: var(--ff-text-stack);
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--secondary);
+}
+.ongoing__detail {
+  margin: 8px 0 0;
+  max-width: 60ch;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.desk__link {
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 4;
+}

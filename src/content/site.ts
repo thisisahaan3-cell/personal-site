@@ -181,6 +181,8 @@ export type Competition = {
   ongoing?: boolean;
   /** Placeholder slots for details the client has not supplied. */
   details?: Record<string, Editable>;
+  /** A confirmed detail line shown in place of the placeholder slot. */
+  detail?: SourcedFact;
   note?: string;
 };
 
@@ -560,10 +562,12 @@ const core = {
       domain: "finance",
       org: "wharton",
       results: ["Currently participating."],
+      // From the client message of 17 Nov 2026. Add nothing beyond it (no figures, returns, holdings or tools).
+      detail: { text: "He built an elaborate investment strategy with multiple steps and tested it through multiple simulations.", source: "client message" },
       details: {
         team: ph("Team — to be written by Ahaan."),
         role: ph("Role — to be written by Ahaan."),
-        approach: ph("Strategy and approach — to be written by Ahaan."),
+        approach: t("He built an elaborate investment strategy with multiple steps and tested it through multiple simulations."),
         status: ph("Current stage and status — to be written by Ahaan."),
       },
     },

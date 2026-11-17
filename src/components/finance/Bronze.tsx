@@ -88,9 +88,10 @@ export function Bronze({ still }: { still: string | null }) {
           </div>
         ) : null}
         <header className="bronze__copy">
-          <h2 id="bronze-title" className="display-l bronze__title">
-            {ui.bronzeHeading}
-          </h2>
+          <h1 id="bronze-title" className="display-l bronze__title">
+            {site.ui.pages.finance}
+          </h1>
+          <h2 className="bronze__sub">{ui.bronzeHeading}</h2>
         </header>
         <ol className="bronze__list">
           {RESULTS.map((r) => (
@@ -119,9 +120,10 @@ export function Bronze({ still }: { still: string | null }) {
         }}
       >
         <header className="bronze__copy">
-          <h2 id="bronze-title" className="display-l bronze__title">
-            {ui.bronzeHeading}
-          </h2>
+          <h1 id="bronze-title" className="display-l bronze__title">
+            {site.ui.pages.finance}
+          </h1>
+          <h2 className="bronze__sub">{ui.bronzeHeading}</h2>
           <p className="bronze__intro">
             <span className="bronze__intro--fine">{ui.bronzeIntro}</span>
             <span className="bronze__intro--touch">{ui.bronzeIntroTouch}</span>

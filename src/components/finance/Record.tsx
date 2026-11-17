@@ -43,7 +43,9 @@ export function Ongoing() {
             </p>
             <h3 className="ongoing__name">{c.name}</h3>
             <p className="ongoing__result">{c.results.join(" ")}</p>
-            {c.org && SLOT[c.org] ? (
+            {c.detail ? (
+              <p className="ongoing__detail">{c.detail.text}</p>
+            ) : c.org && SLOT[c.org] ? (
               <p className="placeholder-line">
                 <span className="placeholder-line__box" aria-hidden="true" />
                 <span>{SLOT[c.org]}</span>
