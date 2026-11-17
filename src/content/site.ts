@@ -1083,6 +1083,13 @@ const core = {
       otherHeading: "Other results",
       participationHeading: "Also took part in",
       nationalsLabel: "Nationals",
+      /** The desk (set piece): one volume lifted per school year. */
+      gradeLabel: "Grade {n}",
+      topperLine: "School topper",
+      deskLabel: "School topper, Grade 7 to Grade 11",
+      deskLoading: "Setting out the desk",
+      deskHint: "Scroll to lift one volume for each year.",
+      gradesLabel: "Years as school topper",
     },
     nav: {
       chaptersLabel: "Chapters",

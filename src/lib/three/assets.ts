@@ -32,6 +32,8 @@ export const MODELS = {
   encyclopedia: "/models/book-encyclopedia-set-01.glb",
   bust: "/models/marble-bust-01.glb",
   binder: "/models/binder-notebook.glb",
+  // Academics
+  // schoolDesk, schoolChair and encyclopedia above are shared with Law & Diplomacy.
 } as const;
 
 /** Image-based lighting (1k Radiance .hdr). Used for reflections only; the background is the page ground. */
@@ -61,6 +63,8 @@ export const SIZE_KB: Record<string, number> = {
   "/models/marble-bust-01.glb": 344,
   "/models/binder-notebook.glb": 232,
   "/hdri/hall.hdr": 1631,
+  "/hdri/interior-warm.hdr": 1622,
+  "/hdri/dusk-sky.hdr": 1560,
 };
 
 export type ModelKey = keyof typeof MODELS;
