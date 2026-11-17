@@ -960,10 +960,20 @@ const core = {
       internships: "Internships",
       email: "Email",
     },
-    /** Interests page, before it is built (Run B). */
-    interestsStub: {
-      lead: "The interactive version of this page is being built.",
-      list: "Interests on this page",
+    /** Interests page: the turntable, the aviation photographs, the pointers. */
+    interests: {
+      choose: "Choose an interest",
+      previous: "Previous interest",
+      next: "Next interest",
+      hint: "Arrow keys, the names below, or click an object on the turntable.",
+      loading: "Setting up the turntable",
+      listHeading: "Interests on this page",
+      galleryHeading: "Aviation photographs",
+      galleryLead: "Six frames for his own aviation photographs.",
+      photoToCome: "Photo to come",
+      /** {n} is the frame number. */
+      frameLabel: "Frame {n}, photograph to come",
+      pointersHeading: "Evidenced elsewhere",
     },
     /** The footer credit line (models listed in src/content/credits.ts). */
     credits: {
@@ -1330,6 +1340,14 @@ const core = {
     contact: {
       copyEmail: "Copy email address",
       copied: "Copied",
+      copyFailed: "Select the address to copy it",
+      /** Contact page, the desk at night. */
+      deskLoading: "Switching on the lamp",
+      deskHint: "Point at something on the desk, or use the links.",
+      linksLabel: "Ways to reach him",
+      newTab: "opens in a new tab",
+      /** Which object on the desk stands for which link. */
+      objects: { email: "The laptop", resume: "The clipboard", linkedin: "The portrait", instagram: "The postcards" } as Record<string, string>,
       /** Version 2 contact page. */
       emailLabel: "Email",
       resumeLabel: "Resume",
@@ -1363,8 +1381,6 @@ const byTitle = (list: Role[], title: string): Role => {
 const lyls = core.courses.find((c) => c.title.startsWith("Lotus Young Leaders Summit"))!;
 const introLaw = core.courses.find((c) => c.title === "Introduction to Law")!;
 const aerospace = core.courses.find((c) => c.title === "Fundamentals of Aerospace")!;
-
-const placeholderGallery = (): GallerySlot[] => Array.from({ length: 6 }, () => ({ src: "", alt: "", caption: "" }));
 
 export const site = {
   ...core,
@@ -1541,8 +1557,18 @@ export const site = {
           },
           { text: "Interested in civil aviation, as stated in the resume profile.", source: "resume" },
         ] as SourcedFact[],
-        /** Six slots for his own aviation photographs. Fill `src`, `alt` and `caption`; see the guide at the top of this file. */
-        gallery: placeholderGallery(),
+        /**
+         * Six frames for his own aviation photographs (shown as cabin windows). Fill `src`, `alt`
+         * and `caption`; an empty `src` shows "Photo to come". See MEDIA.md.
+         */
+        gallery: [
+          { src: "", alt: "", caption: "" },
+          { src: "", alt: "", caption: "" },
+          { src: "", alt: "", caption: "" },
+          { src: "", alt: "", caption: "" },
+          { src: "", alt: "", caption: "" },
+          { src: "", alt: "", caption: "" },
+        ] as GallerySlot[],
       },
       {
         id: "reading",

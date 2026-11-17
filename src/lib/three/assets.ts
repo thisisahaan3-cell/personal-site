@@ -9,7 +9,7 @@
  * Each scene places its models by their bounding box, so a replacement of a similar shape
  * lands in the right place; a very different size may need the `scale` in that scene's file.
  *
- * Poly Haven files are CC0; microphone.glb and gavel.glb are Sketchfab CC BY 4.0 and are credited in
+ * Poly Haven files are CC0; airliner, formula-car, tennis-racket, tennis-ball, microphone and gavel are Sketchfab CC BY 4.0 and are credited in
  * the site footer (src/content/credits.ts). Sources: content/research/assets.md.
  * Only the files a page's scenes ask for are downloaded on that page.
  */
@@ -34,6 +34,17 @@ export const MODELS = {
   binder: "/models/binder-notebook.glb",
   // Academics
   // schoolDesk, schoolChair and encyclopedia above are shared with Law & Diplomacy.
+  // Interests (the turntable); bookshelf, encyclopedia above
+  airliner: "/models/airliner.glb",
+  formulaCar: "/models/formula-car.glb",
+  tennisRacket: "/models/tennis-racket.glb",
+  tennisBall: "/models/tennis-ball.glb",
+  spectacles: "/models/round-spectacles.glb",
+  // Contact (the desk at night); deskLamp and laptop above
+  officeDesk: "/models/metal-office-desk.glb",
+  standingFrame: "/models/standing-picture-frame-02.glb",
+  postcards: "/models/postcard-set-01.glb",
+  clipboard: "/models/clipboard.glb",
 } as const;
 
 /** Image-based lighting (1k Radiance .hdr). Used for reflections only; the background is the page ground. */
@@ -62,6 +73,15 @@ export const SIZE_KB: Record<string, number> = {
   "/models/book-encyclopedia-set-01.glb": 555,
   "/models/marble-bust-01.glb": 344,
   "/models/binder-notebook.glb": 232,
+  "/models/airliner.glb": 507,
+  "/models/formula-car.glb": 1293,
+  "/models/tennis-racket.glb": 515,
+  "/models/tennis-ball.glb": 990,
+  "/models/round-spectacles.glb": 270,
+  "/models/standing-picture-frame-02.glb": 191,
+  "/models/postcard-set-01.glb": 220,
+  "/models/clipboard.glb": 165,
+  "/hdri/studio.hdr": 1578,
   "/hdri/hall.hdr": 1631,
   "/hdri/interior-warm.hdr": 1622,
   "/hdri/dusk-sky.hdr": 1560,
