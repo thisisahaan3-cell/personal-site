@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { useSetPieceMode } from "@/lib/three/quality";
 import { Loading } from "@/components/three/Loading";
@@ -13,7 +13,6 @@ const ui = site.ui.interests;
 const ITEMS = page.items;
 const IDS = ITEMS.map((i) => i.id);
 const N = ITEMS.length;
-const PHONE_MAX = 760;
 
 /** Object colours (design/v2.1-addendum.md §2); also in globals.css as --aviation etc. */
 const COLOURS: Record<string, string> = {
@@ -29,15 +28,7 @@ const COLOURS: Record<string, string> = {
  */
 export function Interests() {
   const mode = useSetPieceMode();
-  const [phone, setPhone] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${PHONE_MAX - 1}px)`);
-    const on = () => setPhone(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  const live = mode === "motion" && phone === false;
+  const live = mode === "motion";
   return live ? <Turntable /> : <List />;
 }
 

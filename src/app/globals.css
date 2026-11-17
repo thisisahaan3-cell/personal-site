@@ -5704,3 +5704,92 @@ html:has(.home) body {
     transition: none;
   }
 }
+
+/* Phones (v2.1 fix): the 3D scenes run on phones; the copy sits low on a scrim so the models stay clear. */
+@media (max-width: 759px) {
+  .turntable__stage::after,
+  .hall__stage::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 46% 0 0;
+    background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--ground) 82%, transparent) 34%, var(--ground) 100%);
+    pointer-events: none;
+  }
+  .turntable__copy {
+    top: auto;
+    right: var(--margin);
+    bottom: calc(var(--bar) + 92px);
+    width: auto;
+  }
+  .turntable__title {
+    position: absolute;
+    top: calc(-100svh + var(--bar) + 92px + 40px);
+  }
+  .turntable__entry {
+    margin-top: 0;
+  }
+  .turntable__word {
+    font-size: clamp(44px, 13vw, 64px);
+  }
+  .turntable__copy .interest__facts {
+    margin-top: 14px;
+  }
+  .turntable__copy .interest__facts li {
+    margin-bottom: 8px;
+    font-size: 15px;
+    line-height: 1.42;
+  }
+  .turntable__controls {
+    right: var(--margin);
+    bottom: calc(var(--bar) + 20px);
+    grid-template-columns: 1fr auto;
+    gap: 8px 12px;
+  }
+  .turntable__picks {
+    gap: 4px 16px;
+    flex-wrap: nowrap;
+  }
+  .turntable__pick {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  .turntable__hint {
+    display: none;
+  }
+
+  .hall__copy {
+    top: auto;
+    right: var(--margin);
+    bottom: calc(var(--bar) + 150px);
+    max-width: none;
+  }
+  .hall__headline {
+    font-size: clamp(30px, 9vw, 40px);
+  }
+  .hall__subhead {
+    font-size: 30px;
+  }
+  .hall__hint {
+    margin-top: 8px;
+  }
+  .hall__board .board-roles__item {
+    padding: 10px 0 0;
+    background: none;
+  }
+  .hall__board .board-roles__role {
+    font-size: clamp(28px, 8.4vw, 36px);
+  }
+  .hall__readout {
+    top: 24px;
+  }
+}
+@media (max-width: 759px) {
+  .hall__copy--floor {
+    top: 28px;
+    bottom: auto;
+  }
+  .hall__readout {
+    top: 170px;
+  }
+}

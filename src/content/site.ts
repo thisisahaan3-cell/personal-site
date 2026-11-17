@@ -1037,8 +1037,8 @@ const core = {
     },
     /** Model UN page (version 2). */
     modelUn: {
-      /** Computed from `mun.awards`: {n} rows, {best} of them Best Delegate. */
-      headline: "{n} delegate awards, {best} Best Delegate",
+      /** {best} is computed from `mun.awards`. "19+ awards" per the client (17 Nov), not the row count. */
+      headline: "19+ awards, {best} Best Delegate",
       chamberLabel: "The chamber: one placard for each award, Executive Board role and parliamentary programme",
       hint: "Drag to look around. Hover or tap a placard.",
       hintPlan: "Tap a seat.",

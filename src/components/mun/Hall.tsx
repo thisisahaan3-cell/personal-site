@@ -56,25 +56,17 @@ const HOTSPOTS: HotspotItem[] = [
  */
 export function Hall() {
   const mode = useSetPieceMode();
-  const [phone, setPhone] = useState<boolean | null>(null);
   const [filter, setFilter] = useState<Filter>({ kind: "all" });
   const [hover, setHover] = useState<string | null>(null);
   const [pinned, setPinned] = useState<string | null>(null);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 759px)");
-    const on = () => setPhone(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
 
   const lit = SEATS.filter((s) => s.kind === "floor" && matches(s, filter)).length;
   const status = fill(ui.shown, { n: lit, total: FLOOR.length });
   const controls = <Filters filter={filter} onFilter={setFilter} status={status} />;
-  const want3d = mode === "motion" && phone === false;
+  const want3d = mode === "motion";
 
-  if (mode === "pending" || phone === null) {
+  if (mode === "pending") {
     return <section className="hall hall--pending" aria-label={lui.title} />;
   }
   if (!want3d) {
