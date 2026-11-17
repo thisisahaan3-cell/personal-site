@@ -29,6 +29,8 @@ Assets and code
 - [ ] C17. Subagents on Opus 5.5 for design/engineering; frontend-design and ui-ux-pro-max skills used
 - [ ] C18. Deployed; hourly task disabled when everything above is done
 
+HOLD (set 17 Nov): the client manually STOPPED the Run A engineer. Do NOT resume building (including on the hourly check-in) until he says to continue. State at the stop: Home recolour done and committed (73b6c73: real market colours on black, six destinations, credits footer); Finance rework in progress and committed as work in progress (b7fab42; `Artha.tsx` was being replaced, so the build may not pass yet); Law & Diplomacy not started in this run. When he says go: resume agent or start a fresh frontend-engineer (model opus) with the Run A brief from item 4 (Finance) onward, first making `npm run build` pass.
+
 Work log for V2.1
 - 17 Nov ~05:45 UTC: content-researcher (Sonnet) updated `src/content/site.ts` additively (`academics`, `lawDiplomacy`, `work`, `interestsPage`, `contact.links`, new `ui.pages`; `nfo` stat now "AIR 10" Round 1 with AIR 54 secondary; SRCC "AIR 46 of 3,000"); tsc passes.
 - 17 Nov ~05:50 UTC: creative-director (confirmed claude-opus-5-5) wrote `design/v2.1-addendum.md`: per-page palettes and one hero 3D set piece per page; build order Run A / Run B.
