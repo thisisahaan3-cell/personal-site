@@ -2621,8 +2621,7 @@ html:has(.home) body {
     height: 22px;
   }
   .tape__unit {
-    top: calc(50% + var(--win-h) / 2 + 22px);
-    left: calc(50% - 78px);
+    display: none;
   }
   .tape__badges {
     top: auto;
