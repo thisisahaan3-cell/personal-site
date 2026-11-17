@@ -433,7 +433,7 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
   // ── Camera path ──
   const C = (v: THREE.Vector3) => v.toArray() as THREE.Vector3Tuple;
   const benchC = new THREE.Vector3(4.05, 0.6, 0.1);
-  const cornerLook = corner.localToWorld(new THREE.Vector3(0.1, 1.35, -0.45));
+  const cornerLook = corner.localToWorld(new THREE.Vector3(0.1, 1.5, -0.45));
   const cornerEye = corner.localToWorld(new THREE.Vector3(1.0, 2.0, 4.3));
   const keys: Key[] = [
     { at: AT.open, shot: { pos: [0.4, 6.4, 10.5], target: [0, 0.4, 0.8], fov: 34 } },

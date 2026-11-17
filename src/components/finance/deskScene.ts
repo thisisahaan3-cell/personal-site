@@ -102,8 +102,10 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   placeOnFloor(lamp, 0, 0, 0);
   const headL = extremeVertex(lamp, new THREE.Vector3(0, 1, 0));
   const clampL = extremeVertex(lamp, new THREE.Vector3(0, -1, 0));
-  // Back-left of the table, so the whole lamp stays in frame beside the copy.
-  const clampAt = new THREE.Vector2(tbb.min.x + 0.14, tbb.min.z + 0.12);
+  // Back-right, inside the round top (the bounding-box corner would be in the air), so the arm
+  // never crosses the copy on the left.
+  const tc = tbb.getCenter(new THREE.Vector3());
+  const clampAt = new THREE.Vector2(tc.x + 0.22, tc.z - 0.19);
   const lapAt = bounds(laptop).getCenter(new THREE.Vector3());
   const have = Math.atan2(headL.x - clampL.x, headL.z - clampL.z);
   const want = Math.atan2(lapAt.x - clampAt.x, lapAt.z - clampAt.y);
