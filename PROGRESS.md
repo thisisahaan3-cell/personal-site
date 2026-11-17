@@ -6,18 +6,18 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 
 Design
 - [x] C1. Home background pure black (only Home) — deployed
-- [ ] C2. Home candle wall in real market colours — deployed, BUT the settled portrait came out too dim; brightness fix is item 1 of Run B1
+- [x] C2. Home candle wall in real market colours (brightness fixed in 268c01c, deployed) — deployed, BUT the settled portrait came out too dim; brightness fix is item 1 of Run B1
 - [ ] C3. Each other page has its own design language and colour; site overall much more colourful and varied
 - [ ] C4. Realistic 3D models (PBR, HDRI lighting, shadows) replace primitive shapes; mouse rotation, scroll camera, hotspots, object animation, scene transitions; lazy-loaded, compressed, phone fallbacks
 - [x] C5. Finance: bronze bull with hotspots, camera push into the point field, Artha on the real laptop — deployed (client to judge)
-- [ ] C6. Leadership page uses an original take on the "Volumes"/"Pavement" idea
+- [x] C6. (deployed: seven dossiers flying through window light) Leadership page uses an original take on the "Volumes"/"Pavement" idea
 - [ ] C7. Contact page properly visualised and cinematic
 
 Structure and content
 - [x] C8. (deployed) Model UN page renamed (Law & Diplomacy or similar); Executive Board appearances emphasised most; IIT Madras Introduction to Law course (8 weeks, take-home project) added there
 - [ ] C9. New Interests page, interactive: aviation (IIT Madras aerospace course, 8 weeks, exemplary-performance certificate; photo gallery slots for his aviation photos), reading (400+ books), Formula 1 (watches every race), tennis (participated in and won tournaments)
-- [ ] C10. Leadership renamed "Leadership & Work Experience": internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit
-- [ ] C11. Academics: topper in Grade 10; topper every year Grade 7–11; NFO shown as AIR 10 (Round 1), SRCC AIR 46 of 3,000, SOF IEO 6 awards; then SHRITEQ, Quiz to Conquer and the rest with ranks where given
+- [x] C10. (deployed) Leadership renamed "Leadership & Work Experience": internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit
+- [x] C11. (deployed; tape kept, desk with five lifting volumes) Academics: topper in Grade 10; topper every year Grade 7–11; NFO shown as AIR 10 (Round 1), SRCC AIR 46 of 3,000, SOF IEO 6 awards; then SHRITEQ, Quiz to Conquer and the rest with ranks where given
 - [ ] C12. Contact links: LinkedIn (https://linkedin.com/in/ahaan-gupta), Instagram (https://www.instagram.com/ahaan_dr3/), Email, Resume — URLs are now in `site.contact.links` and `site.social`; the Contact page still has to be built (Run B)
 
 Assets and code
@@ -34,6 +34,8 @@ Assets and code
 CURRENT STATE (17 Nov, after Run A): DEPLOYED Home (black, market colours), Finance, Law & Diplomacy with real models, credits footer, new nav. Run B1 started (fresh frontend-engineer, model opus): Home brightness fix, Academics content changes + a real-object moment, Leadership & Work Experience as flying dossiers. AFTER B1: look at `qa/screenshots/v21-b1/`, deploy, then Run B2 (Interests page with airliner / formula-car / tennis-racket / books on a selectable stage plus aviation photo frames; cinematic Contact desk scene with Email, Resume, LinkedIn, Instagram; `MEDIA.md`; final check), deploy, tick the checklist, final message telling the client what to upload where, disable the hourly task.
 
 Client feedback 17 Nov ~11:00 UTC (after seeing the live Finance page; he "likes it"): remove the Finance cold open and start with the bull; remove the Artha phone screenshot (it covers the link); Wharton entry: "built an elaborate investment strategy with multiple steps and tested it through multiple simulations" (client message; add nothing beyond it); keep the 99.4 tape on Academics. Passed to the Run B1 engineer, which does these first. Session now runs on claude-opus-5-5 (switched by the client).
+
+17 Nov ~11:45 UTC: DEPLOYED Run B1 (Home brightness, Finance changes: no cold open, no Artha phone shot, Wharton strategy line; Academics; Leadership & Work Experience). Run B2 started (fresh frontend-engineer, opus): Interests stage with airliner/F1 car/racket/books and aviation photo frames; cinematic Contact desk with Email/Resume/LinkedIn/Instagram; credits footer check; `MEDIA.md`. AFTER B2: look at `qa/screenshots/v21-b2/`, deploy, tick C3 C4 C7 C9 C12 C16 C17 C18 C19, send the client the "what to upload where" list from MEDIA.md, disable the hourly task.
 
 Work log for V2.1
 - 17 Nov ~05:45 UTC: content-researcher (Sonnet) updated `src/content/site.ts` additively (`academics`, `lawDiplomacy`, `work`, `interestsPage`, `contact.links`, new `ui.pages`; `nfo` stat now "AIR 10" Round 1 with AIR 54 secondary; SRCC "AIR 46 of 3,000"); tsc passes.
