@@ -103,24 +103,30 @@ const G = {
   },
   async law() {
     const { page, ctx } = await open("/law-diplomacy");
-    await sleep(2500);
+    await sleep(2800);
     await shot(page, "law-cold");
-    await scrollTo(page, ".hall", 0.1);
+    await scrollTo(page, ".hall", 0.02);
     await waitReady(page, ".hall");
-    await sleep(4000);
+    await sleep(3000);
+    await shot(page, "law-open");
+    await scrollTo(page, ".hall", 0.22);
+    await sleep(4500);
     await shot(page, "law-dais");
-    await scrollTo(page, ".hall", 0.42);
-    await sleep(4000);
-    const seat = page.locator(".hall__seat").nth(2);
-    await seat.hover().catch(() => errors.push("no seat"));
-    await sleep(2000);
+    await scrollTo(page, ".hall", 0.55);
+    await sleep(5000);
+    const seat = page.locator(".hall__seat").nth(3);
+    await seat.hover({ force: true }).catch(() => errors.push("no seat"));
+    await sleep(2500);
     await shot(page, "law-floor");
-    await scrollTo(page, ".hall", 0.66);
-    await sleep(3500);
+    await scrollTo(page, ".hall", 0.78);
+    await sleep(4500);
     await shot(page, "law-bench");
-    await scrollTo(page, ".hall", 0.93);
-    await sleep(4000);
+    await scrollTo(page, ".hall", 0.97);
+    await sleep(5000);
     await shot(page, "law-corner");
+    await page.locator(".hall__hotspots .hotspot__label").last().click({ force: true }).catch(() => errors.push("no course hotspot"));
+    await sleep(2000);
+    await shot(page, "law-corner-open");
     await ctx.close();
   },
   async phone() {
@@ -128,12 +134,16 @@ const G = {
       ["home", "/", null, []],
       ["finance", "/finance", ".bronze", [0.45]],
       ["finance-desk", "/finance", ".desk", [0.8]],
-      ["law", "/law-diplomacy", ".hall", [0.12, 0.45, 0.93]],
-      ["interests", "/interests", null, []],
+      ["law", "/law-diplomacy", null, []],
     ]) {
       const { page, ctx } = await open(path, { w: 390, h: 844 });
       await sleep(5000);
       await shot(page, `phone-${name}-top`);
+      if (name === "law") {
+        await page.evaluate(() => document.querySelector(".hall")?.scrollIntoView());
+        await sleep(1500);
+        await shot(page, "phone-law-plan");
+      }
       for (const p of ps) {
         await scrollTo(page, sel, p);
         await waitReady(page, sel);
@@ -153,7 +163,7 @@ const G = {
       await sleep(1500);
       if (sel) {
         await page.evaluate((s) => document.querySelector(s)?.scrollIntoView(), sel);
-        await waitReady(page, sel);
+        if (sel !== ".hall") await waitReady(page, sel);
         await sleep(3000);
       }
       await shot(page, `reduced-${name}`);

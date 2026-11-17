@@ -53,13 +53,16 @@ export const AWARD_COUNT = AWARDS.length;
 export const BEST_COUNT = AWARDS.filter((a) => a.level === "Best Delegate").length;
 export const HEADLINE = fill(ui.headline, { n: AWARD_COUNT, best: BEST_COUNT });
 
-/** Arcs: the inner row takes the first awards (resume order), the outer row the rest. */
+/**
+ * Arcs: the inner row takes the first awards (resume order), the outer row the rest. The radii
+ * suit the real school desks (0.71 m wide) in the 3D chamber, about a metre apart.
+ */
 function floorSeats(): Seat[] {
   const n = AWARDS.length;
   const inner = Math.min(7, Math.floor(n / 2));
   const rows = [
-    { r: 4.4, y: 0.0, span: 1.05, count: inner },
-    { r: 6.5, y: 0.34, span: 1.12, count: n - inner },
+    { r: 3.3, y: 0.0, span: 0.95, count: inner },
+    { r: 4.7, y: 0.0, span: 1.0, count: n - inner },
   ];
   const out: Seat[] = [];
   let i = 0;
@@ -94,18 +97,26 @@ function floorSeats(): Seat[] {
   return out;
 }
 
+/** Dais and side-bench places, shared by the 3D chamber and the plan. */
+export const DAIS_SPACING = 0.86;
+export const DAIS_Z = -0.6;
+export const BENCH_X = 4.1;
+export const BENCH_Z = 0.15;
+export const BENCH_SPACING = 0.9;
+
 function daisSeats(): Seat[] {
   const n = mun.executiveBoard.length;
   return mun.executiveBoard.map((e, i) => {
-    const x = (i - (n - 1) / 2) * 1.7;
+    // One armchair each behind the dais table (the 3D scene uses the same places).
+    const x = (i - (n - 1) / 2) * DAIS_SPACING;
     const lines = [e.conference, e.committee, e.role];
     if (e.year) lines.push(String(e.year));
     return {
       id: `board-${i}`,
       kind: "dais" as const,
       x,
-      z: -0.9,
-      y: 0.62,
+      z: DAIS_Z,
+      y: 0.3,
       face: 0,
       title: e.conference,
       sub: e.committee,
@@ -128,9 +139,9 @@ function benchSeats(): Seat[] {
     return {
       id: `bench-${i}`,
       kind: "bench" as const,
-      x: 6.4,
-      z: -0.2 + (i - (n - 1) / 2) * 1.5,
-      y: 0.2,
+      x: BENCH_X,
+      z: BENCH_Z + (i - (n - 1) / 2) * BENCH_SPACING,
+      y: 0,
       face: -Math.PI / 2,
       title: p.name.replace(/\s\d{4}$/, ""),
       sub: String(p.year),

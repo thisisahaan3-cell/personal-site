@@ -6,8 +6,8 @@ import { matches, SEATS, type Filter } from "./seats";
 
 const ui = site.ui.modelUn;
 
-/** The view: x −7.4..7.4 m, z −3..8 m (dais at the top, delegates below). */
-const VB = { x: -7.4, z: -3, w: 14.8, h: 11 };
+/** The view: x −5.6..5.6 m, z −2.4..5.6 m (dais at the top, delegates below, the bench at the right). */
+const VB = { x: -5.6, z: -2.4, w: 11.2, h: 8 };
 const pctX = (x: number) => ((x - VB.x) / VB.w) * 100;
 const pctY = (z: number) => ((z - VB.z) / VB.h) * 100;
 
@@ -36,21 +36,21 @@ export function PlanView({
     <div className="plan">
       <div className="plan__drawing">
         <svg viewBox={`${VB.x} ${VB.z} ${VB.w} ${VB.h}`} aria-hidden="true" className="plan__svg">
-          {[2.2, 3.3, 5.5, 7.6, 9.4].map((r) => (
-            <path key={r} d={arc(r, 2.7)} className="plan__ring" />
+          {[2.6, 3.9, 5.4].map((r) => (
+            <path key={r} d={arc(r, 2.3)} className="plan__ring" />
           ))}
-          <rect x={-3.7} y={-2.7} width={7.4} height={2.4} className="plan__dais" />
-          {SEATS.filter((s) => s.kind === "bench").length ? <rect x={6.1} y={-1.5} width={0.6} height={2.6} className="plan__bench" /> : null}
+          <rect x={-1.9} y={-2.1} width={3.8} height={2.4} className="plan__dais" />
+          {SEATS.filter((s) => s.kind === "bench").length ? <rect x={3.8} y={-0.8} width={0.6} height={1.9} className="plan__bench" /> : null}
           {SEATS.map((s) => {
             const lit = matches(s, filter);
             const deg = (-(s.face + Math.PI) * 180) / Math.PI;
             return (
               <g key={s.id} transform={`translate(${s.x} ${s.z}) rotate(${deg})`}>
                 <rect
-                  x={-0.5}
-                  y={-0.2}
-                  width={1}
-                  height={0.4}
+                  x={s.kind === "dais" ? -0.38 : -0.32}
+                  y={-0.14}
+                  width={s.kind === "dais" ? 0.76 : 0.64}
+                  height={0.28}
                   className="plan__seat-mark"
                   data-active={active === s.id ? "" : undefined}
                   style={{ opacity: (lit ? 1 : 0.18) * (0.35 + 0.65 * s.glow) }}

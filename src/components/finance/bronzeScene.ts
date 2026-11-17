@@ -27,6 +27,7 @@ import {
   HotspotProjector,
   kelvin,
   placeOnFloor,
+  radialFade,
   shiftFrame,
   span,
   Spring,
@@ -77,7 +78,7 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
   floor.receiveShadow = true;
   scene.add(floor);
 
-  const stone = new THREE.MeshStandardMaterial({ color: 0x05120c, roughness: 0.55, metalness: 0.02 });
+  const stone = new THREE.MeshStandardMaterial({ color: 0x040d09, roughness: 0.72, metalness: 0.02, envMapIntensity: 0.5 });
   const plinth = new THREE.Mesh(new RoundedBoxGeometry(0.3, PLINTH_H, 0.3, 3, 0.005), stone);
   plinth.position.y = PLINTH_H / 2;
   plinth.castShadow = true;
@@ -135,11 +136,12 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
   torch.shadow.camera.far = 6;
   scene.add(torch, torch.target);
 
-  const rim = new THREE.SpotLight(RIM, 30, 0, 0.26, 0.7, 2);
-  rim.position.set(-0.75, PLINTH_H + 1.15, -0.95);
+  // Low and well behind, so the green only grazes the silhouette and never tops the plinth.
+  const rim = new THREE.SpotLight(RIM, 22, 0, 0.24, 0.7, 2);
+  rim.position.set(-0.95, PLINTH_H + 0.5, -1.15);
   rim.target.position.copy(centre).add(new THREE.Vector3(0, 0.08, 0));
   scene.add(rim, rim.target);
-  const rim2 = new THREE.SpotLight(RIM, 8, 0, 0.22, 0.8, 2);
+  const rim2 = new THREE.SpotLight(RIM, 6, 0, 0.22, 0.8, 2);
   rim2.position.set(0.95, PLINTH_H + 0.5, -0.85);
   rim2.target.position.copy(centre);
   scene.add(rim2, rim2.target);
@@ -155,8 +157,8 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
   const eyeOut = new THREE.Vector3(0.85, 0.08, 0.6).normalize();
   const keys: Key[] = [
     { at: 0, shot: { pos: startPos.toArray(), target: hornR.toArray(), fov: 34 } },
-    { at: 0.34, shot: { pos: at(40, 1.4, 0.12), target: [C.x, C.y - 0.05, C.z], fov: 30 } },
-    { at: 0.6, shot: { pos: at(47, 1.32, 0.1), target: [C.x, C.y - 0.05, C.z], fov: 30 } },
+    { at: 0.34, shot: { pos: at(40, 1.4, 0.1), target: [C.x, C.y + 0.02, C.z], fov: 30 } },
+    { at: 0.6, shot: { pos: at(47, 1.32, 0.08), target: [C.x, C.y + 0.02, C.z], fov: 30 } },
     { at: 0.86, shot: { pos: eye.clone().addScaledVector(eyeOut, 0.09).toArray(), target: eye.toArray(), fov: 34 } },
     { at: 1, shot: { pos: eye.clone().addScaledVector(eyeOut, 0.03).toArray(), target: eye.toArray(), fov: 38 } },
   ];
@@ -278,18 +280,4 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
       remove();
     },
   };
-}
-
-/** A soft round falloff, so the floor only exists where light falls and never shows an edge. */
-function radialFade() {
-  const c = document.createElement("canvas");
-  c.width = c.height = 256;
-  const g = c.getContext("2d")!;
-  const grd = g.createRadialGradient(128, 128, 0, 128, 128, 128);
-  grd.addColorStop(0, "#fff");
-  grd.addColorStop(0.35, "#bbb");
-  grd.addColorStop(1, "#000");
-  g.fillStyle = grd;
-  g.fillRect(0, 0, 256, 256);
-  return new THREE.CanvasTexture(c);
 }

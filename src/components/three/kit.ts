@@ -416,3 +416,17 @@ export function kelvin(k: number) {
   const c = (x: number) => Math.min(255, Math.max(0, x)) / 255;
   return new THREE.Color().setRGB(c(r), c(g), c(b), THREE.SRGBColorSpace);
 }
+
+/** A soft round falloff (alpha map), so a floor only exists where light falls and never shows an edge. */
+export function radialFade() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 256;
+  const g = c.getContext("2d")!;
+  const grd = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+  grd.addColorStop(0, "#fff");
+  grd.addColorStop(0.35, "#bbb");
+  grd.addColorStop(1, "#000");
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 256, 256);
+  return new THREE.CanvasTexture(c);
+}

@@ -15,8 +15,8 @@ const ui = site.ui.finance;
 
 /** Label placement per result: horn tips up and out, the brow out to the right, the muzzle down-left. */
 const PLACE: Record<string, Pick<HotspotItem, "side" | "reach" | "rise">> = {
-  nfo: { side: "right", reach: 90, rise: 40 },
-  srcc: { side: "left", reach: 90, rise: 40 },
+  nfo: { side: "right", reach: 80, rise: 14 },
+  srcc: { side: "left", reach: 80, rise: 14 },
   fellowship: { side: "right", reach: 190, rise: -12 },
   shisfest: { side: "left", reach: 130, rise: -32 },
 };

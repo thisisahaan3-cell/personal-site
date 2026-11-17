@@ -20,7 +20,8 @@ export const MODELS = {
   deskLamp: "/models/desk-lamp-arm-01.glb",
   sideTable: "/models/wooden-table-02.glb",
   // Law & Diplomacy
-  diningTable: "/models/dining-table.glb",
+  /** The dais table. The dining table's gingham cloth read as a picnic, so the dais uses the metal office desk. */
+  daisDesk: "/models/metal-office-desk.glb",
   microphone: "/models/microphone.glb",
   gavel: "/models/gavel.glb",
   schoolDesk: "/models/school-desk-01.glb",
@@ -47,7 +48,7 @@ export const SIZE_KB: Record<string, number> = {
   "/models/bull-head.glb": 284,
   "/models/classic-laptop.glb": 335,
   "/models/desk-lamp-arm-01.glb": 490,
-  "/models/dining-table.glb": 362,
+  "/models/metal-office-desk.glb": 175,
   "/models/wooden-table-02.glb": 226,
   "/models/microphone.glb": 234,
   "/models/gavel.glb": 328,

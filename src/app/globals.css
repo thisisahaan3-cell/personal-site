@@ -3955,3 +3955,392 @@ html:has(.home) body {
     bottom: auto;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Law & Diplomacy (addendum §4): the cold open in plan, the chamber rebuilt
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Cold open without footage: the chamber drawn from its real seats. */
+.cold--law {
+  background: radial-gradient(120% 90% at 70% 30%, var(--raised), var(--ground) 70%);
+}
+.law-plan {
+  position: absolute;
+  z-index: -1;
+  top: 9vh;
+  right: 0;
+  width: min(58vw, 900px);
+  height: 62vh;
+  pointer-events: none;
+}
+.law-plan__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.law-plan__ring {
+  fill: none;
+  stroke: var(--hairline);
+  stroke-width: 0.02;
+}
+.law-plan__dais {
+  fill: color-mix(in srgb, var(--raised) 80%, var(--ground));
+  stroke: var(--hairline);
+  stroke-width: 0.02;
+}
+.law-plan__rail {
+  stroke: var(--accent);
+  stroke-width: 0.03;
+}
+.law-plan__seat {
+  fill: var(--text);
+  opacity: var(--o);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.law-plan__seat--dais {
+  fill: var(--accent);
+  opacity: 1;
+}
+.law-plan__seat--bench {
+  fill: var(--accent-b);
+  opacity: 0.85;
+}
+.js-motion .law-plan__ring,
+.js-motion .law-plan__dais,
+.js-motion .law-plan__rail {
+  animation: law-fade 900ms linear both;
+  animation-delay: 200ms;
+}
+.js-motion .law-plan__seat {
+  animation: law-seat 520ms var(--settle) both;
+}
+.js-motion .law-plan__pool {
+  animation: law-fade 1400ms linear 1500ms both;
+}
+@keyframes law-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes law-seat {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+.cold--law__descriptor {
+  margin: 28px 0 0;
+  max-width: 52ch;
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--secondary);
+}
+.js-motion .cold--law__descriptor {
+  animation: rise-in 900ms var(--glide) 320ms both;
+}
+
+/* The chamber */
+.hall {
+  position: relative;
+  height: 720vh;
+}
+.hall--pending {
+  height: 100svh;
+}
+.hall__stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hall__stage[data-dragging] {
+  cursor: grabbing;
+}
+/* One phase's copy at a time, so headline and panels never overlap. */
+.hall__board,
+.hall__copy,
+.hall__filters,
+.hall__drag {
+  transition: opacity var(--t-reveal) linear, visibility 0s linear;
+}
+.hall__stage:not([data-phase="dais"]) .hall__board,
+.hall__stage:not([data-phase="floor"]) .hall__copy--floor,
+.hall__stage:not([data-phase="floor"]) .hall__filters,
+.hall__stage:not([data-phase="bench"]) .hall__copy--bench,
+.hall__stage:not([data-phase="corner"]) .hall__copy--corner,
+.hall__stage[data-phase="floor"] .hall__drag,
+.hall__stage[data-phase="open"] .hall__drag {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 240ms linear, visibility 0s linear 240ms;
+}
+
+/* The three Executive Board roles: the largest type in the chamber, across the foot of the dais. */
+.board-roles__heading {
+  margin: 0 0 20px;
+  font-family: var(--ff-text-stack);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--secondary);
+}
+.board-roles__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px var(--gutter);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.board-roles__item {
+  padding-top: 16px;
+  border-top: 1px solid var(--accent);
+}
+.board-roles__role {
+  margin: 0;
+  font-family: var(--ff-display-stack);
+  font-weight: 500;
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(40px, 4.4vw, 72px);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.board-roles__where {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 16px 0 0;
+  font-size: 16px;
+}
+.board-roles__committee {
+  font-family: var(--ff-figure-stack);
+  font-variation-settings: "wdth" 80;
+  color: var(--accent-b);
+}
+.hall__board {
+  position: absolute;
+  z-index: 3;
+  left: var(--margin);
+  right: var(--margin);
+  bottom: calc(var(--bar) + 40px);
+  pointer-events: none;
+}
+.hall__board .board-roles__item {
+  padding: 16px 16px 0 0;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--ground) 55%, transparent), transparent);
+}
+
+.hall__copy {
+  position: absolute;
+  z-index: 3;
+  left: var(--margin);
+  top: 112px;
+  max-width: min(460px, 34vw);
+}
+.hall__headline {
+  margin: 0;
+  font-family: var(--ff-display-stack);
+  font-weight: 500;
+  font-size: clamp(40px, 4.2vw, 68px);
+  line-height: 1;
+  text-wrap: balance;
+}
+.hall__hint {
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--secondary);
+}
+.hall__subhead {
+  margin: 0 0 20px;
+  font-family: var(--ff-display-stack);
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.05;
+}
+.hall__seats {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.hall__seat {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.hall__stage:not([data-phase="floor"]) .hall__seat,
+.hall__seat[data-offscreen] {
+  visibility: hidden;
+  pointer-events: none;
+}
+.hall__seat:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.hall__readout {
+  top: 112px;
+}
+.hall__filters .chamber__controls {
+  padding-bottom: 4px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--ground) 80%, transparent), transparent);
+}
+.hall__hotspots .hotspot:not([data-shown]) {
+  opacity: 0;
+  visibility: hidden;
+}
+.hall__drag {
+  position: absolute;
+  z-index: 3;
+  top: 112px;
+  right: var(--margin);
+  margin: 0;
+  font-size: 14px;
+  color: var(--secondary);
+  pointer-events: none;
+}
+
+.hall-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hall-list__row {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: var(--gutter);
+  padding: 14px 0;
+  border-top: 1px solid var(--hairline);
+}
+.hall-list__year {
+  font-family: var(--ff-figure-stack);
+  font-variation-settings: "wdth" 80;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+.hall-list__name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 17px;
+}
+.hall-list__sub {
+  font-size: 14px;
+  color: var(--secondary);
+}
+
+.course-card {
+  padding-top: 14px;
+  border-top: 1px solid var(--accent);
+}
+.course-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0;
+  font-size: 15px;
+  color: var(--secondary);
+}
+.course-card__year {
+  font-family: var(--ff-figure-stack);
+  font-variation-settings: "wdth" 80;
+  color: var(--accent);
+}
+.course-card__title {
+  margin: 12px 0 0;
+  font-family: var(--ff-display-stack);
+  font-weight: 500;
+  font-size: clamp(44px, 4.6vw, 76px);
+  line-height: 0.95;
+}
+.course-card__duration {
+  margin: 14px 0 0;
+  font-family: var(--ff-display-stack);
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--accent);
+}
+.course-card__awards {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.course-card__awards li {
+  padding: 8px 0;
+  border-top: 1px solid var(--hairline);
+  font-size: 16px;
+}
+
+/* Plan version (phones, reduced motion, no WebGL): the same order, the same facts. */
+.hall--plan {
+  height: auto;
+  padding: 104px var(--margin) 64px;
+}
+.board-roles--plan .board-roles__heading {
+  font-family: var(--ff-display-stack);
+  font-size: 40px;
+  color: var(--text);
+}
+.hall-plan__floor {
+  margin-top: 96px;
+}
+.hall-plan__headline {
+  margin-bottom: 32px;
+  font-size: clamp(40px, 5vw, 80px);
+}
+.hall-plan__floor .chamber__controls {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  margin-top: 24px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hall-plan__pair {
+  display: grid;
+  gap: 64px var(--gutter);
+  margin-top: 96px;
+}
+@media (min-width: 760px) {
+  .hall-plan__pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.hall-plan__sub {
+  margin: 0 0 20px;
+}
+
+@media (max-width: 759px) {
+  .law-plan {
+    top: 64px;
+    right: 0;
+    left: 0;
+    width: auto;
+    height: 46svh;
+  }
+  .cold--law__descriptor {
+    font-size: 16px;
+  }
+  .board-roles__list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .board-roles__role {
+    font-size: 44px;
+  }
+  .hall--plan {
+    padding-top: 72px;
+  }
+}

@@ -4,12 +4,14 @@ import { resolveMedia } from "@/lib/media.server";
 
 const mun = site.mun;
 const ui = site.ui;
+const course = site.lawDiplomacy.course;
 
 /** Awards newest first; within a year, resume order. */
 const BY_YEAR = [...mun.awards].map((a, i) => ({ a, i })).sort((x, y) => y.a.year - x.a.year || x.i - y.i);
 
 /**
- * The record set as a docket (direction §6, law): Bodoni entries on hairline rules, the year in
+ * The record, in the page's order: Executive Board, delegate awards, parliamentary programmes,
+ * the law course. Set as a docket (direction §6, law): Bodoni entries on hairline rules, the year in
  * the margin, over the graded chamber still (M4) held in place while the list passes.
  */
 export function Docket() {
@@ -28,6 +30,30 @@ export function Docket() {
         <h2 id="docket-title" className="display-l docket__title">
           {ui.modelUn.docketHeading}
         </h2>
+
+        <div className="docket__pair docket__pair--lead">
+          <div className="docket__board">
+            <h3 className="heading docket__sub">{ui.mun.executiveBoardHeading}</h3>
+            <ul className="docket__list docket__list--short">
+              {mun.executiveBoard.map((e) => (
+                <li key={e.conference} className="docket__row docket__row--short">
+                  <span className="docket__margin">{e.year ?? ""}</span>
+                  <span className="docket__conf">
+                    {e.conference}
+                    <span className="docket__full">
+                      {e.role}, {e.committee}
+                    </span>
+                  </span>
+                  {e.org === "iitDelhi" && iitd.logo ? (
+                    <span className="docket__logo">
+                      <Image src={iitd.logo} alt={iitd.name} width={28} height={28} />
+                    </span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <h3 className="heading docket__sub">{ui.mun.awardsHeading}</h3>
         <ol className="docket__list">
@@ -52,27 +78,6 @@ export function Docket() {
 
         <div className="docket__pair">
           <div>
-            <h3 className="heading docket__sub">{ui.mun.executiveBoardHeading}</h3>
-            <ul className="docket__list docket__list--short">
-              {mun.executiveBoard.map((e) => (
-                <li key={e.conference} className="docket__row docket__row--short">
-                  <span className="docket__margin">{e.year ?? ""}</span>
-                  <span className="docket__conf">
-                    {e.conference}
-                    <span className="docket__full">
-                      {e.role}, {e.committee}
-                    </span>
-                  </span>
-                  {e.org === "iitDelhi" && iitd.logo ? (
-                    <span className="docket__logo">
-                      <Image src={iitd.logo} alt={iitd.name} width={28} height={28} />
-                    </span>
-                  ) : null}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
             <h3 className="heading docket__sub">{ui.mun.parliamentaryHeading}</h3>
             <ul className="docket__list docket__list--short">
               {mun.parliamentary.map((p) => (
@@ -85,6 +90,25 @@ export function Docket() {
                   </span>
                 </li>
               ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="heading docket__sub">{ui.lawDiplomacy.courseHeading}</h3>
+            <ul className="docket__list docket__list--short">
+              <li className="docket__row docket__row--short">
+                <span className="docket__margin">{course.year}</span>
+                <span className="docket__conf">
+                  {course.title}
+                  <span className="docket__full">
+                    {course.provider}, {course.duration}
+                  </span>
+                  {course.awards.map((a) => (
+                    <span key={a} className="docket__full">
+                      {a}
+                    </span>
+                  ))}
+                </span>
+              </li>
             </ul>
           </div>
         </div>

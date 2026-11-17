@@ -1047,6 +1047,14 @@ const core = {
       parliamentaryHeading: "Parliamentary programmes",
       courseHeading: "Law course",
       courseSource: "IIT Madras Certification",
+      /** The 3D chamber (version 2.1). */
+      loading: "Setting the chamber",
+      daisLabel: "The dais: the three Executive Board roles",
+      benchLabel: "The side bench: the parliamentary programmes",
+      cornerLabel: "The law corner",
+      planLabel: "Plan of the chamber: one mark for each placard",
+      dragHint: "Drag to look around.",
+      openCourse: "Open the course details",
     },
     /** Leadership & Work Experience page. */
     work: {

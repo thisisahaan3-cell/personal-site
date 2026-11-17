@@ -10,7 +10,7 @@
 import * as THREE from "three";
 import { HDRI, MODELS, SIZE_KB } from "@/lib/three/assets";
 import type { Engine } from "@/components/three/engine";
-import { bakeContactShadow, bounds, CameraRig, clamp01, extremeVertex, HotspotProjector, kelvin, meshesOf, placeOnFloor, shiftFrame, type Key } from "@/components/three/kit";
+import { bakeContactShadow, bounds, CameraRig, clamp01, extremeVertex, HotspotProjector, kelvin, meshesOf, placeOnFloor, radialFade, shiftFrame, type Key } from "@/components/three/kit";
 
 export type DeskOptions = {
   element: HTMLElement;
@@ -43,8 +43,8 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   const camera = new THREE.PerspectiveCamera(32, 1, 0.02, 40);
 
   const floor = new THREE.Mesh(
-    new THREE.CircleGeometry(10, 64).rotateX(-Math.PI / 2),
-    new THREE.MeshStandardMaterial({ color: 0x06140e, roughness: 0.9 }),
+    new THREE.CircleGeometry(2.6, 64).rotateX(-Math.PI / 2),
+    new THREE.MeshStandardMaterial({ color: 0x06140e, roughness: 0.9, transparent: true, alphaMap: radialFade(), depthWrite: false }),
   );
   floor.receiveShadow = true;
   scene.add(floor);
@@ -102,7 +102,8 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   placeOnFloor(lamp, 0, 0, 0);
   const headL = extremeVertex(lamp, new THREE.Vector3(0, 1, 0));
   const clampL = extremeVertex(lamp, new THREE.Vector3(0, -1, 0));
-  const clampAt = new THREE.Vector2(tbb.max.x - 0.16, tbb.min.z + 0.1);
+  // Back-left of the table, so the whole lamp stays in frame beside the copy.
+  const clampAt = new THREE.Vector2(tbb.min.x + 0.14, tbb.min.z + 0.12);
   const lapAt = bounds(laptop).getCenter(new THREE.Vector3());
   const have = Math.atan2(headL.x - clampL.x, headL.z - clampL.z);
   const want = Math.atan2(lapAt.x - clampAt.x, lapAt.z - clampAt.y);
@@ -142,8 +143,9 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   const spill = new THREE.PointLight(0x9fc4ff, 0.5, 1.2, 2);
   spill.position.set(lap.x + 0.05, top + 0.18, lap.z + 0.25);
   scene.add(spill);
-  const rim = new THREE.SpotLight(0x3fd08f, 14, 0, 0.5, 0.8, 2);
-  rim.position.set(-1.6, 2.2, -1.8);
+  // Green rim from low behind: an edge on the laptop and lamp, never a wash over the table top.
+  const rim = new THREE.SpotLight(0x3fd08f, 10, 0, 0.45, 0.8, 2);
+  rim.position.set(-1.4, top + 0.25, -1.9);
   rim.target.position.copy(lap);
   scene.add(rim, rim.target);
 
@@ -155,7 +157,7 @@ export async function buildDesk(engine: Engine, o: DeskOptions) {
   const keys: Key[] = [
     { at: 0, shot: { pos: [lap.x + 1.05, top + 0.62, lap.z + 1.45], target: [lap.x - 0.12, top - 0.05, lap.z - 0.05], fov: 34 } },
     { at: 0.5, shot: { pos: sc.clone().addScaledVector(facing, 1.05).add(new THREE.Vector3(0.25, 0.25, 0)).toArray(), target: [sc.x - 0.02, sc.y - 0.04, sc.z], fov: 32 } },
-    { at: 1, shot: { pos: sc.clone().addScaledVector(facing, 0.48).add(new THREE.Vector3(0.02, 0.03, 0)).toArray(), target: sc.toArray(), fov: 30 } },
+    { at: 1, shot: { pos: sc.clone().addScaledVector(facing, 0.64).add(new THREE.Vector3(0.03, 0.04, 0)).toArray(), target: sc.toArray(), fov: 30 } },
   ];
   const rig = new CameraRig(camera, keys, 0.2);
   const projector = new HotspotProjector(camera, [screenAnchor], o.hotspots);
