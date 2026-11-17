@@ -37,6 +37,26 @@
  *  - `site.quiz`: the six quiz questions. Each has a checked source link.
  *  - `site.ui`: every interface word (menu, headings, table heads, button and
  *    figure labels, footer). Tokens like {n} are filled in by the site.
+ *  - `site.academics`: the Academics page's ordered results (headline
+ *    results first, then the others, then participation) and the school-topper
+ *    record. `site.lawDiplomacy` (formerly Model UN) and `site.work`
+ *    (Leadership & Work Experience) are ordered views of data kept in
+ *    `site.mun`, `site.experience`, `site.leadership` and `site.courses`: edit
+ *    the fact once there and these pages follow. `site.interestsPage` is the
+ *    Interests page. `site.contact.links` is the Contact page's link list.
+ *
+ * HOW TO ADD YOUR OWN PHOTOS AND LINKS
+ *  - Aviation photos: put the image files in /public/media/aviation/ (create
+ *    the folder), then in `site.interestsPage.items` (the "aviation" item)
+ *    fill in one of the six `gallery` slots, for example
+ *    { src: "/media/aviation/photo-1.jpg", alt: "What the photo shows",
+ *      caption: "Where and when" }. Empty slots show as "photo to come".
+ *    `alt` and `caption` must describe only what is really in the photo.
+ *  - LinkedIn and Instagram: in `site.contact.links`, paste the address into
+ *    `url` and delete `placeholder: true`. Until then they show as "to come".
+ *  - Any other image: put it in /public/media/ and use the path starting "/media/".
+ *  - Facts new in Ahaan's 17 Nov message are marked source: "client message".
+ *  - The phone number is never published; do not add it anywhere.
  */
 
 // ───────────────────────────── Types ─────────────────────────────
@@ -107,6 +127,8 @@ export type Stat = {
   label: string;
   note?: string; // context the reader should see, shown small
   editorNote?: string; // caveat for the editor only; never printed on the site
+  /** A second figure kept beside the headline one, for example the Nationals rank. */
+  secondary?: { value: string; label: string };
 };
 
 export type Evidence = {
@@ -160,6 +182,35 @@ export type Competition = {
   /** Placeholder slots for details the client has not supplied. */
   details?: Record<string, Editable>;
   note?: string;
+};
+
+/** Where a fact comes from. Facts told to us in conversation are "client message". */
+export type FactSource = "resume" | "client message" | "resume and client message";
+
+export type SourcedFact = { text: string; source: FactSource };
+
+/** A slot for one of Ahaan's own photos. Nothing renders while `src` is empty. */
+export type GallerySlot = { src: string; alt: string; caption: string };
+
+/** One result on the Academics page. */
+export type AcademicResult = {
+  id: string;
+  name: string;
+  /** "2025", "2018 – 2024", "2026" or "Year not stated". */
+  year: string;
+  /** The figure shown large, exactly as written: "AIR 10", "6 awards", "4th", "Semi-finals". */
+  figure: string;
+  /** Small tag beside the figure, for example "Round 1". */
+  tag?: string;
+  /** Qualifier directly after the figure, for example "of 3,000". */
+  outOf?: string;
+  detail?: string;
+  /** A second figure kept beside the first (National Finance Olympiad Nationals). */
+  secondary?: { figure: string; outOf?: string; label: string; detail?: string };
+  org?: string;
+  source: FactSource;
+  /** What came from where, when a result mixes sources. Not printed. */
+  sourceNote?: string;
 };
 
 export type Role = {
@@ -231,7 +282,7 @@ export const organisations: Record<string, Organisation> = {
 
 // ───────────────────────────── Site content ─────────────────────────────
 
-export const site = {
+const core = {
   // ── Identity ──
   identity: {
     name: "Ahaan Gupta",
