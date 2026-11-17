@@ -794,6 +794,10 @@ html:has(.home) body {
 .roll__visual {
   display: inline-flex;
 }
+.roll__space {
+  display: inline-block;
+  width: 1ch;
+}
 .roll__d {
   display: inline-block;
   height: 1.2em;

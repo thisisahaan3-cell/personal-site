@@ -78,7 +78,7 @@ def main():
     sy = ((cy - iy) / s).astype(int)
     inside = (sx[None, :] >= 0) & (sx[None, :] < im.width) & (sy[:, None] >= 0) & (sy[:, None] < im.height)
     sxc, syc = np.clip(sx, 0, im.width - 1), np.clip(sy, 0, im.height - 1)
-    L = smoothstep(0.1, 0.95, np.clip(tone_src[syc][:, sxc], 0, 1))
+    L = 0.15 + 0.85 * smoothstep(0.04, 0.95, np.clip(tone_src[syc][:, sxc], 0, 1))  # wall.ts portraitTone
     a = np.clip(alpha_src[syc][:, sxc], 0, 1) * inside
     Ll = np.concatenate([L[:, :1], L[:, :-1]], axis=1)
     up = L + 0.02 >= Ll

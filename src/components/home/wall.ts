@@ -97,13 +97,15 @@ float city(vec2 uv, float t) {
 float backdrop(vec2 uv) {
   if (uUseVideo > 0.5) {
     float l = lum(texture(uSource, uv).rgb);
-    return smoothstep(0.04, 0.8, l);
+    /* Night footage sits low: open the shadows so the whole wall moves, not only the brightest lights. */
+    return pow(smoothstep(0.015, 0.6, l), 0.75);
   }
   return city(uv, uTime);
 }
 
 /* Tone map -> 0..1. Height and brightness both follow L^0.7, so apparent brightness tracks the photograph. */
-float portraitTone(float t) { return smoothstep(0.1, 0.95, t); }
+/* A floor under the shadows so hair and the outline of the head read; highlights unchanged. */
+float portraitTone(float t) { return 0.15 + 0.85 * smoothstep(0.04, 0.95, t); }
 
 bool insideRect(vec2 p, vec4 r) { return p.x >= r.x && p.x <= r.x + r.z && p.y >= r.y && p.y <= r.y + r.w; }
 
@@ -206,7 +208,8 @@ void main() {
 
   /* Colour. */
   vec3 restCol = up ? TEXT : (portrait ? DOWN_P : DOWN);
-  float bright = portrait ? 0.12 + 0.88 * min(P, 1.0) : 0.26 * mix(0.3, 1.0, clamp(h, 0.0, 1.0));
+  /* Backdrop tops out at 60% so the face stays the brightest thing on the wall. */
+  float bright = portrait ? 0.12 + 0.88 * min(P, 1.0) : 0.6 * mix(0.25, 1.0, clamp(h, 0.0, 1.0));
   vec3 col = mix(seriesUp ? TEXT : DOWN, restCol * bright, e);
 
   /* Amber "last print": one column at a time across the wall, with a short tail. */
@@ -214,6 +217,13 @@ void main() {
   float print = dp >= -cell.x * 0.5 ? exp(-max(dp - cell.x * 0.5, 0.0) / (cell.x * 2.5)) : 0.0;
   print *= step(dp, cell.x * 30.0) * st;
   col = mix(col, AMBER * (portrait ? 1.0 : 0.7), print * (portrait ? 0.95 : 0.8));
+
+  /* Desktop: the backdrop quietens behind the name and descriptor so the copy stays legible. */
+  if (!portrait && uView.x >= 760.0) {
+    float qx = 1.0 - smoothstep(0.36, 0.5, c.x / uView.x);
+    float qy = smoothstep(0.3, 0.44, c.y / uView.y);
+    col *= 1.0 - 0.62 * qx * qy * e;
+  }
 
   /* Foot row: candles below the rule are quieter. */
   float foot = step(uFootY, c.y);

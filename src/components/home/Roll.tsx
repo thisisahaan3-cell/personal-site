@@ -8,7 +8,10 @@ export function Roll({ value }: { value: string }) {
       <span className="sr-only">{value}</span>
       <span className="roll__visual" aria-hidden="true">
         {Array.from(value).map((ch, i) => {
-          if (!/\d/.test(ch)) return <span key={i}>{ch === " " ? "\u00a0" : ch}</span>;
+          // A space is an explicit one-character spacer: a bare space inside the inline-flex row
+          // can collapse at rest in some engines, which printed "AIR54".
+          if (ch === " ") return <span key={i} className="roll__space" />;
+          if (!/\d/.test(ch)) return <span key={i}>{ch}</span>;
           const d = Number(ch);
           // d+1 … d+9, d, d+1: the strip ends on the real digit, with one spare for the overshoot.
           const strip = [...Array.from({ length: 9 }, (_, k) => (d + k + 1) % 10), d, (d + 1) % 10];
