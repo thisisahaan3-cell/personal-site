@@ -1066,6 +1066,15 @@ const core = {
       internshipsHeading: "Internships",
       leadershipHeading: "Leadership and positions of responsibility",
       fellowshipNote: "The SRCC FIC Finance Research Fellowship is on the Finance page.",
+      /** The dossiers (set piece). */
+      filesLabel: "Entries",
+      hint: "Scroll to open each file. The arrow keys and the index step between them.",
+      hintTouch: "Swipe to open each file.",
+      previous: "Previous entry",
+      next: "Next entry",
+      counter: "{n} of {total}",
+      loading: "Bringing in the files",
+      listHeading: "In brief",
     },
     /** Interests page. */
     interestsPage: {
@@ -1207,7 +1216,7 @@ const core = {
       experienceHeading: "Experience and fellowships",
       columns: { period: "Period", role: "Role", points: "Details" },
       /** Version 2: the stints chart (set piece). Every dated entry of `timeline`, on lanes. */
-      stintsHeading: "Stints",
+      stintsHeading: "Stints", // unused since v2.1 (the stints chart was removed)
       stintsIntro: "Every dated entry, 2013 to 2026, drawn at the precision the resume states. Drag the playhead, tap a bar or use the arrow keys.",
       stintsIntroPhone: "Every dated entry, 2013 to 2026. Swipe along the years and tap a bar.",
       lanes: {
