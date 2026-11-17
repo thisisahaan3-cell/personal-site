@@ -170,12 +170,20 @@ function Stage({
       b.style.width = `${q.w}px`;
       b.style.height = `${q.h}px`;
     });
+    // The readout is anchored in the right-hand column (CSS), clear of the headline's column;
+    // only its pointer follows the raised placard.
     const r = readout.current;
     const a = activeIndex.current;
-    if (r && a >= 0 && p[a]) {
-      const W = st?.clientWidth ?? 0;
-      const x = Math.max(150, Math.min(W - 150, p[a].x));
-      r.style.transform = `translate3d(${x}px, ${p[a].top - 16}px, 0) translate(-50%, -100%)`;
+    if (r && st && a >= 0 && p[a]) {
+      const box = r.getBoundingClientRect();
+      const sb = st.getBoundingClientRect();
+      const ax = box.left - sb.left;
+      const ay = box.bottom - sb.top;
+      const dx = p[a].x - ax;
+      const dy = p[a].top - 8 - ay;
+      const len = Math.hypot(dx, dy);
+      r.style.setProperty("--lead-len", `${Math.max(0, len)}px`);
+      r.style.setProperty("--lead-angle", `${Math.atan2(dy, dx)}rad`);
     }
   }, []);
 

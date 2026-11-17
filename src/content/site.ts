@@ -287,7 +287,8 @@ export const site = {
   mediaSlots: {
     finance: { src: "", poster: "", kind: "still", alt: "", aspect: "16 / 9" },
     modelUn: { src: "", poster: "", kind: "still", alt: "", aspect: "16 / 9" },
-  } as Record<"finance" | "modelUn", { src: string; poster: string; kind: "loop" | "still"; alt: string; aspect: string }>,
+    leadership: { src: "", poster: "", kind: "still", alt: "", aspect: "16 / 9" },
+  } as Record<"finance" | "modelUn" | "leadership", { src: string; poster: string; kind: "loop" | "still"; alt: string; aspect: string }>,
 
   // ── Hero ──
   hero: {
@@ -972,6 +973,23 @@ export const site = {
     academics: {
       coursesHeading: "Courses and certifications",
       columns: { year: "Year", course: "Course", provider: "Provider", detail: "Detail" },
+      /** Version 2: the tape (set piece). Values are read from `education`, `stats` and `timeline`. */
+      tapeHeading: "The tape",
+      tapeHint: "Scroll to climb. Drag the tape and it springs back.",
+      tapeKeys: "Arrow keys nudge the tape.",
+      /** Read by assistive technology in place of the drawn instrument. */
+      tapeLabel: "Instrument tape settled on {figure}, {exam}. A bug marks the {floor} floor: {floorLabel}. Six marks for the Scholar Badge, {from} to {to}.",
+      schoolHeading: "School record",
+      honoursHeading: "Honours",
+      sinceLabel: "At the school",
+      competitionsHeading: "Academic and quiz competitions",
+      olympiadsHeading: "Olympiads",
+      quizResultsHeading: "Quiz results",
+      quizHeading: "One question at a time",
+      quizIntro: "Answer with a click or the keys A to D to see the explanation and its source.",
+      sourceLabel: "Source",
+      quizFinish: "See the result",
+      moreCompetitions: "More competitions",
     },
 
     mun: {
@@ -1019,6 +1037,26 @@ export const site = {
       positionsHeading: "Positions of responsibility",
       experienceHeading: "Experience and fellowships",
       columns: { period: "Period", role: "Role", points: "Details" },
+      /** Version 2: the stints chart (set piece). Every dated entry of `timeline`, on lanes. */
+      stintsHeading: "Stints",
+      stintsIntro: "Every dated entry, 2013 to 2026, drawn at the precision the resume states. Drag the playhead, tap a bar or use the arrow keys.",
+      stintsIntroPhone: "Every dated entry, 2013 to 2026. Swipe along the years and tap a bar.",
+      lanes: {
+        school: "School",
+        courses: "Courses",
+        mun: "Model UN and parliament",
+        competitions: "Competitions",
+        leadership: "Leadership",
+        work: "Work and service",
+      },
+      legendYear: "Year stated",
+      legendMonth: "Months stated",
+      legendPresent: "To present",
+      playheadLabel: "Timeline: choose an entry",
+      entryCounter: "{n} of {total}",
+      undatedHeading: "Not dated on the resume",
+      ongoingHeading: "Ongoing",
+      workHeading: "Work and service",
     },
 
     competitions: {
@@ -1112,6 +1150,13 @@ export const site = {
     contact: {
       copyEmail: "Copy email address",
       copied: "Copied",
+      /** Version 2 contact page. */
+      emailLabel: "Email",
+      lensHint: "Move over the portrait to see the photograph. Click to redraw it.",
+      lensHintTouch: "Drag across the portrait to see the photograph.",
+      interestsHeading: "Interests",
+      /** {value} and {n} come from `stats` (books). */
+      booksDrawn: "{value} books, drawn as {n} spines",
     },
 
     footer: {
