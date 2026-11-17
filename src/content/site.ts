@@ -783,9 +783,9 @@ const core = {
 
   // ── Social links (none supplied) ──
   social: [
-    { id: "linkedin", label: "LinkedIn", url: null as string | null, placeholder: true },
+    { id: "linkedin", label: "LinkedIn", url: "https://linkedin.com/in/ahaan-gupta" as string | null, placeholder: false },
     { id: "github", label: "GitHub", url: null as string | null, placeholder: true },
-    { id: "instagram", label: "Instagram", url: null as string | null, placeholder: true },
+    { id: "instagram", label: "Instagram", url: "https://www.instagram.com/ahaan_dr3/" as string | null, placeholder: false },
   ],
   socialNote: ph("Social links — to be supplied by Ahaan. Leave a link empty to hide it."),
 
@@ -803,8 +803,8 @@ const core = {
     links: [
       { id: "email", label: "Email", url: "mailto:thisisahaan@gmail.com", display: "thisisahaan@gmail.com" },
       { id: "resume", label: "Resume", url: "/Ahaan-Gupta-Resume.pdf", display: "Download (PDF)" },
-      { id: "linkedin", label: "LinkedIn", url: "", display: "", placeholder: true as boolean | undefined },
-      { id: "instagram", label: "Instagram", url: "", display: "", placeholder: true as boolean | undefined },
+      { id: "linkedin", label: "LinkedIn", url: "https://linkedin.com/in/ahaan-gupta", display: "linkedin.com/in/ahaan-gupta", placeholder: false as boolean | undefined },
+      { id: "instagram", label: "Instagram", url: "https://www.instagram.com/ahaan_dr3/", display: "@ahaan_dr3", placeholder: false as boolean | undefined },
     ] as { id: string; label: string; url: string; display: string; placeholder?: boolean }[],
   },
 

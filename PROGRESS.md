@@ -18,12 +18,13 @@ Structure and content
 - [ ] C9. New Interests page, interactive: aviation (IIT Madras aerospace course, 8 weeks, exemplary-performance certificate; photo gallery slots for his aviation photos), reading (400+ books), Formula 1 (watches every race), tennis (participated in and won tournaments)
 - [ ] C10. Leadership renamed "Leadership & Work Experience": internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit
 - [ ] C11. Academics: topper in Grade 10; topper every year Grade 7–11; NFO shown as AIR 10 (Round 1), SRCC AIR 46 of 3,000, SOF IEO 6 awards; then SHRITEQ, Quiz to Conquer and the rest with ranks where given
-- [ ] C12. Contact links: LinkedIn, Instagram, Email, Resume (LinkedIn/Instagram are placeholders until he sends URLs)
+- [ ] C12. Contact links: LinkedIn (https://linkedin.com/in/ahaan-gupta), Instagram (https://www.instagram.com/ahaan_dr3/), Email, Resume — URLs are now in `site.contact.links` and `site.social`; the Contact page still has to be built (Run B)
 
 Assets and code
 - [x] C13. 3D asset list presented to the client (done in chat 17 Nov) and recorded with licences in `content/research/assets.md`
 - [x] C14. 22 Poly Haven models (meshopt GLB, WebP textures, 7.8 MB total) in `public/models/` and 4 HDRIs in `public/hdri/`; `scripts/fetch-polyhaven.mjs` fetches more (run with `NODE_USE_ENV_PROXY=1`). `decorative_book_set_01` has no glTF and was skipped; check the chess set's scale before use
-- [ ] C15. Sketchfab models (airliner, F1-style car, tennis racket, chamber furniture) — BLOCKED until the client supplies a free Sketchfab API token (requested through the secure form)
+- [ ] C15. Sketchfab models: the client supplied his API token on 17 Nov (kept OUTSIDE the repo in the session scratchpad at `private/sketchfab-token`; never commit it; scripts read `SKETCHFAB_TOKEN`). content-researcher is sourcing airliner, formula car, tennis racket, lectern/microphone and gavel into `public/models/`, with attributions in `src/content/credits.ts`
+- [ ] C19. Credit line for CC-BY models at the very bottom of the website (client's request): a footer on every page rendering `src/content/credits.ts` (Run B)
 - [ ] C16. Code organised for his edits; `MEDIA.md` says exactly where each of his own photos, clips and models goes; final message lists what to upload
 - [ ] C17. Subagents on Opus 5.5 for design/engineering; frontend-design and ui-ux-pro-max skills used
 - [ ] C18. Deployed; hourly task disabled when everything above is done
