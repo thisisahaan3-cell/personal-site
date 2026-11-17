@@ -1053,6 +1053,8 @@ export const site = {
       legendMonth: "Months stated",
       legendPresent: "To present",
       playheadLabel: "Timeline: choose an entry",
+      earlier: "Earlier entry",
+      later: "Later entry",
       entryCounter: "{n} of {total}",
       undatedHeading: "Not dated on the resume",
       ongoingHeading: "Ongoing",
