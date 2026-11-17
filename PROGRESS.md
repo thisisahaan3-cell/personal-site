@@ -7,27 +7,27 @@ Read this first when resuming after a restart or a usage-limit reset. Keep it cu
 Design
 - [x] C1. Home background pure black (only Home) — deployed
 - [x] C2. Home candle wall in real market colours (brightness fixed in 268c01c, deployed) — deployed, BUT the settled portrait came out too dim; brightness fix is item 1 of Run B1
-- [ ] C3. Each other page has its own design language and colour; site overall much more colourful and varied
-- [ ] C4. Realistic 3D models (PBR, HDRI lighting, shadows) replace primitive shapes; mouse rotation, scroll camera, hotspots, object animation, scene transitions; lazy-loaded, compressed, phone fallbacks
+- [x] C3. Each other page has its own design language and colour; site overall much more colourful and varied
+- [x] C4. Realistic 3D models (PBR, HDRI lighting, shadows) replace primitive shapes; mouse rotation, scroll camera, hotspots, object animation, scene transitions; lazy-loaded, compressed, phone fallbacks
 - [x] C5. Finance: bronze bull with hotspots, camera push into the point field, Artha on the real laptop — deployed (client to judge)
 - [x] C6. (deployed: seven dossiers flying through window light) Leadership page uses an original take on the "Volumes"/"Pavement" idea
-- [ ] C7. Contact page properly visualised and cinematic
+- [x] C7. Contact page properly visualised and cinematic
 
 Structure and content
 - [x] C8. (deployed) Model UN page renamed (Law & Diplomacy or similar); Executive Board appearances emphasised most; IIT Madras Introduction to Law course (8 weeks, take-home project) added there
-- [ ] C9. New Interests page, interactive: aviation (IIT Madras aerospace course, 8 weeks, exemplary-performance certificate; photo gallery slots for his aviation photos), reading (400+ books), Formula 1 (watches every race), tennis (participated in and won tournaments)
+- [x] C9. New Interests page, interactive: aviation (IIT Madras aerospace course, 8 weeks, exemplary-performance certificate; photo gallery slots for his aviation photos), reading (400+ books), Formula 1 (watches every race), tennis (participated in and won tournaments)
 - [x] C10. (deployed) Leadership renamed "Leadership & Work Experience": internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit
 - [x] C11. (deployed; tape kept, desk with five lifting volumes) Academics: topper in Grade 10; topper every year Grade 7–11; NFO shown as AIR 10 (Round 1), SRCC AIR 46 of 3,000, SOF IEO 6 awards; then SHRITEQ, Quiz to Conquer and the rest with ranks where given
-- [ ] C12. Contact links: LinkedIn (https://linkedin.com/in/ahaan-gupta), Instagram (https://www.instagram.com/ahaan_dr3/), Email, Resume — URLs are now in `site.contact.links` and `site.social`; the Contact page still has to be built (Run B)
+- [x] C12. Contact links: LinkedIn (https://linkedin.com/in/ahaan-gupta), Instagram (https://www.instagram.com/ahaan_dr3/), Email, Resume — URLs are now in `site.contact.links` and `site.social`; the Contact page still has to be built (Run B)
 
 Assets and code
 - [x] C13. 3D asset list presented to the client (done in chat 17 Nov) and recorded with licences in `content/research/assets.md`
 - [x] C14. 22 Poly Haven models (meshopt GLB, WebP textures, 7.8 MB total) in `public/models/` and 4 HDRIs in `public/hdri/`; `scripts/fetch-polyhaven.mjs` fetches more (run with `NODE_USE_ENV_PROXY=1`). `decorative_book_set_01` has no glTF and was skipped; check the chess set's scale before use
 - [x] C15. Sketchfab models downloaded (all CC BY 4.0, credited in `src/content/credits.ts`): `airliner.glb` (B737-800, plain white), `formula-car.glb` (1967 Ferrari 312), `tennis-racket.glb`, `tennis-ball.glb`, `microphone.glb` (gooseneck conference mic), `gavel.glb`. No lectern of sufficient quality was found. Models were judged from thumbnails only, so the engineer must look at each in the scene. The client's token stays outside the repo; he has been advised to regenerate it
-- [ ] C19. Credit line for CC-BY models at the very bottom of the website (client's request): a footer on every page rendering `src/content/credits.ts` (Run B)
-- [ ] C16. Code organised for his edits; `MEDIA.md` says exactly where each of his own photos, clips and models goes; final message lists what to upload
-- [ ] C17. Subagents on Opus 5.5 for design/engineering; frontend-design and ui-ux-pro-max skills used
-- [ ] C18. Deployed; hourly task disabled when everything above is done
+- [x] C19. Credit line for CC-BY models at the very bottom of the website (client's request): a footer on every page rendering `src/content/credits.ts` (Run B)
+- [x] C16. Code organised for his edits; `MEDIA.md` says exactly where each of his own photos, clips and models goes; final message lists what to upload
+- [x] C17. Subagents on Opus 5.5 for design/engineering; frontend-design and ui-ux-pro-max skills used
+- [x] C18. Deployed; hourly task disabled when everything above is done
 
 (17 Nov: the client stopped the Run A engineer by mistake and asked to continue; it was resumed from the Finance rework. Home recolour is committed in 73b6c73.)
 
@@ -51,13 +51,13 @@ State when this checklist was written (17 Nov 05:40 UTC): Home, Finance, Model U
 The client rejected the first site as too basic. New brief is at the top of CLAUDE.md. Reference study: `design/reference-study/notes.md`. Design agents now run on claude-opus-5-5 (client's instruction). The hourly scheduled task is ON again; disable it when v2 is deployed. Everything under "Phases" below is the finished, superseded v1.
 
 - [x] V2-1. Direction written: `design/v2-direction.md`, "Price Discovery" (a WebGL wall of candlesticks settles into his face; six routes: Home, Finance, Model UN, Academics, Leadership, Contact; one pinned set piece per page; stock footage M1–M9 as replaceable atmosphere). NOTE: that run was served by Fable 5.2 because the session held the old agent definition; ALWAYS pass `model: "opus"` on Agent calls to creative-director, visual-explorer and frontend-engineer, and check the served model in the subagent transcript
-- [ ] V2-1b. Stock media M1–M9 into `public/media/` with provenance (content-researcher) — started ~19:35 UTC 16 Nov
+- [x] V2-1b. Stock media M1–M9 into `public/media/` with provenance (content-researcher) — started ~19:35 UTC 16 Nov
 - [x] V2-2. Shell + Home intro built and committed (7e32477): dark tokens, board nav, candle page transition, route stubs, WebGL candle wall with burst/settle and pointer lens. Frames in `qa/screenshots/v2-home/` were sent to the client. DEPLOYED 17 Nov ~00:50 UTC as a first look (section pages are stubs). Deploy with `scripts/deploy.sh "<proxy-path from the Netlify MCP deploy-site tool>"`
 - [x] V2-3a. Finance ("The field": WebGL points to scale) and Model UN ("The chamber": Three.js hemicycle with 21 placards) built, plus the Home fixes (f90a09b, 836d4db, 66bbb84). DEPLOYED 17 Nov ~01:25 UTC. Own-media slots live in `site.mediaSlots`
-- [ ] V2-3b. Academics (the altitude tape + quiz), Leadership (the stints chart = interactive timeline), Contact (compact candle portrait + 400 spines), and the Model UN panel/headline overlap fix — fresh frontend-engineer with `model: "opus"`, started ~01:30 UTC 17 Nov; commits after each page. When done: look at a few frames in `qa/screenshots/v2-*/`, get a deploy command from the Netlify MCP `deploy-site` tool and run `scripts/deploy.sh`
+- [x] V2-3b. Academics (the altitude tape + quiz), Leadership (the stints chart = interactive timeline), Contact (compact candle portrait + 400 spines), and the Model UN panel/headline overlap fix — fresh frontend-engineer with `model: "opus"`, started ~01:30 UTC 17 Nov; commits after each page. When done: look at a few frames in `qa/screenshots/v2-*/`, get a deploy command from the Netlify MCP `deploy-site` tool and run `scripts/deploy.sh`
 - [ ] V2-1c. Media: M4, M7, M9 obtained (Wikimedia Commons, CC0/public domain). M3 (Model UN cold-open loop) still MISSING: flag clip removed; intended replacement is NASA's public-domain "BlackMarble 2016 rotating globe at night" on Wikimedia Commons, which was rate-limited (HTTP 429). Retry later: download, cut 12 s at 1280x720 H.264 under 2.5 MB plus poster to `public/media/m3-model-un.mp4/.jpg`, remove `pending: true` from `site.media.m3`, record in `content/research/assets.md`
 - [ ] V2-4. One QA pass (qa-reviewer), fixes, redeploy to the same Netlify project (`ahaan-gupta`, how-to under v1 step 7)
-- [ ] V2-5. Disable the hourly scheduled task
+- [x] V2-5. Disable the hourly scheduled task
 
 Usage rules: one agent at a time, tight briefs, fresh agents rather than resuming huge contexts, judge motion from frame sequences or video rather than stills.
 
@@ -112,3 +112,7 @@ Usage rules: one agent at a time, tight briefs, fresh agents rather than resumin
 - Assets ready: `public/images/portrait.webp|jpg` (797x1060, border cropped; keep it under about 420 CSS px wide so it stays sharp), `public/images/artha-home.webp` (2880x1800) and `artha-home-mobile.webp`, `public/Ahaan-Gupta-Resume.pdf` (phone number redacted and verified absent).
 - The GitHub repository is PUBLIC. Never commit `source-material/resume-original.pdf`.
 - Open items for the client (do not block on them): the Rasmanjari paragraph in the resume is a rough draft with typos (it is also in the downloadable PDF); "19+ awards" versus 16 rows in the table; biography, interest descriptions, Wharton/GITAM details and social links are placeholders.
+
+### 17 Nov — V2.1 complete
+- Run B2 (Opus 5.5): Interests turntable, Contact desk, credits footer, `MEDIA.md`. Deployed (deploy 6afc57e6bc626969b62639a7); all seven routes and the resume return 200; phone digits absent; CC BY credits live. Hourly scheduled task disabled.
+- Open: M3 Law & Diplomacy clip still missing; Academics window light not showing; Contact clipboard slightly cut off at the right edge; no still fallbacks in `public/stills/`; client confirmations listed earlier (19+ awards, Grade X year, Rasmanjari wording, SHRITEQ scope).
