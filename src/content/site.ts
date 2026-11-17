@@ -370,7 +370,13 @@ const core = {
     { id: "conferences", value: "20+", label: "Prestigious MUN and debate conferences" },
     { id: "awardsSummary", value: "19+", label: "Awards (resume's own summary line)", editorNote: "The awards table lists 16 delegate awards; what the 19+ counts is to be confirmed." },
     { id: "delegateAwards", value: "16", label: "Delegate awards listed in the table", note: "6 Best Delegate" },
-    { id: "nfo", value: "AIR 54", label: "National Finance Olympiad 2025, Nationals", note: "Out of 10,000+ participants. Round 1: AIR 10." },
+    {
+      id: "nfo",
+      value: "AIR 10",
+      label: "National Finance Olympiad 2025, Round 1",
+      note: "Round 1 rank. Nationals (Round 2): AIR 54 out of 10,000+ participants.",
+      secondary: { value: "AIR 54 of 10,000+", label: "Nationals (Round 2)" },
+    },
     { id: "fellowship", value: "100 of 2,000", label: "SRCC FIC Finance Research Fellowship", note: "Selected from 2,000 candidates into a cohort of 100." },
     { id: "books", value: "400+", label: "Books read", note: "Across fiction, non-fiction and philosophy." },
   ] as Stat[],
@@ -538,7 +544,8 @@ const core = {
       year: "2025",
       domain: "finance",
       org: "srcc",
-      results: ["All India Rank 46."],
+      results: ["All India Rank 46 out of 3,000."],
+      note: "The rank is from the resume; the field of 3,000 is from the client's 17 Nov message.",
     },
     {
       name: "SHISFEST — Vision To Venture",
@@ -695,8 +702,8 @@ const core = {
       evidence: [
         { text: "Resume profile: \"Interested in the fields of civil aviation and finance.\"", source: "resume" },
         { text: "SRCC FIC Finance Research Fellowship (selected from 2,000 candidates into a cohort of 100).", source: "resume" },
-        { text: "National Finance Olympiad 2025: All India Rank 54 (Nationals) out of 10,000+ participants.", source: "resume" },
-        { text: "SRCC Finance Olympiad 2025: All India Rank 46.", source: "resume" },
+        { text: "National Finance Olympiad 2025: All India Rank 10 in Round 1; All India Rank 54 (Nationals) out of 10,000+ participants.", source: "resume" },
+        { text: "SRCC Finance Olympiad 2025: All India Rank 46 out of 3,000 (the 3,000 from the client's 17 Nov message).", source: "client message" },
         { text: "SHISFEST, Vision To Venture 2026: First Position.", source: "resume" },
         { text: "Taking part in the Wharton Global High School Investment Competition (ongoing).", source: "client message" },
         { text: "Built Artha, a finance website, as a portfolio project.", source: "client message" },
@@ -738,7 +745,7 @@ const core = {
       id: "motorsport",
       name: "Formula 1 and motorsport",
       statedIn: ["resume", "client message"], // resume lists Formula 1 under Interests
-      evidence: [],
+      evidence: [{ text: "Watches every Formula 1 race.", source: "client message" }],
       statedLine: "Listed under Interests on the resume.",
       description: ph("Formula 1 and motorsport — a line in Ahaan's own words."),
     },
@@ -768,7 +775,7 @@ const core = {
       id: "tennis",
       name: "Tennis",
       statedIn: ["resume", "client message"],
-      evidence: [],
+      evidence: [{ text: "Has taken part in and won tennis tournaments.", source: "client message" }],
       statedLine: "Listed under Interests on the resume.",
       description: ph("Tennis — a line in Ahaan's own words."),
     },
@@ -803,7 +810,7 @@ const core = {
     { year: 2024, title: "Five delegate awards", detail: "Best Delegate at PRASHTA MUN (UNGA). High Commendation at ASBBS MUN (UNHRC). Special Mention at DAV Sansad (AIPPM). Honourable Mention at BBIMUN (UNODC). Verbal Mention at SHISMUN (FIA).", category: "mun" },
     { year: 2025, title: "Six delegate awards", detail: "Best Delegate at SHISMUN (CCC), GUMUN (FIA) and Online Youth Summit (UNSC). Runner Up at Lotus Sansad (Rajya Sabha). Special Mention at Aurelia DPSIMUN (FIA). Honourable Mention at BBIMUN (UNSC).", category: "mun" },
     { year: 2025, title: "National Finance Olympiad", detail: "Round 1: All India Rank 10. Round 2 (Nationals): All India Rank 54 out of 10,000+ participants; Certificate of National Excellence.", category: "finance" },
-    { year: 2025, title: "SRCC Finance Olympiad", detail: "All India Rank 46.", category: "finance", org: "srcc" },
+    { year: 2025, title: "SRCC Finance Olympiad", detail: "All India Rank 46 out of 3,000.", category: "finance", org: "srcc" },
     { year: 2025, title: "National Youth Parliament Scheme", detail: "Ministry of Parliamentary Affairs.", category: "parliament" },
     { year: 2025, title: "Student Council: Environment Committee", detail: "Elected to the Student Council's Environment Committee.", category: "leadership", org: "lotusValley" },
     { year: 2025, title: "NGO internship, We Care Foundation", detail: "Educated 50+ students across 2025 in Mathematics, English, finance and civic sense.", category: "internship" },
@@ -899,11 +906,16 @@ const core = {
     pages: {
       home: "Home",
       finance: "Finance",
-      modelUn: "Model UN",
+      modelUn: "Law & Diplomacy", // renamed from "Model UN" (client, 17 Nov); same page and route
       academics: "Academics",
-      leadership: "Leadership",
+      leadership: "Leadership & Work Experience", // renamed from "Leadership" (client, 17 Nov)
+      interests: "Interests", // new page (client, 17 Nov)
       contact: "Contact",
     },
+    /** Shorter names for tight spaces (board, buttons). Fall back to `pages` where absent. */
+    pagesShort: {
+      leadership: "Leadership & Work",
+    } as Record<string, string>,
     /** The board: the persistent navigation. */
     board: {
       label: "Main",
@@ -935,6 +947,10 @@ const core = {
       steps: {
         nfo: {
           figure: "AIR 54",
+          /** The headline for this result is Round 1 (AIR 10); the plotted field below is Nationals. */
+          headline: "AIR 10",
+          headlineLabel: "National Finance Olympiad 2025, Round 1",
+          secondary: "Nationals: AIR 54 of 10,000+",
           pool: "10,000+",
           scale: "10,000+ participants, drawn as 10,000",
           scalePhone: "10,000+ participants, drawn as 1,000: one point for every 10",
@@ -944,7 +960,7 @@ const core = {
           scale: "2,000 candidates, drawn as 2,000; the 100 selected stay lit",
           scalePhone: "2,000 candidates, drawn as 200: one point for every 10",
         },
-        srcc: { figure: "AIR 46", scale: "Field size not stated, so only the rank is drawn" },
+        srcc: { figure: "AIR 46", pool: "3,000", outOf: "of 3,000", scale: "Out of 3,000. Only the rank is drawn" },
         shisfest: { figure: "1st", scale: "Field size not stated, so only the position is drawn" },
       },
       /** Pointer readout over the field. */
@@ -972,6 +988,39 @@ const core = {
       bench: "Parliamentary programmes",
       close: "Close",
       docketHeading: "The record",
+    },
+    /** Law & Diplomacy page (the former Model UN page). Order of the page: Executive Board, awards, parliament, course. */
+    lawDiplomacy: {
+      title: "Law & Diplomacy",
+      executiveBoardHeading: "Executive Board",
+      delegateAwardsHeading: "Delegate awards",
+      parliamentaryHeading: "Parliamentary programmes",
+      courseHeading: "Law course",
+      courseSource: "IIT Madras Certification",
+    },
+    /** Leadership & Work Experience page. */
+    work: {
+      title: "Leadership & Work Experience",
+      internshipsHeading: "Internships",
+      leadershipHeading: "Leadership and positions of responsibility",
+      fellowshipNote: "The SRCC FIC Finance Research Fellowship is on the Finance page.",
+    },
+    /** Interests page. */
+    interestsPage: {
+      title: "Interests",
+      factsHeading: "What he has done",
+      pointersHeading: "Evidence for the other interests is on these pages",
+      galleryHeading: "Photographs",
+      galleryEmpty: "Photo to come",
+      galleryNote: "His own aviation photographs will appear here.",
+      openPage: "Open {page}",
+    },
+    academicsPage: {
+      schoolTopperHeading: "School topper",
+      headlineHeading: "Headline results",
+      otherHeading: "Other results",
+      participationHeading: "Also took part in",
+      nationalsLabel: "Nationals",
     },
     nav: {
       chaptersLabel: "Chapters",
@@ -1123,7 +1172,7 @@ const core = {
       financeRows: [
         { id: "nfo-round-1", figure: "AIR 10", name: "National Finance Olympiad", stage: "Round 1", year: "2025", results: ["All India Rank 10"], org: "nfo" },
         { id: "nfo-nationals", figure: "AIR 54", name: "National Finance Olympiad", stage: "Nationals", year: "2025", results: ["All India Rank 54 out of 10,000+ participants", "Certificate of National Excellence"], org: "nfo" },
-        { id: "srcc-olympiad", figure: "AIR 46", name: "SRCC Finance Olympiad", year: "2025", results: ["All India Rank 46"], org: "srcc" },
+        { id: "srcc-olympiad", figure: "AIR 46", name: "SRCC Finance Olympiad", year: "2025", results: ["All India Rank 46 out of 3,000"], org: "srcc" },
         { id: "srcc-fic", figure: "100 of 2,000", name: "SRCC FIC Finance Research Fellowship", year: "Date not stated", results: ["Selected from 2,000 candidates into a cohort of 100"], org: "srcc" },
       ],
       /** Figure 3 (two fields). Only these four values are plotted. */
@@ -1205,6 +1254,9 @@ const core = {
       copied: "Copied",
       /** Version 2 contact page. */
       emailLabel: "Email",
+      resumeLabel: "Resume",
+      linksHeading: "Find him",
+      linkToCome: "To come",
       lensHint: "Move over the portrait to see the photograph. Click to redraw it.",
       lensHintTouch: "Drag across the portrait to see the photograph.",
       interestsHeading: "Interests",
