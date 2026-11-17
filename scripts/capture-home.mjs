@@ -74,55 +74,68 @@ if (want("intro")) {
 
 if (want("interact")) {
   const { context, page } = await open({ width: 1440, height: 900 });
-  await page.goto(base + "/", { waitUntil: "commit" });
-  await introStart(page);
-  await page.waitForTimeout(3600);
-  // Lens over the face.
+  const seek = await frozenIntro(page);
+  await seek(4.0);
+  const run = (ms) => page.clock.runFor(ms);
   const face = await page.evaluate(() => {
     const r = document.querySelector(".home__frame").getBoundingClientRect();
     return { x: r.left + r.width * 0.52, y: r.top + r.height * 0.42 };
   });
+  // Lens over the face.
   await page.mouse.move(face.x - 200, face.y + 100);
-  await page.mouse.move(face.x, face.y, { steps: 8 });
-  await page.waitForTimeout(500);
+  await page.mouse.move(face.x, face.y - 20, { steps: 8 });
+  await run(600);
   await shot(page, "lens-face");
-  // Fast sweep: capture mid-sweep and just after.
-  await page.mouse.move(face.x - 500, face.y + 60);
-  await page.waitForTimeout(150);
-  await page.mouse.move(face.x + 200, face.y - 60, { steps: 4 });
+  // Fast sweep (all moves land in one frame, so the stretch is at its peak), then 700ms later.
+  await page.mouse.move(face.x - 520, face.y + 80);
+  await run(200);
+  await page.mouse.move(face.x - 120, face.y + 10, { steps: 4 });
+  await run(32);
   await shot(page, "sweep-fast");
-  await page.waitForTimeout(700);
+  await run(700);
   await shot(page, "sweep-after-700ms");
-  // Destination hovered.
+  // Destination hovered: digit roll (CSS, real time), amber rule, the wall leans.
   await page.hover(".dest-row__item:nth-child(1) .dest");
-  await page.waitForTimeout(450);
+  await run(500);
+  await page.waitForTimeout(800);
   await shot(page, "dest-hover");
   // Click replay on the wall.
-  await page.mouse.move(400, 300);
-  await page.waitForTimeout(300);
-  await page.mouse.click(400, 300);
-  await page.waitForTimeout(180);
-  await shot(page, "replay-180ms");
-  await page.waitForTimeout(320);
+  await page.mouse.move(420, 260);
+  await run(400);
+  await page.mouse.click(420, 260);
+  await run(160);
+  await shot(page, "replay-160ms");
+  await run(340);
   await shot(page, "replay-500ms");
-  await page.waitForTimeout(700);
+  await run(700);
   await shot(page, "replay-1200ms");
   await context.close();
 }
 
 if (want("transition")) {
+  // Real clock; every animation is paused while each frame is captured.
   const { context, page } = await open({ width: 1440, height: 900 });
   await page.goto(base + "/", { waitUntil: "commit" });
   await introStart(page);
   await page.waitForTimeout(3500);
+  const freeze = () => page.evaluate(() => document.getAnimations().forEach((a) => a.pause()));
+  const thaw = () => page.evaluate(() => document.getAnimations().forEach((a) => a.play()));
   await page.click(".dest-row__item:nth-child(3) .dest");
-  const t = Date.now();
-  for (const ms of [200, 480, 760]) {
-    const wait = t + ms - Date.now();
-    if (wait > 0) await page.waitForTimeout(wait);
-    await shot(page, `transition-${ms}ms`);
-  }
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(110);
+  await freeze();
+  await shot(page, "transition-1-rising");
+  await thaw();
+  await page.waitForFunction(() => document.querySelectorAll(".flap__cell").length > 0);
+  await page.waitForTimeout(90);
+  await freeze();
+  await shot(page, "transition-2-flap");
+  await thaw();
+  await page.waitForFunction(() => (document.querySelector(".tx__col:nth-child(48)")?.getAnimations().length ?? 0) >= 2);
+  await page.waitForTimeout(120);
+  await freeze();
+  await shot(page, "transition-3-dropping");
+  await thaw();
+  await page.waitForTimeout(1500);
   await shot(page, "page-academics");
   console.log("url after transition", page.url());
   await context.close();
