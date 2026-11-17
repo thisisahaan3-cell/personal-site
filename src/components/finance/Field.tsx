@@ -5,13 +5,13 @@ import { site } from "@/content/site";
 import { fill } from "@/lib/content";
 import { useReducedMotion } from "@/lib/motion";
 import { scrollToY } from "@/components/SmoothScroll";
+import { useStage } from "@/components/three/Stage3D";
 import {
   CanvasRenderer,
   columnPoint,
   columnRankAt,
   FieldSim,
   geometry,
-  GLRenderer,
   ordinalKey,
   rulePoint,
   STATES,
@@ -188,6 +188,7 @@ function Stage({ state: liveState, fixed, go, pinned }: { state?: number; fixed?
   const stateRef = useRef(state);
   const startedRef = useRef(started);
   const wake = useRef<() => void>(() => {});
+  const stageApi = useStage();
 
   // Build the simulation and renderer; rebuild when the phone/desktop scale changes.
   useEffect(() => {
@@ -213,11 +214,14 @@ function Stage({ state: liveState, fixed, go, pinned }: { state?: number; fixed?
         let r: FieldRenderer;
         if (g.phone || fixed) r = new CanvasRenderer(cv);
         else {
-          try {
-            r = new GLRenderer(cv, g.n);
-          } catch {
-            r = new CanvasRenderer(cv);
-          }
+          // Desktop: drawn as THREE.Points in the page's one shared renderer (one WebGL context).
+          const deferred = new DeferredRenderer();
+          r = deferred;
+          const n = g.n;
+          stageApi
+            .engine()
+            .then((e) => import("./fieldView").then((m) => deferred.attach(new m.ThreeFieldRenderer(e, st, n))))
+            .catch(() => deferred.attach(new CanvasRenderer(cv)));
         }
         renderer.current = r;
         if (startedRef.current) sim.current.setState(stateRef.current, Boolean(fixed));
@@ -285,7 +289,7 @@ function Stage({ state: liveState, fixed, go, pinned }: { state?: number; fixed?
       renderer.current = null;
       sim.current = null;
     };
-  }, [fixed]);
+  }, [fixed, stageApi]);
 
   // State changes drive the simulation.
   useEffect(() => {
@@ -506,4 +510,33 @@ function ChartLabels({ geo: g, id }: { geo: Geo; id: (typeof STATES)[number] }) 
     );
   }
   return null;
+}
+
+/** Stands in until the shared renderer is ready, then hands over the last size and frame. */
+class DeferredRenderer implements FieldRenderer {
+  private inner: FieldRenderer | null = null;
+  private size: [number, number, number] | null = null;
+  private sim: FieldSim | null = null;
+  private dead = false;
+  attach(r: FieldRenderer) {
+    if (this.dead) {
+      r.destroy();
+      return;
+    }
+    this.inner = r;
+    if (this.size) r.resize(...this.size);
+    if (this.sim) r.draw(this.sim);
+  }
+  resize(w: number, h: number, dpr: number) {
+    this.size = [w, h, dpr];
+    this.inner?.resize(w, h, dpr);
+  }
+  draw(sim: FieldSim) {
+    this.sim = sim;
+    this.inner?.draw(sim);
+  }
+  destroy() {
+    this.dead = true;
+    this.inner?.destroy();
+  }
 }

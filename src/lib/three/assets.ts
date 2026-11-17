@@ -9,7 +9,8 @@
  * Each scene places its models by their bounding box, so a replacement of a similar shape
  * lands in the right place; a very different size may need the `scale` in that scene's file.
  *
- * Every file listed here is CC0 from Poly Haven; sources are in content/research/assets.md.
+ * Poly Haven files are CC0; microphone.glb and gavel.glb are Sketchfab CC BY 4.0 and are credited in
+ * the site footer (src/content/credits.ts). Sources: content/research/assets.md.
  * Only the files a page's scenes ask for are downloaded on that page.
  */
 export const MODELS = {
@@ -17,8 +18,11 @@ export const MODELS = {
   bullHead: "/models/bull-head.glb",
   laptop: "/models/classic-laptop.glb",
   deskLamp: "/models/desk-lamp-arm-01.glb",
-  diningTable: "/models/dining-table.glb",
+  sideTable: "/models/wooden-table-02.glb",
   // Law & Diplomacy
+  diningTable: "/models/dining-table.glb",
+  microphone: "/models/microphone.glb",
+  gavel: "/models/gavel.glb",
   schoolDesk: "/models/school-desk-01.glb",
   schoolChair: "/models/school-chair-01.glb",
   armChair: "/models/modern-arm-chair-01.glb",
@@ -44,6 +48,9 @@ export const SIZE_KB: Record<string, number> = {
   "/models/classic-laptop.glb": 335,
   "/models/desk-lamp-arm-01.glb": 490,
   "/models/dining-table.glb": 362,
+  "/models/wooden-table-02.glb": 226,
+  "/models/microphone.glb": 234,
+  "/models/gavel.glb": 328,
   "/models/school-desk-01.glb": 129,
   "/models/school-chair-01.glb": 207,
   "/models/modern-arm-chair-01.glb": 308,

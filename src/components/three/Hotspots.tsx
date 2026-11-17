@@ -13,12 +13,16 @@ export type HotspotItem = {
   id: string;
   figure: string;
   line: string;
+  /** An optional second, quieter line (for example the Nationals rank under Round 1). */
+  sub?: string;
   /** Accessible name when the visible text is not enough. */
   label?: string;
   /** Which side the label sits on, relative to its anchor. */
   side?: "left" | "right";
   /** Leader length in px (default 72). */
   reach?: number;
+  /** Leader angle in degrees from the horizontal, positive is up (default 38). */
+  rise?: number;
   /** A real link instead of a button. */
   href?: string;
 };
@@ -44,6 +48,7 @@ export const Hotspots = forwardRef<HTMLDivElement, Props & { refs: React.RefObje
             <>
               <span className="hotspot__figure">{h.figure}</span>
               <span className="hotspot__line">{h.line}</span>
+              {h.sub ? <span className="hotspot__sub">{h.sub}</span> : null}
             </>
           );
           return (
@@ -56,7 +61,8 @@ export const Hotspots = forwardRef<HTMLDivElement, Props & { refs: React.RefObje
               data-side={h.side ?? "right"}
               data-shown={visible ? "" : undefined}
               data-active={active === h.id ? "" : undefined}
-              style={{ ["--reach" as string]: `${h.reach ?? 72}px` }}
+              data-v={(h.rise ?? 38) >= 0 ? "up" : "down"}
+              style={{ ["--reach" as string]: `${h.reach ?? 72}px`, ["--rise" as string]: `${Math.abs(h.rise ?? 38)}deg` }}
             >
               <span className="hotspot__ring" aria-hidden="true" />
               <span className="hotspot__leader" aria-hidden="true" />

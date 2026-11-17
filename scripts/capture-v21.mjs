@@ -23,7 +23,7 @@ async function open(path, { w = 1440, h = 900, reduced = false } = {}) {
   await page.goto(base + path, { waitUntil: "load" });
   return { page, ctx };
 }
-const shot = (page, name) => page.screenshot({ path: `${out}/${name}.png` });
+const shot = (page, name) => page.screenshot({ path: `${out}/${name}.png`, timeout: 120000 }).catch((e) => errors.push(`shot ${name}: ${e.message.split("\n")[0]}`));
 
 /** Scroll so that a section is at progress p of its pinned span. */
 async function scrollTo(page, selector, p) {

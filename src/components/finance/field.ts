@@ -9,7 +9,8 @@
  *
  * The simulation is CPU springs (10,000 points cost well under a millisecond); each point gets a
  * staggered release and a swirl kick so a change of state is thousands of points flying and
- * settling with one damped overshoot. Renderers: WebGL2 points, or Canvas 2D (phone, fallback).
+ * settling with one damped overshoot. Renderers: THREE.Points in the page's shared renderer
+ * (fieldView.ts, desktop), or Canvas 2D (phone, reduced motion, fallback).
  */
 
 export const STATES = ["field", "nfo", "fellowship", "srcc", "shisfest"] as const;
@@ -104,9 +105,10 @@ export function rulePoint(g: Geo, k: number) {
 }
 
 // ── Colours (linear 0..1), from the tokens ──
-const TEXT = [0.91, 0.929, 0.965];
-const DOWN = [0.306, 0.404, 0.573];
-const AMBER = [0.949, 0.647, 0.255];
+// Finance palette (addendum §2): text, Accent B green, Accent A bronze (his rank).
+const TEXT = [0.933, 0.953, 0.933];
+const DOWN = [0.247, 0.816, 0.561];
+const AMBER = [0.878, 0.694, 0.361];
 const PALETTE = [TEXT, DOWN, AMBER];
 const C_TEXT = 0;
 const C_DOWN = 1;
@@ -416,127 +418,6 @@ export interface FieldRenderer {
   resize(w: number, h: number, dpr: number): void;
   draw(sim: FieldSim): void;
   destroy(): void;
-}
-
-const VS = `#version 300 es
-precision highp float;
-layout(location=0) in vec2 aPos;
-layout(location=1) in float aSize;
-layout(location=2) in vec4 aColor;
-uniform vec2 uView;
-uniform float uDpr;
-out vec4 vColor;
-out float vSize;
-void main() {
-  vec2 c = aPos / uView * 2.0 - 1.0;
-  gl_Position = vec4(c.x, -c.y, 0.0, 1.0);
-  float s = aSize * uDpr;
-  gl_PointSize = max(s, 1.0);
-  vSize = s;
-  // Sub-pixel points fade instead of shimmering.
-  vColor = vec4(aColor.rgb, aColor.a * min(1.0, s));
-}`;
-
-const FS = `#version 300 es
-precision highp float;
-in vec4 vColor;
-in float vSize;
-out vec4 o;
-void main() {
-  vec2 p = gl_PointCoord - 0.5;
-  float d = length(p) * max(vSize, 1.0);
-  float m = clamp(vSize * 0.5 - d + 0.5, 0.0, 1.0);
-  float A = m * vColor.a;
-  if (A < 0.004) discard;
-  o = vec4(vColor.rgb * A, A);
-}`;
-
-export class GLRenderer implements FieldRenderer {
-  private gl: WebGL2RenderingContext;
-  private prog: WebGLProgram;
-  private buf: WebGLBuffer;
-  private vao: WebGLVertexArrayObject;
-  private data: Float32Array;
-  private uView: WebGLUniformLocation | null;
-  private uDpr: WebGLUniformLocation | null;
-  private dpr = 1;
-  private w = 1;
-  private h = 1;
-
-  constructor(private canvas: HTMLCanvasElement, n: number) {
-    const gl = canvas.getContext("webgl2", { antialias: false, alpha: true, premultipliedAlpha: true });
-    if (!gl) throw new Error("WebGL2 unavailable");
-    this.gl = gl;
-    const sh = (type: number, src: string) => {
-      const s = gl.createShader(type)!;
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) ?? "shader");
-      return s;
-    };
-    const p = gl.createProgram()!;
-    gl.attachShader(p, sh(gl.VERTEX_SHADER, VS));
-    gl.attachShader(p, sh(gl.FRAGMENT_SHADER, FS));
-    gl.linkProgram(p);
-    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p) ?? "link");
-    this.prog = p;
-    this.uView = gl.getUniformLocation(p, "uView");
-    this.uDpr = gl.getUniformLocation(p, "uDpr");
-    this.data = new Float32Array(n * 7);
-    this.vao = gl.createVertexArray()!;
-    gl.bindVertexArray(this.vao);
-    this.buf = gl.createBuffer()!;
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buf);
-    gl.bufferData(gl.ARRAY_BUFFER, this.data.byteLength, gl.DYNAMIC_DRAW);
-    const stride = 7 * 4;
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, stride, 0);
-    gl.enableVertexAttribArray(1);
-    gl.vertexAttribPointer(1, 1, gl.FLOAT, false, stride, 8);
-    gl.enableVertexAttribArray(2);
-    gl.vertexAttribPointer(2, 4, gl.FLOAT, false, stride, 12);
-    gl.bindVertexArray(null);
-  }
-
-  resize(w: number, h: number, dpr: number) {
-    this.w = w;
-    this.h = h;
-    this.dpr = dpr;
-    this.canvas.width = Math.round(w * dpr);
-    this.canvas.height = Math.round(h * dpr);
-  }
-
-  draw(sim: FieldSim) {
-    const gl = this.gl;
-    const d = this.data;
-    const { x, y, ox, oy, s, r, gr, b, a, n } = sim;
-    for (let i = 0, o = 0; i < n; i++, o += 7) {
-      d[o] = x[i] + ox[i];
-      d[o + 1] = y[i] + oy[i];
-      d[o + 2] = s[i];
-      d[o + 3] = r[i];
-      d[o + 4] = gr[i];
-      d[o + 5] = b[i];
-      d[o + 6] = a[i];
-    }
-    gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-    gl.clearColor(0, 0, 0, 0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-    gl.useProgram(this.prog);
-    gl.uniform2f(this.uView, this.w, this.h);
-    gl.uniform1f(this.uDpr, this.dpr);
-    gl.bindVertexArray(this.vao);
-    gl.bindBuffer(gl.ARRAY_BUFFER, this.buf);
-    gl.bufferSubData(gl.ARRAY_BUFFER, 0, d);
-    gl.drawArrays(gl.POINTS, 0, n);
-    gl.bindVertexArray(null);
-  }
-
-  destroy() {
-    this.gl.getExtension("WEBGL_lose_context")?.loseContext();
-  }
 }
 
 export class CanvasRenderer implements FieldRenderer {

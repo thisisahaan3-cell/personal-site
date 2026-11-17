@@ -1008,6 +1008,18 @@ const core = {
       rankTop: "1",
       inProgressHeading: "In progress",
       recordHeading: "Finance and pitch competitions",
+      /** The bronze (set piece, version 2.1). */
+      bronzeHeading: "Four results",
+      bronzeIntro: "Move the pointer to shine the light across the bronze. Open a result for its detail.",
+      bronzeIntroTouch: "Touch the bronze to move the light. Open a result for its detail.",
+      bronzeLabel: "Results, anchored to the bronze",
+      bronzeLoading: "Casting the bronze",
+      panelClose: "Close",
+      /** Artha on the laptop (set piece, version 2.1). */
+      deskLabel: "Artha, on the laptop",
+      deskLoading: "Setting the desk",
+      openArtha: "Open Artha",
+      openArthaLine: "The live site, in a new tab",
     },
     /** Model UN page (version 2). */
     modelUn: {

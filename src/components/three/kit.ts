@@ -397,15 +397,14 @@ export class HotspotProjector {
       el.style.setProperty("--hy", `${y.toFixed(1)}px`);
       if (visible) delete el.dataset.offscreen;
       else el.dataset.offscreen = "";
+      // Keep labels inside the frame: near the right edge they swing left, near the left edge right.
+      const want = el.dataset.prefer ?? el.dataset.side ?? "right";
+      if (!el.dataset.prefer) el.dataset.prefer = want;
+      const side = x > size.w * 0.74 ? "left" : x < size.w * 0.26 ? "right" : want;
+      if (el.dataset.side !== side) el.dataset.side = side;
     });
     return out;
   }
-}
-
-/** Pointer position over an element in normalised device coordinates (-1..1), y up. */
-export function pointerNdc(e: { clientX: number; clientY: number }, el: HTMLElement) {
-  const r = el.getBoundingClientRect();
-  return { x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -(((e.clientY - r.top) / r.height) * 2 - 1) };
 }
 
 /** Kelvin to an approximate linear RGB colour (for practical lights: 3200K torch, 2700K lamp). */
