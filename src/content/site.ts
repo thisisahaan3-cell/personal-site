@@ -795,6 +795,17 @@ const core = {
     resumeFile: "/Ahaan-Gupta-Resume.pdf",
     referencesLine: "References available on request.",
     prompt: ph("Contact invitation — to be written by Ahaan."),
+    /**
+     * The Contact page's links, in order. Email and Resume are final. LinkedIn and Instagram
+     * are placeholders: paste the address into `url` and delete `placeholder: true`.
+     * There is no phone number, deliberately and permanently.
+     */
+    links: [
+      { id: "email", label: "Email", url: "mailto:thisisahaan@gmail.com", display: "thisisahaan@gmail.com" },
+      { id: "resume", label: "Resume", url: "/Ahaan-Gupta-Resume.pdf", display: "Download (PDF)" },
+      { id: "linkedin", label: "LinkedIn", url: "", display: "", placeholder: true as boolean | undefined },
+      { id: "instagram", label: "Instagram", url: "", display: "", placeholder: true as boolean | undefined },
+    ] as { id: string; label: string; url: string; display: string; placeholder?: boolean }[],
   },
 
   // ── Achievement timeline ──
@@ -1271,6 +1282,226 @@ const core = {
       backToTop: "Back to top",
       typeLine: "Set in Instrument Serif and Geist.",
     },
+  },
+};
+
+// ───────────────────────────── Derived pages (version 2.1) ─────────────────────────────
+// Ordered views of the facts above, so each fact is edited in one place.
+
+const byTitle = (list: Role[], title: string): Role => {
+  const r = list.find((x) => x.title === title || x.organisation.startsWith(title));
+  if (!r) throw new Error(`Role not found: ${title}`);
+  return r;
+};
+const lyls = core.courses.find((c) => c.title.startsWith("Lotus Young Leaders Summit"))!;
+const introLaw = core.courses.find((c) => c.title === "Introduction to Law")!;
+const aerospace = core.courses.find((c) => c.title === "Fundamentals of Aerospace")!;
+
+const placeholderGallery = (): GallerySlot[] => Array.from({ length: 6 }, () => ({ src: "", alt: "", caption: "" }));
+
+export const site = {
+  ...core,
+
+  // ── Academics page (version 2.1) ──
+  academics: {
+    /** School-topper record. Grade 10 is on the resume (School Topper, CBSE Grade X, 99.4%); every year from Grade 7 to 11 is from the client. */
+    schoolTopper: {
+      grade10: {
+        text: "School topper in Grade 10 (CBSE Grade X Secondary Examinations, 99.4%).",
+        source: "resume and client message" as FactSource,
+      },
+      everyYear: {
+        text: "School topper every year from Grade 7 to Grade 11.",
+        fromGrade: 7,
+        toGrade: 11,
+        source: "client message" as FactSource,
+      },
+      current: { text: "Current School Topper in Grade 11 Commerce.", source: "resume" as FactSource },
+    },
+
+    /** Shown first and largest, in this order. */
+    headlineResults: [
+      {
+        id: "nfo",
+        name: "National Finance Olympiad",
+        year: "2025",
+        figure: "AIR 10",
+        tag: "Round 1",
+        detail: "Round 1 rank.",
+        secondary: {
+          figure: "AIR 54",
+          outOf: "of 10,000+",
+          label: "Nationals (Round 2)",
+          detail: "Certificate of National Excellence.",
+        },
+        source: "resume",
+      },
+      {
+        id: "srcc-olympiad",
+        name: "SRCC Finance Olympiad",
+        year: "2025",
+        figure: "AIR 46",
+        outOf: "of 3,000",
+        org: "srcc",
+        source: "resume and client message",
+        sourceNote: "Rank from the resume; the field of 3,000 from the client message of 17 Nov 2026.",
+      },
+      {
+        id: "sof-english",
+        name: "SOF International English Olympiad",
+        year: "2018 – 2024",
+        figure: "6 awards",
+        detail: "97+ percentile each year.",
+        org: "sof",
+        source: "resume",
+      },
+    ] as AcademicResult[],
+
+    /** Next in order, ranks exactly where given. */
+    otherResults: [
+      {
+        id: "shriteq",
+        name: "SHRITEQ Tech Quiz",
+        year: "2026",
+        figure: "4th",
+        detail: "In the finals, out of 45 teams. Hosted by Rajiv Makhni.",
+        source: "resume",
+        sourceNote: "Whether 45 is the overall or the finals field is not stated on the resume.",
+      },
+      {
+        id: "quiz-to-conquer",
+        name: "Quiz to Conquer, by Fateh Education (Kamani Auditorium)",
+        year: "Year not stated",
+        figure: "Semi-finals",
+        org: "fateh",
+        source: "resume",
+      },
+      {
+        id: "sof-maths-gk",
+        name: "SOF International Mathematics & General Knowledge Olympiads",
+        year: "Year not stated",
+        figure: "95+ percentile",
+        detail: "With Distinction awards.",
+        org: "sof",
+        source: "resume",
+      },
+      {
+        id: "hcl-jigsaw-5",
+        name: "HCL JigSaw 5",
+        year: "Year not stated",
+        figure: "89 percentile",
+        org: "hcl",
+        source: "resume",
+      },
+      {
+        id: "shisfest",
+        name: "SHISFEST: Vision To Venture",
+        year: "2026",
+        figure: "First position",
+        source: "resume",
+      },
+    ] as AcademicResult[],
+
+    /** Participation only, no result claimed. Same list as `otherCompetitions`. */
+    participation: core.otherCompetitions,
+    participationNote: core.otherCompetitionsNote,
+  },
+
+  // ── Law & Diplomacy page (the former Model UN page) ──
+  lawDiplomacy: {
+    title: "Law & Diplomacy",
+    /** Neutral, made only of facts that are on the resume. */
+    descriptor:
+      "Three Executive Board roles, 16 delegate awards, two parliamentary programmes and the IIT Madras Introduction to Law course.",
+    /** The page shows these in this order: the Executive Board comes first. */
+    order: ["executiveBoard", "delegateAwards", "parliamentary", "course"] as const,
+    executiveBoard: core.mun.executiveBoard, // IITD MUN 2026, AIKYAM MUN 2026, Lotus Valley's MUN Club
+    delegateAwards: core.mun.awards, // all 16 rows
+    parliamentary: core.mun.parliamentary,
+    course: {
+      title: introLaw.title,
+      provider: introLaw.provider,
+      org: introLaw.org,
+      year: introLaw.year,
+      duration: "8 weeks",
+      awards: ["Completion Certificate", "Certificate for Exemplary Performance in the take-home project"],
+      detail: introLaw.detail,
+      source: "resume" as FactSource,
+    },
+  },
+
+  // ── Leadership & Work Experience page ──
+  work: {
+    title: "Leadership & Work Experience",
+    descriptor:
+      "Three internships, then the Student Council, Green Captain, Rasmanjari 2026 and the Lotus Young Leaders Summit.",
+    /** Internships first, in this order, points as written on the resume. */
+    internships: [
+      byTitle(core.experience, "Mahak Plastic Industries & RD Polypack"),
+      byTitle(core.experience, "We Care Foundation"),
+      byTitle(core.experience, "Fortis Adayu Hospital"),
+    ] as Role[],
+    /** Then positions of responsibility, in this order. */
+    leadership: [
+      byTitle(core.leadership, "Environment Committee (elected)"),
+      byTitle(core.leadership, "Green Captain"),
+      byTitle(core.leadership, "Rasmanjari Interschool Competition 2026"),
+      {
+        title: lyls.title,
+        organisation: lyls.provider,
+        org: lyls.org,
+        period: String(lyls.year),
+        points: [lyls.detail],
+      } as Role,
+    ] as Role[],
+    /** The SRCC FIC fellowship stays on the Finance page. */
+    fellowshipOnFinance: "SRCC FIC Finance Research Fellowship",
+  },
+
+  // ── Interests page ──
+  // Each interest is backed by what he has done. No descriptions of feelings or expertise.
+  interestsPage: {
+    title: "Interests",
+    descriptor: "Four interests, each with what he has done. The others are evidenced on their own pages.",
+    items: [
+      {
+        id: "aviation",
+        name: "Aviation",
+        facts: [
+          {
+            text: `IIT Madras Certification, ${aerospace.title} (${aerospace.year}): 8 weeks. Completion Certificate and Certificate for Exemplary Performance in the take-home project.`,
+            source: "resume",
+          },
+          { text: "Interested in civil aviation, as stated in the resume profile.", source: "resume" },
+        ] as SourcedFact[],
+        /** Six slots for his own aviation photographs. Fill `src`, `alt` and `caption`; see the guide at the top of this file. */
+        gallery: placeholderGallery(),
+      },
+      {
+        id: "reading",
+        name: "Reading",
+        facts: [
+          { text: "Over 400 books read across fiction, non-fiction and philosophy.", source: "resume" },
+        ] as SourcedFact[],
+      },
+      {
+        id: "formula1",
+        name: "Formula 1",
+        facts: [{ text: "Watches every race.", source: "client message" }] as SourcedFact[],
+      },
+      {
+        id: "tennis",
+        name: "Tennis",
+        facts: [{ text: "Has taken part in and won tournaments.", source: "client message" }] as SourcedFact[],
+      },
+    ] as { id: string; name: string; facts: SourcedFact[]; gallery?: GallerySlot[] }[],
+    /** One-line pointers to the pages where the evidence lives. `page` is a PageId from src/lib/pages.ts. */
+    pointers: [
+      { id: "finance", name: "Finance", line: "Olympiad ranks, the SRCC fellowship, Wharton and Artha are on the Finance page.", page: "finance" },
+      { id: "law", name: "Law", line: "The IIT Madras Introduction to Law course is on the Law & Diplomacy page.", page: "modelUn" },
+      { id: "quizzing", name: "Quizzing", line: "Quiz results, including SHRITEQ and Quiz to Conquer, are on the Academics page.", page: "academics" },
+      { id: "model-un", name: "Model UN", line: "Executive Board roles and delegate awards are on the Law & Diplomacy page.", page: "modelUn" },
+    ] as { id: string; name: string; line: string; page: string }[],
   },
 };
 
