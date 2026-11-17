@@ -21,12 +21,18 @@ Structure and content
 - [ ] C12. Contact links: LinkedIn, Instagram, Email, Resume (LinkedIn/Instagram are placeholders until he sends URLs)
 
 Assets and code
-- [ ] C13. 3D asset list presented to the client (done in chat 17 Nov) and recorded with licences in `content/research/assets.md`
-- [ ] C14. Poly Haven models and HDRIs downloaded, optimised to GLB in `public/models/`, HDRIs in `public/hdri/`
+- [x] C13. 3D asset list presented to the client (done in chat 17 Nov) and recorded with licences in `content/research/assets.md`
+- [x] C14. 22 Poly Haven models (meshopt GLB, WebP textures, 7.8 MB total) in `public/models/` and 4 HDRIs in `public/hdri/`; `scripts/fetch-polyhaven.mjs` fetches more (run with `NODE_USE_ENV_PROXY=1`). `decorative_book_set_01` has no glTF and was skipped; check the chess set's scale before use
 - [ ] C15. Sketchfab models (airliner, F1-style car, tennis racket, chamber furniture) — BLOCKED until the client supplies a free Sketchfab API token (requested through the secure form)
 - [ ] C16. Code organised for his edits; `MEDIA.md` says exactly where each of his own photos, clips and models goes; final message lists what to upload
 - [ ] C17. Subagents on Opus 5.5 for design/engineering; frontend-design and ui-ux-pro-max skills used
 - [ ] C18. Deployed; hourly task disabled when everything above is done
+
+Work log for V2.1
+- 17 Nov ~05:45 UTC: content-researcher (Sonnet) updated `src/content/site.ts` additively (`academics`, `lawDiplomacy`, `work`, `interestsPage`, `contact.links`, new `ui.pages`; `nfo` stat now "AIR 10" Round 1 with AIR 54 secondary; SRCC "AIR 46 of 3,000"); tsc passes.
+- 17 Nov ~05:50 UTC: creative-director (confirmed claude-opus-5-5) wrote `design/v2.1-addendum.md`: per-page palettes and one hero 3D set piece per page; build order Run A / Run B.
+- 17 Nov ~06:00 UTC: frontend-engineer Run A started (model opus): shared 3D kit, page tokens/routes/nav (Model UN route becomes `/law-diplomacy`, `/interests` stub), Home recolour on black, Finance (bronze bull, field, Artha on the laptop), Law & Diplomacy (real furniture, Executive Board first, law corner). It commits after each item. NEXT: look at `qa/screenshots/v21-a/`, deploy, then Run B (Academics colour + real-object moment + content changes; Leadership & Work Experience as flying dossiers/books; Interests page; cinematic Contact desk scene with Email/Resume/LinkedIn/Instagram; `MEDIA.md`), deploy, tick the checklist, final message telling the client what to upload where.
+- Asked the client (not blocking): a free Sketchfab API token (he replies "ready", then call `request_credential` for host api.sketchfab.com, header Authorization, prefix Token), LinkedIn and Instagram URLs, aviation photos.
 
 State when this checklist was written (17 Nov 05:40 UTC): Home, Finance, Model UN, Academics are built and committed; Leadership (stints chart) is half-built and committed as work in progress; Contact is a stub. Live site has Home + Finance + Model UN (older deploy).
 
