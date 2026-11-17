@@ -961,6 +961,14 @@ const core = {
       lead: "The interactive version of this page is being built.",
       list: "Interests on this page",
     },
+    /** The footer credit line (models listed in src/content/credits.ts). */
+    credits: {
+      heading: "Credits",
+      intro: "3D models from Sketchfab, used under their licences:",
+      by: "by",
+      homeLink: "Credits",
+      cc0: "Other 3D models and lighting from Poly Haven (CC0).",
+    },
     /** 3D set pieces: loading readout and the flat version's heading. */
     three: {
       loading: "Loading the scene",

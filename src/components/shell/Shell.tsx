@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { site } from "@/content/site";
 import { pageForPath } from "@/lib/pages";
 import { Board } from "./Board";
+import { Credits } from "./Credits";
 import { TransitionProvider } from "./Transition";
 
 /** Page wrapper: sets the current page (its palette, via [data-page] in globals.css) and holds the board and the transition. */
@@ -19,6 +20,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <main id="main" tabIndex={-1}>
           {children}
         </main>
+        {page.id === "home" ? null : <Credits />}
       </div>
     </TransitionProvider>
   );

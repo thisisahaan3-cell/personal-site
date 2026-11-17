@@ -39,7 +39,7 @@ export const DESTINATIONS: PageDef[] = [
 ];
 
 export function pageForPath(pathname: string | null): PageDef {
-  const p = (pathname ?? "/").replace(/\/+$/, "") || "/";
+  const p = (pathname ?? "/").replace(/[?#].*$/, "").replace(/\/+$/, "") || "/";
   return Object.values(PAGES).find((d) => d.href === p) ?? PAGES.home;
 }
 

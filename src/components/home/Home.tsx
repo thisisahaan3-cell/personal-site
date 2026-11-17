@@ -322,6 +322,10 @@ export function Home({ video }: { video: string | null }) {
         </ul>
       </nav>
 
+      <TransitionLink href="/contact#credits" className="home__credits">
+        {site.ui.credits.homeLink}
+      </TransitionLink>
+
       {mode === "webgl" ? (
         <button type="button" className="home__replay" onClick={replayFromButton}>
           {site.ui.home.replay}
