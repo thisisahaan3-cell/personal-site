@@ -316,7 +316,7 @@ export function bakeContactShadow(
   const qScene = new THREE.Scene();
   qScene.add(quad);
   const qCam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const blurMat = (src: typeof HorizontalBlurShader) =>
+  const blurMat = (src: { uniforms: Record<string, THREE.IUniform>; vertexShader: string; fragmentShader: string }) =>
     new THREE.ShaderMaterial({
       uniforms: THREE.UniformsUtils.clone(src.uniforms),
       vertexShader: src.vertexShader,
