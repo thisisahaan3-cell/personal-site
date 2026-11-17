@@ -125,13 +125,13 @@ if (which === "model-un") {
         await shot(page, `${prefix}chamber-fly-${i}`);
       }
       await scrollTo(page, c.top + 0.75 * c.span);
-      await wait(2200);
+      await wait(4000);
       await shot(page, `${prefix}chamber-settled`);
       const seat = await page.$$(".chamber__seat");
       if (seat[0]) {
         const b = await seat[2].boundingBox();
         await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 4 });
-        await wait(700);
+        await wait(1800);
         await shot(page, `${prefix}chamber-raised`);
         await page.mouse.move(10, 400);
       }
@@ -144,7 +144,7 @@ if (which === "model-un") {
       await wait(600);
       await shot(page, `${prefix}chamber-orbit`);
       await page.click(".chamber__filter[data-filter='level:Best Delegate']");
-      await wait(900);
+      await wait(2500);
       await shot(page, `${prefix}chamber-filter`);
     } else {
       await scrollTo(page, c.top + 40);

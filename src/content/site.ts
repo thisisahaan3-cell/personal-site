@@ -260,13 +260,13 @@ export const site = {
   media: {
     m1: { src: "/media/m1-home.mp4", poster: "/media/m1-home.jpg", kind: "loop", stock: true, alt: "" }, // Home: aerial city at night
     m2: { src: "/media/m2-finance.mp4", poster: "/media/m2-finance.jpg", kind: "loop", stock: true, alt: "" }, // Finance: towers at blue hour
-    m3: { src: "/media/m3-model-un.mp4", poster: "/media/m3-model-un.jpg", kind: "loop", stock: true, alt: "" }, // Model UN: flags on masts
-    m4: { src: "/media/m4-chamber.webp", kind: "still", stock: true, alt: "", pending: true }, // Model UN: empty chamber
+    m3: { src: "/media/m3-model-un.mp4", poster: "/media/m3-model-un.jpg", kind: "loop", stock: true, alt: "", pending: true }, // Model UN: neutral hall/globe loop (file removed: previous flag clip was unsuitable; none found yet)
+    m4: { src: "/media/m4-chamber.webp", kind: "still", stock: true, alt: "" }, // Model UN: legislative chamber, seats and desks
     m5: { src: "/media/m5-clouds.mp4", poster: "/media/m5-clouds.jpg", kind: "loop", stock: true, alt: "" }, // Academics: clouds from the wing
     m6: { src: "/media/m6-aircraft.mp4", poster: "/media/m6-aircraft.jpg", kind: "loop", stock: true, alt: "" }, // Academics: aircraft overhead
-    m7: { src: "/media/m7-colonnade.webp", kind: "still", stock: true, alt: "", pending: true }, // Academics: colonnade
+    m7: { src: "/media/m7-colonnade.webp", kind: "still", stock: true, alt: "" }, // Academics: fluted Ionic pilasters (bright; darken in CSS)
     m8: { src: "/media/m8-canopy.mp4", poster: "/media/m8-canopy.jpg", kind: "loop", stock: true, alt: "" }, // Leadership: forest canopy
-    m9: { src: "/media/m9-library.webp", kind: "still", stock: true, alt: "", pending: true }, // Contact: library shelves
+    m9: { src: "/media/m9-library.webp", kind: "still", stock: true, alt: "" }, // Contact: reading room with book alcoves
   } as Record<
     "m1" | "m2" | "m3" | "m4" | "m5" | "m6" | "m7" | "m8" | "m9",
     {

@@ -46,19 +46,29 @@ Atmosphere only; never captioned, never presented as the client, his school or h
 |---|---|---|---|---|---|---|
 | `public/media/m1-home.mp4` + `.jpg` | Aerial night view of a lit old-town street with festive lights, slow drift (14 s from 16 s). Substitute: not a financial district; it is used only as luminance for the candle wall | Home | https://coverr.co/videos/city-at-night-hi5d328a8z | https://cdn.coverr.co/videos/coverr-city-at-night-4382/1080p.mp4 | Coverr licence | 1.29 MB / 61 kB |
 | `public/media/m2-finance.mp4` + `.jpg` | Glass towers at blue hour, slow aerial drift, "Houston, Texas at night" (12 s from 15 s). No readable signage | Finance | https://coverr.co/videos/houston-texas-at-night-cv0v0bel04 | https://cdn.coverr.co/videos/coverr-houston-texas-at-night-4130/1080p.mp4 | Coverr licence | 0.51 MB / 103 kB |
-| `public/media/m3-model-un.mp4` + `.jpg` | Several flags on masts against a blue sky (10 s from 12 s). Weak substitute: the American flag is prominent and the other flags are not national flags; no Coverr clip of a row of national flags exists (the only one is AI-generated). Replace if a better clip is found | Model UN | https://coverr.co/videos/flags-waving-elegantly-under-a-clear-blue-sky | https://cdn.coverr.co/videos/coverr-flags-waving-under-clear-blue-sky/1080p.mp4 | Coverr licence | 0.91 MB / 51 kB |
+| `public/media/m3-model-un.mp4` + `.jpg` | REMOVED 17 Nov 2026 (showed a prominent American flag; unsuitable). See "not obtained" | | | | | |
 | `public/media/m5-clouds.mp4` + `.jpg` | View over clouds and land from an airliner window, engine nacelle in frame, daylight and overcast, not dusk (15 s of 15 s) | Academics | https://coverr.co/videos/view-from-airplane-window-ju1lsc7b4k | https://cdn.coverr.co/videos/coverr-view-from-airplane-window-3707/1080p.mp4 | Coverr licence | 0.53 MB / 31 kB |
 | `public/media/m6-aircraft.mp4` + `.jpg` | Small twin-engine aircraft flying overhead among clouds, low angle (9 s from 11 s). Substitute: not an airliner on approach or a turbine close-up | Academics | https://coverr.co/videos/airplane-in-the-sky-ipn1jb9ors | https://cdn.coverr.co/videos/coverr-airplane-in-the-sky-187/1080p.mp4 | Coverr licence | 0.44 MB / 17 kB |
 | `public/media/m8-canopy.mp4` + `.jpg` | Low-angle slow pan up through leaves and tree crowns (12 s from 13 s). Substitute: ground-up view, not an aerial canopy | Leadership | https://coverr.co/videos/low-angled-view-of-the-trees-in-summer-jht9hyy4zg | https://cdn.coverr.co/videos/coverr-low-angled-view-of-the-trees-in-summer-6331/1080p.mp4 | Coverr licence | 1.52 MB / 103 kB |
 
 Checked and rejected: Coverr "Cityscape at night" and similar "coverr-premium" clips (burned-in Coverr watermark); Coverr clips marked AI-generated.
 
+### Stock stills added 17 Nov 2026 (Wikimedia Commons, licence confirmed from the API `LicenseShortName`; no attribution required, credit given anyway)
+
+Retrieved 17 Nov 2026 via `Special:FilePath` (downscaled to 3840 px), converted to WebP with ffmpeg. Atmosphere only.
+
+| File | What it shows | Commons page | Author / credit | Licence | Size |
+|---|---|---|---|---|---|
+| `public/media/m4-chamber.webp` (2400x1600) | Alberta Legislative Assembly Chamber seen from the gallery, empty; small provincial flags are visible at right (not a national flag). Bright; darken in CSS | https://commons.wikimedia.org/wiki/File:Alberta_Legislative_Assembly_Chamber,_viewed_from_opposition-side_gallery,_June_7,_2024.jpg | Not stated in the API result I read; uploaded as CC0 | CC0 | 369 kB |
+| `public/media/m7-colonnade.webp` (1600x2000) | Two fluted Ionic pilasters with capitals, U.S. Courthouse courtroom, Tallahassee (Library of Congress, HABS/HAER photograph; cropped from the original). Pilasters, not a free-standing colonnade. White; darken in CSS | https://commons.wikimedia.org/wiki/File:Courtroom_columns,_U.S._Courthouse,_Tallahassee,_Florida_LCCN2010719057.tif | Carol M. Highsmith / Library of Congress (LCCN2010719057) | Public domain | 63 kB |
+| `public/media/m9-library.webp` (2400x1600) | Main Reading Room, Library of Congress Thomas Jefferson Building: book alcoves, desks, no identifiable people | https://commons.wikimedia.org/wiki/File:LOC_Main_Reading_Room_Highsmith.jpg | Carol M. Highsmith | Public domain | 369 kB |
+
+Rejected after looking: Macky Auditorium DPLA scan (photographic negative); Hove Library bookshelves (readable library signage); "Rows of Desks in Lecture Theatre" (dull, fans).
+
 ### Stock media looked for and not obtained
 
 | ID | Wanted | Why not obtained |
 |---|---|---|
-| M4 | `m4-chamber.webp`, empty assembly hall, 2400 px | Not obtained. Pexels, Pixabay and unsplash.com download links sit behind an anti-bot challenge (403 / 401); I did not try to bypass it. Coverr has no stills. Candidate for a person with a normal browser: Unsplash "Legislative chamber with red seats" https://unsplash.com/photos/legislative-chamber-with-red-seats-wqLGlhjr6Og (listed as free under the Unsplash licence; not downloaded, not verified for people in frame) |
-| M7 | `m7-colonnade.webp`, 1600 x 2000 | Not obtained, same reason. Candidate: Unsplash "Grand neoclassical building with columns against cloudy sky" https://unsplash.com/photos/grand-neoclassical-building-with-columns-against-cloudy-sky-A2p_EktGWfo (unverified) |
-| M9 | `m9-library.webp`, 2400 px | Not obtained, same reason. Candidate: Unsplash "A bookshelf filled with lots of books in a dark room" https://unsplash.com/photos/a-bookshelf-filled-with-lots-of-books-in-a-dark-room-Ta7GYSgTEko (unverified) |
+| M3 | `m3-model-un.mp4` + `.jpg`, 10 to 15 s neutral formal loop (empty hall, podium microphone, rows of seats, turning globe) | Coverr has nothing suitable (its conference-seats clip shows a person's torso and hands and has only about 4 s of clean footage). Wikimedia Commons has a public-domain NASA clip, "BlackMarble 2016 rotating globe at night" (https://commons.wikimedia.org/wiki/File:BlackMarble_2016_rotating_globe_at_night.webm, PD, 4K), which is the intended replacement, but Wikimedia returned HTTP 429 to every download attempt for over 10 minutes. Not downloaded; retry later. `site.media.m3` is `pending: true` |
 
-`site.media` carries these three with `pending: true`, so the engineer must render without them.
+`site.media.m3` carries `pending: true`, so the engineer must render without it. (M4, M7 and M9 were obtained on 17 Nov 2026; see above. The unobtained Unsplash candidates from 16 Nov are superseded.)
