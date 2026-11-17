@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { ColdOpen } from "@/components/ColdOpen";
+import { Contact } from "@/components/contact/Contact";
+import { Stage3D } from "@/components/three/Stage3D";
 import { site } from "@/content/site";
-import { PAGES } from "@/lib/pages";
 
 export const metadata: Metadata = { title: site.ui.pages.contact };
 
+/** One screen: the desk at night beside the links (h1 inside). The credits footer follows (Shell). */
 export default function Page() {
-  return <ColdOpen page={PAGES.contact} />;
+  return (
+    <Stage3D>
+      <Contact />
+    </Stage3D>
+  );
 }

@@ -5405,6 +5405,9 @@ html:has(.home) body {
 .desk3d__stage[data-hover] {
   cursor: pointer;
 }
+.desk3d .contact__email {
+  white-space: nowrap;
+}
 .desk3d .contact__copy {
   position: absolute;
   z-index: 2;
@@ -5449,7 +5452,7 @@ html:has(.home) body {
   font-style: italic;
   font-weight: 400;
   font-variation-settings: "opsz" 96;
-  font-size: clamp(30px, 4.5vw, 76px);
+  font-size: clamp(30px, 3.7vw, 60px);
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: var(--text);
