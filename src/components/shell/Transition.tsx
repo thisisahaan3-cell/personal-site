@@ -116,7 +116,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       }
       busy.current = true;
       setPhase("running");
-      root.style.setProperty("--tx-ground", GROUND_HEX[target.ground]);
+      root.style.setProperty("--tx-ground", GROUND_HEX[target.id]);
       root.dataset.active = "true";
       const arrived = new Promise<void>((resolve) => {
         pathWaiter.current = { href, resolve };

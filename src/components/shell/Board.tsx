@@ -3,15 +3,16 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
-import { DESTINATIONS, pageForPath, statFor } from "@/lib/pages";
+import { DESTINATIONS, destinationFigure, pageForPath, pageLabel } from "@/lib/pages";
 import { TransitionLink } from "./Transition";
 
 const ui = site.ui;
 
 /**
- * The board (direction §3). Desktop: a fixed top strip, name at left, five destinations at
- * right with an amber tick under the current one, "Download resume" last. Phone: a fixed
- * bottom bar (name, Menu) that opens a full-screen board of five rows with real figures.
+ * The board (direction §3, addendum §3). Desktop: a fixed top strip, name at left, six
+ * destinations at right with a tick in the page's Accent A under the current one, "Download
+ * resume" last. Phone: a fixed bottom bar (name, Menu) that opens a full-screen board of six
+ * rows, each with one real figure.
  * On Home the destinations live in the intro's own foot row, so the strip shows only the resume.
  */
 export function Board() {
@@ -95,7 +96,7 @@ export function Board() {
                   className="board__link"
                   aria-current={current.id === d.id ? "page" : undefined}
                 >
-                  {ui.pages[d.id]}
+                  {pageLabel(d.id)}
                 </TransitionLink>
               </li>
             ))}
@@ -131,7 +132,7 @@ export function Board() {
       >
         <ul className="sheet__rows">
           {DESTINATIONS.map((d) => {
-            const s = statFor(d.id === "contact" ? null : d.stat);
+            const f = destinationFigure(d.id);
             return (
               <li key={d.id}>
                 <TransitionLink
@@ -139,8 +140,13 @@ export function Board() {
                   className="sheet__row"
                   aria-current={current.id === d.id ? "page" : undefined}
                 >
-                  <span className="sheet__name">{ui.pages[d.id]}</span>
-                  {s ? <span className="sheet__figure">{s.value}</span> : null}
+                  <span className="sheet__name">{pageLabel(d.id)}</span>
+                  {f ? (
+                    <span className="sheet__figure" data-kind={f.kind}>
+                      {f.value}
+                      <span className="sheet__note">{f.note}</span>
+                    </span>
+                  ) : null}
                 </TransitionLink>
               </li>
             );

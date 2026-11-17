@@ -302,7 +302,7 @@ export function Stints() {
                     </div>
                   </div>
                   {YEARS.map((y) => (
-                    <span key={y} className="stints__snap" style={{ left: x(y) }} aria-hidden="true" />
+                    <span key={y} className="stints__snap" style={{ left: ((y - AXIS_FROM) / (AXIS_TO - AXIS_FROM)) * lay.plotW }} aria-hidden="true" />
                   ))}
                 </div>
               </div>

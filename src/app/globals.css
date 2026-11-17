@@ -1,21 +1,25 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────────────────
-   Price Discovery — version 2 tokens (design/v2-direction.md §2)
-   Dark everywhere; only the ground family and lead accent shift per page.
+   Price Discovery — tokens (design/v2-direction.md §2, recoloured by v2.1-addendum.md §2)
+   Every page has its own ground, text and two accents. Constant everywhere:
+   Accent A (--accent) is a warm light and means "his figure"; Accent B (--accent-b)
+   is the page's own colour. Red (--mark-red) is for marks only, never text.
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
   --amber: #f2a541;
-  --down: #4e6792;
-  --navy-text: #e8edf6;
+  --up: #26a69a;
+  --down: #ef5350;
+  --mark-red: #ff4a3d;
+  --navy-text: #f2f2f2;
 
-  --ground: #0a101c;
-  --raised: #111a2b;
-  --hairline: #243049;
-  --text: #e8edf6;
-  --secondary: #8d9ab3;
+  --ground: #000000;
+  --raised: #0e0e0e;
+  --text: #f2f2f2;
+  --secondary: #9a9a9a;
   --accent: #f2a541;
+  --accent-b: #26a69a;
 
   --ff-display-stack: var(--ff-display), "Bodoni 72", Didot, serif;
   --ff-text-stack: var(--ff-text), "Helvetica Neue", Arial, sans-serif;
@@ -32,32 +36,81 @@
   --t-reveal: 600ms;
 
   color-scheme: dark;
-  background: #0a101c;
+  background: #000000;
 }
 
-[data-ground="navy"] {
-  --ground: #0a101c;
-  --raised: #111a2b;
-  --hairline: #243049;
-  --text: #e8edf6;
-  --secondary: #8d9ab3;
-  --accent: #f2a541;
+/* Hairlines are derived from each page's own text and ground. */
+:root,
+[data-page] {
+  --hairline: color-mix(in srgb, var(--text) 17%, var(--ground));
 }
-[data-ground="petrol"] {
-  --ground: #081619;
-  --raised: #0f2227;
-  --hairline: #1f3a40;
-  --text: #e8edf6;
-  --secondary: #8fa5a8;
-  --accent: #9cb9ea;
-}
-[data-ground="umber"] {
-  --ground: #12100e;
-  --raised: #1c1915;
-  --hairline: #332d25;
-  --text: #efe9dd;
-  --secondary: #a39a8a;
+
+/* Home: pure black, the market's own colours. */
+[data-page="home"] {
+  --ground: #000000;
+  --raised: #0e0e0e;
+  --text: #f2f2f2;
+  --secondary: #9a9a9a;
   --accent: #f2a541;
+  --accent-b: #26a69a;
+}
+/* Finance: a private bank at night. Figures in Bodoni 700. */
+[data-page="finance"] {
+  --ground: #03110c;
+  --raised: #0a1f17;
+  --text: #eef3ee;
+  --secondary: #93a79c;
+  --accent: #e0b15c;
+  --accent-b: #3fd08f;
+}
+/* Law & Diplomacy: claret benches, brass rails. Placards in Bodoni small caps. */
+[data-page="modelUn"] {
+  --ground: #14080b;
+  --raised: #241014;
+  --text: #f5ece6;
+  --secondary: #b79e96;
+  --accent: #d8ae58;
+  --accent-b: #7fa6e8;
+}
+/* Academics: a dusk flight deck. */
+[data-page="academics"] {
+  --ground: #0b0c1e;
+  --raised: #16183a;
+  --text: #eef0ff;
+  --secondary: #a0a5cc;
+  --accent: #f2a541;
+  --accent-b: #e672d9;
+}
+/* Leadership & Work Experience: a morning office, leaves at the glass. */
+[data-page="leadership"] {
+  --ground: #0f130d;
+  --raised: #1b2117;
+  --text: #f2eedf;
+  --secondary: #a9ae99;
+  --accent: #ffc870;
+  --accent-b: #86c98f;
+}
+/* Interests: a gallery plinth under a spot. Accent B is set per object. */
+[data-page="interests"] {
+  --ground: #0d0d10;
+  --raised: #18181d;
+  --text: #f4f2ee;
+  --secondary: #a3a1a8;
+  --accent: #f2a541;
+  --accent-b: #7fb2ff;
+  --aviation: #7fb2ff;
+  --reading: #e6a06a;
+  --formula1: #ff4a3d;
+  --tennis: #d7f23a;
+}
+/* Contact: late evening at a desk. */
+[data-page="contact"] {
+  --ground: #070b16;
+  --raised: #10172a;
+  --text: #f1eee8;
+  --secondary: #9aa3b8;
+  --accent: #ffb45e;
+  --accent-b: #e8695c;
 }
 
 @media (max-width: 759px) {
@@ -110,8 +163,8 @@ a {
 }
 
 ::selection {
-  background: var(--amber);
-  color: #0a101c;
+  background: var(--accent);
+  color: var(--ground);
 }
 
 .sr-only {
@@ -250,7 +303,18 @@ html[data-scrolled] .board:not([data-home]) {
   bottom: 6px;
   width: 16px;
   height: 2px;
-  background: var(--amber);
+  background: var(--accent);
+}
+@media (max-width: 1180px) {
+  .board__list {
+    gap: 20px;
+  }
+  .board__link {
+    font-size: 14px;
+  }
+  .board__resume {
+    padding-left: 20px !important;
+  }
 }
 .board__resume {
   color: var(--text);
@@ -307,7 +371,7 @@ html[data-scrolled] .board:not([data-home]) {
   }
 }
 
-/* Phone board: full screen, five rows. */
+/* Phone board: full screen, six rows. */
 .sheet {
   position: fixed;
   inset: 0;
@@ -342,15 +406,29 @@ html[data-scrolled] .board:not([data-home]) {
 .sheet__name {
   font-family: var(--ff-display-stack);
   font-weight: 500;
-  font-size: 40px;
+  font-size: 36px;
   line-height: 1;
 }
 .sheet__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
   font-family: var(--ff-figure-stack);
   font-variation-settings: "wdth" 80;
   font-variant-numeric: tabular-nums;
-  font-size: 13px;
-  color: var(--amber);
+  font-size: 15px;
+  line-height: 1.2;
+  text-align: right;
+  color: var(--accent);
+}
+.sheet__figure[data-kind="email"] {
+  font-size: 12px;
+}
+.sheet__note {
+  font-family: var(--ff-text-stack);
+  font-size: 12px;
+  color: var(--secondary);
 }
 .sheet__row[aria-current="page"]::before {
   content: "";
@@ -359,7 +437,7 @@ html[data-scrolled] .board:not([data-home]) {
   bottom: 8px;
   width: 16px;
   height: 2px;
-  background: var(--amber);
+  background: var(--accent);
 }
 .sheet__foot {
   display: flex;
@@ -391,6 +469,7 @@ html[data-sheet="open"] {
 .js-motion .sheet[data-open] .sheet__rows li:nth-child(3) { animation-delay: 80ms; }
 .js-motion .sheet[data-open] .sheet__rows li:nth-child(4) { animation-delay: 120ms; }
 .js-motion .sheet[data-open] .sheet__rows li:nth-child(5) { animation-delay: 160ms; }
+.js-motion .sheet[data-open] .sheet__rows li:nth-child(6) { animation-delay: 200ms; }
 
 @keyframes settle-in {
   from {
@@ -445,7 +524,7 @@ html[data-sheet="open"] {
   background: var(--down);
 }
 .tx__col[data-up]::before {
-  background: var(--navy-text);
+  background: var(--up);
 }
 .tx__col::after {
   content: "";
@@ -528,13 +607,21 @@ html[data-sheet="open"] {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1) brightness(0.42) contrast(1.06);
+  filter: grayscale(1) contrast(1.12) brightness(0.95);
 }
+/* Duotone (addendum §2): shadows to the page ground, highlights to Accent B at 35%. */
 .footage__grade {
   position: absolute;
   inset: 0;
-  background: var(--secondary);
+  background: color-mix(in srgb, var(--accent-b) 35%, var(--ground));
   mix-blend-mode: multiply;
+}
+.footage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ground);
+  mix-blend-mode: lighten;
 }
 .cold__copy {
   max-width: 1200px;
@@ -3377,4 +3464,71 @@ html:has(.home) body {
   .more__list {
     columns: 1;
   }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Interests (stub until Run B) and the moved Model UN address
+   ────────────────────────────────────────────────────────────────────────── */
+
+.stub {
+  padding: 104px var(--margin) calc(var(--bar) + 168px);
+  max-width: 1312px;
+}
+.stub__lead {
+  max-width: 40ch;
+  margin: 0 0 64px;
+  font-size: 21px;
+  line-height: 1.45;
+}
+.stub__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+.stub__row {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 8px var(--gutter);
+  padding: 24px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+.stub__name {
+  font-family: var(--ff-display-stack);
+  font-weight: 500;
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(36px, 4.4vw, 64px);
+  line-height: 1;
+}
+.stub__row[data-interest="aviation"] .stub__name { color: var(--aviation); }
+.stub__row[data-interest="reading"] .stub__name { color: var(--reading); }
+.stub__row[data-interest="formula1"] .stub__name { color: var(--formula1); }
+.stub__row[data-interest="tennis"] .stub__name { color: var(--tennis); }
+.stub__facts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 62ch;
+  align-self: center;
+}
+.stub__note {
+  margin: 40px 0 0;
+  font-size: 14px;
+  color: var(--secondary);
+}
+@media (max-width: 759px) {
+  .stub__row {
+    grid-template-columns: 1fr;
+  }
+}
+.moved {
+  min-height: 60svh;
+  display: grid;
+  place-items: center;
+}
+.moved__line a {
+  font-family: var(--ff-display-stack);
+  font-size: 40px;
+  text-decoration: underline;
+  text-underline-offset: 6px;
 }

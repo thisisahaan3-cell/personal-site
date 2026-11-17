@@ -925,7 +925,7 @@ const core = {
     },
     /** Shorter names for tight spaces (board, buttons). Fall back to `pages` where absent. */
     pagesShort: {
-      leadership: "Leadership & Work",
+      leadership: "Leadership",
     } as Record<string, string>,
     /** The board: the persistent navigation. */
     board: {
@@ -941,11 +941,30 @@ const core = {
       replay: "Replay the intro",
       /** Short context beside each figure on the home destinations. Restates `stats`; adds no facts. */
       figureNotes: {
-        nfo: "National Finance Olympiad 2025",
+        nfo: "Round 1, National Finance Olympiad 2025",
         delegateAwards: "Delegate awards",
         gradeX: "CBSE Grade X",
         books: "Books read",
       } as Record<string, string>,
+    },
+    /**
+     * The figure beside each destination (home foot row, phone board). Counts are computed from
+     * the lists they describe ({n}); nothing here adds a fact.
+     */
+    destinations: {
+      executiveBoard: "Executive Board roles",
+      internships: "Internships",
+      email: "Email",
+    },
+    /** Interests page, before it is built (Run B). */
+    interestsStub: {
+      lead: "The interactive version of this page is being built.",
+      list: "Interests on this page",
+    },
+    /** 3D set pieces: loading readout and the flat version's heading. */
+    three: {
+      loading: "Loading the scene",
+      listHeading: "In this scene",
     },
     /** Finance page (version 2). Figures restate `stats`, `competitions` and `experience`; nothing new. */
     finance: {
