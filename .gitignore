@@ -55,3 +55,6 @@ __pycache__/
 
 # screenshots of the reference site (another person's imagery; study notes are kept instead)
 /design/reference-study/shots/
+
+# screenshots of reference sites
+/design/reference-study/shots/

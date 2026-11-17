@@ -21,6 +21,31 @@ The client rejected the first site (Meridian: a light, one-page scroll) as too b
 
 The approved v2 direction is `design/v2-direction.md`. `design/design-system.md`, `design/directions.md` and `design/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. His own media so far: the portrait, the Artha screenshots and official logos.
 
+## VERSION 2.1 REFINEMENT (17 Nov 2026) — refine the v2 site, do not restart it
+
+The client likes v2 much more but says it "looks very dead": the animations are good, the ELEMENTS are basic (boxes for desks), and it needs colour. Direction: **cinematic editorial + interactive 3D**. "A few memorable 3D experiences beat twenty decorative ones." Everything he asked for is tracked as a checklist in `PROGRESS.md` (section "V2.1 checklist"); every item must be done. Design addendum: `design/v2.1-addendum.md`.
+
+Design
+- Home: main background pure BLACK (only Home). The candle wall that forms his face should be more realistically coloured (real market colours, natural face colour in the reveal).
+- Every other page gets its own design language and colour, whatever suits it best. Overall far more colourful, varied, cinematic, "non-AI".
+- Real elements: realistic 3D models with PBR materials, HDRI lighting and shadows, not primitive boxes/spheres. Mouse-responsive rotation, scroll-driven camera moves, hotspots, object animations, smooth scene transitions. Lazy-load, compress, give phones a fallback. Never a photo pretending to be 3D, never a low-quality model to tick a box, never an invented asset URL.
+- Assets: Poly Haven (CC0, reachable without login) is the main source; Sketchfab downloads need the client's free API token (requested); record every asset's source and licence in `content/research/assets.md`; CC-BY models get a credit line on the site. Models live in `public/models/`, HDRIs in `public/hdri/`.
+- Finance must look truly amazing.
+- Leadership page may borrow the IDEA (not the code; they are paid) of the "Volumes" or "Pavement" sections at supply.madebyoversight.com/sections: 3D books flying past in window light and opening as you scroll / flying low over posters lying in a street that peel away.
+
+Structure and content
+- Model UN page is renamed (for example "Law & Diplomacy") so it is not restricted to MUN; it emphasises the Executive Board appearances most, and includes the IIT Madras Introduction to Law course (8 weeks, take-home project).
+- New Interests page, interactive, each interest backed by what he has done: aviation (IIT Madras Fundamentals of Aerospace, 8 weeks, with the resume's exact award wording; a gallery for aviation photos he will send), reading (400+ books), Formula 1 (he watches every race), tennis (he has taken part in and won tournaments).
+- Leadership becomes "Leadership & Work Experience": all internships (Mahak Plastic Industries & RD Polypack, We Care Foundation, Fortis Adayu Hospital), then Student Council, Green Captain, Rasmanjari, Lotus Young Leaders Summit.
+- Academics: school topper in Grade 10 and school topper every year from Grade 7 to Grade 11; National Finance Olympiad shown as AIR 10 (it is the Round 1 rank: label it so; Nationals AIR 54 of 10,000+ stays visible); SRCC Finance Olympiad AIR 46 of 3,000; SOF International English Olympiad (6 awards); below those the rest (SHRITEQ, Quiz to Conquer and others) with ranks where given.
+- Contact: properly visualised and cinematic, with LinkedIn, Instagram, Email and Resume (LinkedIn and Instagram URLs not yet supplied: placeholders).
+- Code must be organised so he can edit content and drop in his own media: one place per kind of asset, documented in `MEDIA.md`. At the end, tell him exactly which files to upload where.
+
+Process
+- Keep the subagent model; design/engineering agents run on Opus 5.5 (pass `model: "opus"`). Do not waste usage: no review rounds beyond a quick look that things work. The engineer and creative director use the `frontend-design` and `ui-ux-pro-max` skills.
+
+New facts from the client's 17 Nov message (source: "client message"): school topper every year Grade 7 to Grade 11 including Grade 10; SRCC Finance Olympiad AIR 46 out of 3,000; watches every Formula 1 race; has participated in and won tennis tournaments; will supply aviation photos, LinkedIn and Instagram links.
+
 ## Sources of truth
 
 - `source-material/resume-original.pdf` is the primary source of facts. It contains a phone number and the GitHub repository is public, so it is git-ignored and exists only in the session's container. If it is missing after a restart, use `content/research/facts.md` (the full extraction) and `public/Ahaan-Gupta-Resume.pdf` (the redacted copy offered for download).
