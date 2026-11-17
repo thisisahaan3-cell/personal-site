@@ -8,8 +8,10 @@ The client rejected the first site as too basic. New brief is at the top of CLAU
 
 - [x] V2-1. Direction written: `design/v2-direction.md`, "Price Discovery" (a WebGL wall of candlesticks settles into his face; six routes: Home, Finance, Model UN, Academics, Leadership, Contact; one pinned set piece per page; stock footage M1–M9 as replaceable atmosphere). NOTE: that run was served by Fable 5.2 because the session held the old agent definition; ALWAYS pass `model: "opus"` on Agent calls to creative-director, visual-explorer and frontend-engineer, and check the served model in the subagent transcript
 - [ ] V2-1b. Stock media M1–M9 into `public/media/` with provenance (content-researcher) — started ~19:35 UTC 16 Nov
-- [ ] V2-2. (started ~19:35 UTC 16 Nov, frontend-engineer on Opus) Shell + intro: dark tokens, persistent nav, page transitions, the home intro set piece (frontend-engineer). SHOW THE CLIENT (screenshots/short capture, then deploy) before going further
-- [ ] V2-3. Section pages with one set piece each (frontend-engineer), reusing v1 data and components where they fit
+- [x] V2-2. Shell + Home intro built and committed (7e32477): dark tokens, board nav, candle page transition, route stubs, WebGL candle wall with burst/settle and pointer lens. Frames in `qa/screenshots/v2-home/` were sent to the client. DEPLOYED 17 Nov ~00:50 UTC as a first look (section pages are stubs). Deploy with `scripts/deploy.sh "<proxy-path from the Netlify MCP deploy-site tool>"`
+- [ ] V2-3a. Finance + Model UN pages and three Home fixes (backdrop too faint, lift portrait shadows, "AIR 54" spacing) — fresh frontend-engineer with `model: "opus"`, started ~00:55 UTC 17 Nov; it commits after each page
+- [ ] V2-3b. Academics, Leadership, Contact pages (next engineer run, same pattern: read CLAUDE.md v2 brief + `design/v2-direction.md` sections 5–7 + the shell code; one set piece each: the altitude tape, the stints lanes, the candle portrait with 400 spines)
+- [ ] V2-1c. Remaining media M4, M7, M9 stills and a neutral M3 loop (content-researcher, started ~00:55 UTC 17 Nov; the first attempt was cut off by the limit)
 - [ ] V2-4. One QA pass (qa-reviewer), fixes, redeploy to the same Netlify project (`ahaan-gupta`, how-to under v1 step 7)
 - [ ] V2-5. Disable the hourly scheduled task
 
@@ -46,6 +48,8 @@ Usage rules: one agent at a time, tight briefs, fresh agents rather than resumin
 - Client decisions open: age in the resume PDF, Rasmanjari wording, what "19+ awards" counts, Grade X year, Wharton logo, biography and interest text, Wharton/GITAM details, social links.
 
 ## Log
+
+- 16 Nov ~20:20 UTC: fifth usage limit hit during the v2 home build; reset 23:50; resumed 00:37 UTC 17 Nov. The home wall was already committed, so nothing was lost.
 
 - 16 Nov 05:15 UTC: third usage limit hit as fix round 1 began (nothing changed). Reset 08:30. Resumed 08:38 with a FRESH frontend-engineer on fix round 1a (review items 1, 2, 3, 5, 6, 17 and phone sort buttons: the two QA majors plus quick items). Plan: narrow QA re-check of the majors → first deploy → round 1b (review items 4, 7–16, 18) → QA round 2 → redeploy. Lesson: resuming an agent with a 400k context is expensive; prefer fresh agents with tight briefs.
 
