@@ -33,6 +33,8 @@ Assets and code
 
 CURRENT STATE (17 Nov, after Run A): DEPLOYED Home (black, market colours), Finance, Law & Diplomacy with real models, credits footer, new nav. Run B1 started (fresh frontend-engineer, model opus): Home brightness fix, Academics content changes + a real-object moment, Leadership & Work Experience as flying dossiers. AFTER B1: look at `qa/screenshots/v21-b1/`, deploy, then Run B2 (Interests page with airliner / formula-car / tennis-racket / books on a selectable stage plus aviation photo frames; cinematic Contact desk scene with Email, Resume, LinkedIn, Instagram; `MEDIA.md`; final check), deploy, tick the checklist, final message telling the client what to upload where, disable the hourly task.
 
+Client feedback 17 Nov ~11:00 UTC (after seeing the live Finance page; he "likes it"): remove the Finance cold open and start with the bull; remove the Artha phone screenshot (it covers the link); Wharton entry: "built an elaborate investment strategy with multiple steps and tested it through multiple simulations" (client message; add nothing beyond it); keep the 99.4 tape on Academics. Passed to the Run B1 engineer, which does these first. Session now runs on claude-opus-5-5 (switched by the client).
+
 Work log for V2.1
 - 17 Nov ~05:45 UTC: content-researcher (Sonnet) updated `src/content/site.ts` additively (`academics`, `lawDiplomacy`, `work`, `interestsPage`, `contact.links`, new `ui.pages`; `nfo` stat now "AIR 10" Round 1 with AIR 54 secondary; SRCC "AIR 46 of 3,000"); tsc passes.
 - 17 Nov ~05:50 UTC: creative-director (confirmed claude-opus-5-5) wrote `design/v2.1-addendum.md`: per-page palettes and one hero 3D set piece per page; build order Run A / Run B.
