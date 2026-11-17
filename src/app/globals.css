@@ -5591,6 +5591,36 @@ html:has(.home) body {
   width: min(420px, 40vw);
 }
 @media (max-width: 759px) {
+  /* Phones: the desk on top as a framed scene, the links below it. */
+  .desk3d {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .desk3d::before {
+    display: none;
+  }
+  .desk3d__stage {
+    position: relative;
+    inset: auto;
+    height: min(112vw, 64svh);
+  }
+  .desk3d .contact__copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    padding: 8px var(--margin) 88px;
+  }
+  .desk3d .contact__email {
+    white-space: normal;
+  }
+  .desk3d .load3d {
+    width: auto;
+  }
+}
+@media (max-width: 759px) {
   .contact__copy:not([data-live]) {
     padding: 104px var(--margin) 72px;
   }

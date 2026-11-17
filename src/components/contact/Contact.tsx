@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight, Copy, Check } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { site } from "@/content/site";
 import { useSetPieceMode } from "@/lib/three/quality";
 import { Loading } from "@/components/three/Loading";
@@ -11,7 +11,6 @@ import type { DeskId } from "./deskScene";
 
 const ui = site.ui.contact;
 const LINKS = site.contact.links;
-const PHONE_MAX = 760;
 
 function fontOf(name: string, fallback: string) {
   const v = getComputedStyle(document.body).getPropertyValue(name).trim();
@@ -19,21 +18,12 @@ function fontOf(name: string, fallback: string) {
 }
 
 /**
- * Contact: the desk at night (desktop, full motion) beside the links as real, large DOM links.
- * Phones, reduced motion and no WebGL get the same links without the desk.
+ * Contact: the desk at night beside the links as real, large DOM links (on phones the desk sits
+ * above the links; tapping an object opens its link). Reduced motion and no WebGL get the links only.
  */
 export function Contact() {
   const mode = useSetPieceMode();
-  const [phone, setPhone] = useState<boolean | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia(`(max-width: ${PHONE_MAX - 1}px)`);
-    const on = () => setPhone(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  const live = mode === "motion" && phone === false;
-  return live ? <Desk /> : <Links live={false} />;
+  return mode === "motion" ? <Desk /> : <Links live={false} />;
 }
 
 type LinksProps = {
