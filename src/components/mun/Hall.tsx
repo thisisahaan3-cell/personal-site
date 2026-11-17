@@ -30,9 +30,10 @@ const HOTSPOTS: HotspotItem[] = [
       figure: String(p.year),
       line: p.name,
       sub: p.result ?? ("body" in p ? p.body : undefined) ?? undefined,
-      side: "right" as const,
-      reach: 64,
-      rise: -20,
+      // Down onto the empty floor: the first to the left, the second to the right.
+      side: (i === 0 ? "left" : "right") as "left" | "right",
+      reach: 150,
+      rise: -60,
     };
   }),
   {

@@ -4062,6 +4062,22 @@ html:has(.home) body {
 .hall__stage[data-dragging] {
   cursor: grabbing;
 }
+/* A ground-coloured falloff behind the left copy column, so its text reads over the scene. */
+.hall__stage::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0 55% 0 0;
+  background: linear-gradient(to right, color-mix(in srgb, var(--ground) 82%, transparent) 30%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-reveal) linear;
+}
+.hall__stage[data-phase="floor"]::before,
+.hall__stage[data-phase="bench"]::before,
+.hall__stage[data-phase="corner"]::before {
+  opacity: 1;
+}
 /* One phase's copy at a time, so headline and panels never overlap. */
 .hall__board,
 .hall__copy,

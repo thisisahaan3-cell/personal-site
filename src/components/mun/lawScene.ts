@@ -111,7 +111,11 @@ function placardTexture(title: string, sub: string, anisotropy: number, dais: bo
     size -= 4;
     setTitle();
   }
-  g.fillStyle = "#2a0a10";
+  // A thin stroke in the ink colour keeps Bodoni's hairlines from vanishing at placard size.
+  g.fillStyle = g.strokeStyle = "#2a0a10";
+  g.lineWidth = 3;
+  g.lineJoin = "round";
+  g.strokeText(title, W / 2, 168);
   g.fillText(title, W / 2, 168);
   (g as CanvasRenderingContext2D & { fontVariantCaps?: string }).fontVariantCaps = "normal";
   g.font = `500 60px ${figure}`;
@@ -215,7 +219,8 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
   rail.position.set(0, DAIS_H - 0.02, 0.4 + 0.007);
   dais.add(rail);
 
-  // The table, its long side to the floor.
+  // The desk, its long side to the floor and its modesty panel toward the delegates.
+  table.rotation.y = Math.PI;
   placeOnFloor(table, 0, DAIS_H, DAIS_Z);
   dais.add(table);
   const tb = bounds(table);
@@ -427,18 +432,17 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
 
   // ── Camera path ──
   const C = (v: THREE.Vector3) => v.toArray() as THREE.Vector3Tuple;
-  // Aimed a little short of the bench, so the chairs sit right of the copy column.
-  const benchC = new THREE.Vector3(3.7, 0.6, -0.35);
-  const cornerLook = corner.localToWorld(new THREE.Vector3(0.1, 1.15, -0.4));
-  const cornerEye = corner.localToWorld(new THREE.Vector3(0.9, 1.8, 3.5));
+  const benchC = new THREE.Vector3(4.05, 0.6, 0.1);
+  const cornerLook = corner.localToWorld(new THREE.Vector3(0.1, 1.35, -0.45));
+  const cornerEye = corner.localToWorld(new THREE.Vector3(1.0, 2.0, 4.3));
   const keys: Key[] = [
     { at: AT.open, shot: { pos: [0.4, 6.4, 10.5], target: [0, 0.4, 0.8], fov: 34 } },
-    { at: AT.dais, shot: { pos: [0.5, 1.95, 3.7], target: [0, tableTop + 0.1, DAIS_Z], fov: 30 } },
-    { at: AT.daisHold, shot: { pos: [0.3, 1.9, 3.4], target: [0, tableTop + 0.1, DAIS_Z], fov: 30 } },
+    { at: AT.dais, shot: { pos: [0.55, 2.45, 5.0], target: [0, tableTop - 0.05, DAIS_Z], fov: 30 } },
+    { at: AT.daisHold, shot: { pos: [0.35, 2.4, 4.7], target: [0, tableTop - 0.05, DAIS_Z], fov: 30 } },
     { at: AT.floor, shot: { pos: [0.6, 3.4, -1.0], target: [0, 0.4, 3.7], fov: 40 } },
     { at: AT.floorHold, shot: { pos: [-0.4, 3.3, -0.9], target: [0, 0.4, 3.7], fov: 40 } },
-    { at: AT.bench, shot: { pos: [1.2, 1.55, 2.5], target: C(benchC), fov: 32 } },
-    { at: AT.benchHold, shot: { pos: [1.35, 1.5, 2.2], target: C(benchC), fov: 32 } },
+    { at: AT.bench, shot: { pos: [1.0, 1.95, 3.3], target: C(benchC), fov: 32 } },
+    { at: AT.benchHold, shot: { pos: [1.15, 1.9, 3.05], target: C(benchC), fov: 32 } },
     { at: AT.corner, shot: { pos: C(cornerEye), target: C(cornerLook), fov: 36 } },
     { at: AT.end, shot: { pos: C(cornerEye.clone().lerp(cornerLook, 0.12)), target: C(cornerLook), fov: 36 } },
   ];
@@ -474,7 +478,7 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
     // Desktop: the dais is framed in the centre (the roles run across the bottom); the other
     // shots leave the left column for their copy.
     const left = span(p, AT.daisHold, AT.floor) * (1 + 0.4 * span(p, AT.benchHold, AT.corner));
-    shiftFrame(camera, phone ? 0 : 0.14 * left, phone ? 0 : 0.13 * (1 - span(p, AT.daisHold, AT.floor)) * span(p, 0.04, AT.dais));
+    shiftFrame(camera, phone ? 0 : 0.14 * left, phone ? 0 : 0.2 * (1 - span(p, AT.daisHold, AT.floor)) * span(p, 0.04, AT.dais));
 
     let ph: LawPhase = "open";
     for (const [at, name] of PHASE_AT) if (p >= at) ph = name;
@@ -486,7 +490,9 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
 
     // Lights follow the shots.
     const floorT = span(p, AT.daisHold, AT.floorHold);
-    floorOn = damp(floorOn, p > AT.daisHold && p < AT.bench + 0.04 ? 1 : 0.25, 0.4, dt);
+    // The floor is lit for its own shot; dim while the dais is on screen, a little for the overview.
+    const floorWant = p > AT.daisHold && p < AT.bench + 0.04 ? 1 : p < AT.dais * 0.6 ? 0.3 : 0;
+    floorOn = damp(floorOn, floorWant, 0.4, dt);
     benchOn = damp(benchOn, p > AT.floorHold ? 1 : 0, 0.4, dt);
     cornerOn = damp(cornerOn, p > AT.benchHold ? 1 : 0.15, 0.5, dt);
     const lampWant = p > AT.corner - 0.04 ? 1 : 0;
@@ -501,7 +507,7 @@ export async function buildLaw(engine: Engine, o: LawOptions): Promise<LawApi> {
     lampGlow.intensity = 0.5 * lampOn * flick;
     for (const m of lampMats) m.emissiveIntensity = 8 * lampOn * flick;
     key.intensity = 340 * (1 - 0.55 * span(p, AT.floorHold, AT.bench));
-    if (Math.abs(floorOn - (p > AT.daisHold && p < AT.bench + 0.04 ? 1 : 0.25)) > 0.002) moving = true;
+    if (Math.abs(floorOn - floorWant) > 0.002) moving = true;
     if (Math.abs(lampOn - lampWant) > 0.002 || Math.abs(benchOn - (p > AT.floorHold ? 1 : 0)) > 0.002) moving = true;
 
     // Placards: desks light in sequence as the camera turns to the floor; raised on hover.
