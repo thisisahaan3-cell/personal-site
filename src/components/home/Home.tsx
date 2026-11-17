@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { site } from "@/content/site";
-import { DESTINATIONS, statFor } from "@/lib/pages";
+import { DESTINATIONS, destinationFigure, pageLabel } from "@/lib/pages";
 import { prefersReducedMotion, prefersStillMedia } from "@/lib/motion";
 import { TransitionLink, useTransitionPhase } from "@/components/shell/Transition";
 import { Roll } from "./Roll";
@@ -252,7 +252,6 @@ export function Home({ video }: { video: string | null }) {
   };
 
   const [first, ...rest] = site.identity.name.split(" ");
-  const notes = site.ui.home.figureNotes;
 
   return (
     <section
@@ -297,7 +296,7 @@ export function Home({ video }: { video: string | null }) {
       <nav className="home__foot" ref={foot} aria-label={site.ui.home.destinationsLabel}>
         <ul className="dest-row">
           {DESTINATIONS.map((d, i) => {
-            const s = d.id === "contact" ? null : statFor(d.stat);
+            const f = destinationFigure(d.id);
             return (
               <li key={d.id} className="dest-row__item" style={{ ["--n" as string]: i }}>
                 <TransitionLink
@@ -309,11 +308,11 @@ export function Home({ video }: { video: string | null }) {
                   onBlur={(e) => lean(e, false)}
                 >
                   <span className="dest__rule" aria-hidden="true" />
-                  <span className="dest__name">{site.ui.pages[d.id]}</span>
-                  {s ? (
-                    <span className="dest__figure">
-                      <Roll value={s.value} />
-                      <span className="dest__note">{notes[s.id]}</span>
+                  <span className="dest__name">{pageLabel(d.id)}</span>
+                  {f ? (
+                    <span className="dest__figure" data-kind={f.kind}>
+                      {f.kind === "email" ? <span>{f.value}</span> : <Roll value={f.value} />}
+                      <span className="dest__note">{f.note}</span>
                     </span>
                   ) : null}
                 </TransitionLink>

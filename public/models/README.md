@@ -1,6 +1,6 @@
 # Models in this folder
 
-Every file here is a CC0 model from Poly Haven (https://polyhaven.com), downloaded at 1k and optimised into a single GLB (WebP textures up to 1024 px, meshopt compression) by `scripts/fetch-polyhaven.mjs`. They need a meshopt decoder when loaded in three.js. Dimensions are in metres: see `content/research/assets.md`, section "3D models and HDRIs", which also lists author, triangle count and size for each.
+Most files here are CC0 models from Poly Haven; the six Sketchfab models (listed at the end) are CC BY 4.0 and must be credited (see `src/content/credits.ts`) (https://polyhaven.com), downloaded at 1k and optimised into a single GLB (WebP textures up to 1024 px, meshopt compression) by `scripts/fetch-polyhaven.mjs`. They need a meshopt decoder when loaded in three.js. Dimensions are in metres: see `content/research/assets.md`, section "3D models and HDRIs", which also lists author, triangle count and size for each.
 
 | File | Poly Haven asset | Page |
 |---|---|---|
@@ -26,6 +26,19 @@ Every file here is a CC0 model from Poly Haven (https://polyhaven.com), download
 | `fancy-picture-frame-01.glb` | Fancy Picture Frame 01 (`fancy_picture_frame_01`), by Rob Tuytel, Rico Cilliers | https://polyhaven.com/a/fancy_picture_frame_01 |
 | `camera-01.glb` | Camera 01 (`Camera_01`), by Rajil Jose Macatangay | https://polyhaven.com/a/Camera_01 |
 | `vintage-grandfather-clock-01.glb` | Vintage Grandfather Clock 01 (`vintage_grandfather_clock_01`), by Yann Kervran, James Ray Cock | https://polyhaven.com/a/vintage_grandfather_clock_01 |
+
+## Sketchfab models (CC BY 4.0, credited in the site footer)
+
+Fetched by `scripts/fetch-sketchfab.mjs` (needs `SKETCHFAB_TOKEN` in the environment), rescaled to real metres, 2048 px WebP textures, meshopt. Up is +Y. Details and orientation: `content/research/assets.md`, section "Sketchfab models".
+
+| File | Title, author | Size (W x H x D, m) | Orientation |
+|---|---|---|---|
+| `airliner.glb` | B737-800 Model, hakai315 | 31.2 x 13.4 x 39.5 | nose +Z, tail -Z, origin near the wing root |
+| `formula-car.glb` | 1967 Ferrari 312, Dave Love SketchFab | 1.77 x 0.86 x 4.03 | nose +Z, centred |
+| `tennis-racket.glb` | Tennis Racket Wilson Blade, Murizn | 0.685 x 0.047 x 0.266 | flat, handle -X, head +X |
+| `tennis-ball.glb` | Tennis Ball, Tentrox | 0.067 across | centred |
+| `microphone.glb` | Desk Microphone Model, PatrickZ | 0.21 x 0.20 x 0.35 | base -Z, capsule +Z |
+| `gavel.glb` | gavel, rutesh sakpal | 0.11 x 0.135 x 0.33 | handle along Z, block at -Z |
 
 HDRI lighting files live in `public/hdri/` (also Poly Haven, CC0): `studio.hdr`, `interior-warm.hdr`, `hall.hdr`, `dusk-sky.hdr`.
 

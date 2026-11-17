@@ -117,14 +117,26 @@ Notes for the engineer: `chess-set.glb` reports a 2.0 m tall bounding box, which
 |---|---|
 | `decorative_book_set_01` (Poly Haven) | Poly Haven publishes this asset only as FBX, USD and Blend (no glTF; the API has no `gltf` entry). Converting needs FBX2glTF or Blender, neither is installed, and the environment refused to run the unvetted FBX2glTF binary from npm. `book_encyclopedia_set_01` and `wooden_bookshelf_worn` were obtained instead. Retry if Blender or a vetted converter is available. |
 
-### Wanted from Sketchfab (needs the client's API token)
+## Sketchfab models
 
-No files yet. Each must be checked for its licence (CC0, CC-BY with a credit line on the site, or similar) before download and recorded here.
+Retrieved 17 Nov 2026 through the Sketchfab Data API v3 with the client's API token (never stored in the repository), by `scripts/fetch-sketchfab.mjs <uid> <name> [--length <metres>]`. Every model is **CC Attribution 4.0** (http://creativecommons.org/licenses/by/4.0/), so each needs a credit line: `src/content/credits.ts` lists them and the site footer renders that list at the very bottom of the site. Each was optimised to one GLB (`--texture-compress webp --texture-size 2048 --compress meshopt`, so the loader needs the meshopt decoder) and rescaled to real-world metres with a wrapper node named `scale-to-metres`. The airliner, car and racket were visually checked from the Sketchfab thumbnails only; no in-engine render was made. Triangles are those reported by `node scripts/inspect-models.mjs` after optimisation (Sketchfab's own face count is in brackets). Atmosphere/props only; never captioned as Ahaan's own. The car carries a historic Ferrari name and the racket a Wilson mark in their textures; they show the object, never an endorsement.
 
-| Subject | Status |
+| File | Title | Author | Sketchfab page | uid | Licence | Triangles | Size | Dimensions W x H x D (m) | Retrieved |
+|---|---|---|---|---|---|---|---|---|---|
+| `public/models/airliner.glb` | B737-800 Model | hakai315 | https://sketchfab.com/3d-models/b737-800-model-6cbe380405794ea69d6b0a3d144dd1af | `6cbe380405794ea69d6b0a3d144dd1af` | CC BY 4.0 | 103158 (239383) | 507 kB | 31.17 x 13.41 x 39.50 | 17 Nov 2026 |
+| `public/models/formula-car.glb` | 1967 Ferrari 312 | Dave Love SketchFab | https://sketchfab.com/3d-models/1967-ferrari-312-105683345dbb441a8b28b71b713f2110 | `105683345dbb441a8b28b71b713f2110` | CC BY 4.0 | 63377 (78371) | 1293 kB | 1.77 x 0.86 x 4.03 | 17 Nov 2026 |
+| `public/models/tennis-racket.glb` | Tennis Racket Wilson Blade | Murizn | https://sketchfab.com/3d-models/tennis-racket-wilson-blade-599589f98217465f960310104b7aa474 | `599589f98217465f960310104b7aa474` | CC BY 4.0 | 18132 (26748) | 515 kB | 0.685 x 0.047 x 0.266 | 17 Nov 2026 |
+| `public/models/tennis-ball.glb` | Tennis Ball | Tentrox | https://sketchfab.com/3d-models/tennis-ball-edc344dcc65440ea97b5eae84f1957a4 | `edc344dcc65440ea97b5eae84f1957a4` | CC BY 4.0 | 1520 (1520) | 990 kB | 0.067 x 0.067 x 0.067 | 17 Nov 2026 |
+| `public/models/microphone.glb` | Desk Microphone Model | PatrickZ | https://sketchfab.com/3d-models/desk-microphone-model-6ae84970d6a845d580bc2cd9f4c9d6ca | `6ae84970d6a845d580bc2cd9f4c9d6ca` | CC BY 4.0 | 49554 (67396) | 234 kB | 0.208 x 0.203 x 0.350 | 17 Nov 2026 |
+| `public/models/gavel.glb` | gavel | rutesh sakpal | https://sketchfab.com/3d-models/gavel-44581bee0a5749989dc474fe35b9dc1e | `44581bee0a5749989dc474fe35b9dc1e` | CC BY 4.0 | 24768 (25846) | 328 kB | 0.112 x 0.135 x 0.330 | 17 Nov 2026 |
+
+Orientation (measured from the vertex data, up is +Y in every file): airliner nose +Z, tail -Z, origin near the wing root (z from -21.6 to +11.3, so the centre is off-origin; re-centre before orbiting), wheels retracted or down as modelled, plain white livery; car nose +Z, rear wing -Z, origin at the centre of the car, floor at y=0; racket lies flat (face normal +Y), handle at -X, head at +X; ball is centred on the origin; microphone base at -Z, capsule at +Z, floor at y=0 (0.2 m x 0.35 m base plus gooseneck, a delegate or conference unit; the exact unit scale is approximate because the source units were unspecified); gavel handle runs along Z with the sound block at the -Z end, sitting on y=0. The microphone has no textures (flat PBR materials). The airliner's wingspan is about 31 m against the real 737-800's 35.8 m, so its proportions are slightly compressed.
+
+### Sketchfab: looked for and not chosen
+
+| Wanted | Result |
 |---|---|
-| A realistic airliner | Not downloaded |
-| A Formula-style open-wheel car | Not downloaded |
-| A tennis racket and ball | Not downloaded |
-| A lectern or conference microphone | Not downloaded |
-| A gavel | Not downloaded |
+| A lectern or podium | None suitable: the CC BY candidates were a medieval or church lectern (distant_voices, 12k faces), a 546-face presidential podium, and generic white or stylised podiums; none suits a formal assembly chamber at the required quality. The desk conference microphone above was taken instead, as the brief allowed. |
+| A CC0 airliner, car, racket, microphone | The only CC0 airliners (mgg8: Concorde, 737-200, VC10) are not modern airliners at the right weight, and there were no CC0 cars, rackets, microphones or gavels of usable quality (the two CC0 gavels have fewer than 300 faces). |
+| Alternatives shortlisted and rejected | Lotus 49c, Lotus 72D, McLaren MP4/5 (heavy current or period sponsor liveries or larger files), Airbus A320 models (airline liveries), Racket-and-ball bundles (stylised). |
+

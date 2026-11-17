@@ -57,14 +57,14 @@ out vec2 vLocal;
 out vec2 vBodyHalf;
 out float vWickHalf;
 out vec4 vColor;
+out vec3 vWick;
 out float vLens;
 out vec2 vScreen;
 
 const float PI = 3.14159265;
-const vec3 TEXT = vec3(0.910, 0.929, 0.965);
-const vec3 DOWN = vec3(0.306, 0.404, 0.573);
-/* Portrait only: the down blue lifted so brightness, not hue, carries the face. */
-const vec3 DOWN_P = vec3(0.560, 0.660, 0.840);
+/* Real chart colours (addendum §1): up #26A69A, down #EF5350. */
+const vec3 UP = vec3(0.149, 0.651, 0.604);
+const vec3 DOWN = vec3(0.937, 0.325, 0.314);
 const vec3 AMBER = vec3(0.949, 0.647, 0.255);
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
@@ -206,28 +206,47 @@ void main() {
   bodyHalf = mix(bodyHalf, box * 0.5, lens);
   wickHalf *= 1.0 - lens;
 
-  /* Colour. */
-  vec3 restCol = up ? TEXT : (portrait ? DOWN_P : DOWN);
-  /* Backdrop tops out at 60% so the face stays the brightest thing on the wall. */
-  float bright = portrait ? 0.12 + 0.88 * min(P, 1.0) : 0.6 * mix(0.25, 1.0, clamp(h, 0.0, 1.0));
-  vec3 col = mix(seriesUp ? TEXT : DOWN, restCol * bright, e);
+  /* Colour (addendum §1). The burst and early settle are pure up/down. */
+  vec3 market = up ? UP : DOWN;
+  vec3 seriesCol = seriesUp ? UP : DOWN;
+  vec3 col;
+  vec3 wickCol;
+  if (portrait) {
+    float bright = 0.12 + 0.88 * min(P, 1.0);
+    /* From 2.5s to 3.2s each body cross-fades to the portrait's own colour; at rest it is
+       70% photograph, 30% market, so skin and blazer read naturally with a teal/red edge. */
+    vec3 sampled = onImage ? textureLod(uPortrait, puv, uLod).rgb : market * bright;
+    float natural = smoothstep(2.5, 3.2, uIntro);
+    vec3 rest = mix(market * bright, sampled, 0.7 * natural);
+    col = mix(seriesCol, rest, e);
+    wickCol = mix(seriesCol, market * (0.35 + 0.65 * bright), e);
+  } else {
+    /* A dim, living market: 70% saturation, brightness capped at 40%. */
+    vec3 m70 = mix(vec3(lum(market)), market, 0.7);
+    float bright = 0.4 * mix(0.25, 1.0, clamp(h, 0.0, 1.0));
+    col = mix(seriesCol, m70 * bright, e);
+    wickCol = col;
+  }
 
   /* Amber "last print": one column at a time across the wall, with a short tail. */
   float dp = uPrint - c.x;
   float print = dp >= -cell.x * 0.5 ? exp(-max(dp - cell.x * 0.5, 0.0) / (cell.x * 2.5)) : 0.0;
   print *= step(dp, cell.x * 30.0) * st;
   col = mix(col, AMBER * (portrait ? 1.0 : 0.7), print * (portrait ? 0.95 : 0.8));
+  wickCol = mix(wickCol, AMBER * (portrait ? 1.0 : 0.7), print * (portrait ? 0.95 : 0.8));
 
   /* Desktop: the backdrop quietens behind the name and descriptor so the copy stays legible. */
   if (!portrait && uView.x >= 760.0) {
     float qx = 1.0 - smoothstep(0.36, 0.5, c.x / uView.x);
     float qy = smoothstep(0.3, 0.44, c.y / uView.y);
     col *= 1.0 - 0.62 * qx * qy * e;
+    wickCol *= 1.0 - 0.62 * qx * qy * e;
   }
 
   /* Foot row: candles below the rule are quieter. */
   float foot = step(uFootY, c.y);
   col *= mix(1.0, portrait ? 0.4 : 0.55, foot * e);
+  wickCol *= mix(1.0, portrait ? 0.4 : 0.55, foot * e);
 
   float a = mix(seriesA, alpha, e);
   if (a < 0.002) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
@@ -239,6 +258,7 @@ void main() {
   vBodyHalf = bodyHalf;
   vWickHalf = wickHalf;
   vColor = vec4(col, a);
+  vWick = wickCol;
   vLens = lens;
   vScreen = screen;
   vec2 clip = screen / uView * 2.0 - 1.0;
@@ -251,6 +271,7 @@ in vec2 vLocal;
 in vec2 vBodyHalf;
 in float vWickHalf;
 in vec4 vColor;
+in vec3 vWick;
 in float vLens;
 in vec2 vScreen;
 uniform sampler2D uPortrait;
@@ -265,18 +286,21 @@ float boxMask(vec2 p, vec2 hs) {
 
 void main() {
   float body = boxMask(vLocal, vBodyHalf);
-  float wick = boxMask(vLocal, vec2(0.5, vWickHalf)) * 0.35;
-  float m = max(body, wick);
+  /* Wicks stay market colour at 50% alpha. */
+  float wick = boxMask(vLocal, vec2(0.5, vWickHalf)) * 0.5;
   vec3 col = vColor.rgb;
   float a = vColor.a;
   if (vLens > 0.001) {
+    /* Inside the lens the candles fill their cells in the photograph's true colour. */
     vec4 ph = texture(uPortrait, (vScreen - uImg.xy) / uImg.zw);
     col = mix(col, ph.rgb, vLens);
     a = mix(a, smoothstep(0.02, 0.6, ph.a), vLens);
   }
-  float A = m * a;
+  float Ab = body * a;
+  float Aw = wick * (1.0 - body) * vColor.a * (1.0 - vLens);
+  float A = Ab + Aw;
   if (A < 0.003) discard;
-  o = vec4(col * A, A);
+  o = vec4(col * Ab + vWick * Aw, A);
 }`;
 
 function compile(gl: WebGL2RenderingContext, type: number, src: string) {
@@ -588,7 +612,7 @@ export class CandleWall {
     if (this.useVideo) this.uploadVideo();
 
     gl.viewport(0, 0, this.canvas.width, this.canvas.height);
-    gl.clearColor(10 / 255, 16 / 255, 28 / 255, 1);
+    gl.clearColor(0, 0, 0, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
