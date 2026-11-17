@@ -52,6 +52,7 @@ export function PlanView({
                   width={s.kind === "dais" ? 0.76 : 0.64}
                   height={0.28}
                   className="plan__seat-mark"
+                  data-kind={s.kind}
                   data-active={active === s.id ? "" : undefined}
                   style={{ opacity: (lit ? 1 : 0.18) * (0.35 + 0.65 * s.glow) }}
                 />

@@ -78,7 +78,8 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
   floor.receiveShadow = true;
   scene.add(floor);
 
-  const stone = new THREE.MeshStandardMaterial({ color: 0x040d09, roughness: 0.72, metalness: 0.02, envMapIntensity: 0.5 });
+  // The hall HDRI's ceiling reads mint on a flat top: the stone barely reflects it.
+  const stone = new THREE.MeshStandardMaterial({ color: 0x040d09, roughness: 0.72, metalness: 0.02, envMapIntensity: 0.06 });
   const plinth = new THREE.Mesh(new RoundedBoxGeometry(0.3, PLINTH_H, 0.3, 3, 0.005), stone);
   plinth.position.y = PLINTH_H / 2;
   plinth.castShadow = true;
@@ -136,13 +137,14 @@ export async function buildBronze(engine: Engine, o: BronzeOptions): Promise<Bro
   torch.shadow.camera.far = 6;
   scene.add(torch, torch.target);
 
-  // Low and well behind, just above the plinth top, so the green grazes the silhouette and never lights the stone.
+  // Low and well behind, level with the plinth top, so the green grazes the silhouette and can never
+  // light (or glint off) the stone top: a light in the top's own plane adds nothing to it.
   const rim = new THREE.SpotLight(RIM, 24, 0, 0.24, 0.7, 2);
-  rim.position.set(-0.95, PLINTH_H + 0.22, -1.15);
+  rim.position.set(-0.95, PLINTH_H - 0.02, -1.15);
   rim.target.position.copy(centre).add(new THREE.Vector3(0, 0.1, 0));
   scene.add(rim, rim.target);
   const rim2 = new THREE.SpotLight(RIM, 6, 0, 0.22, 0.8, 2);
-  rim2.position.set(0.95, PLINTH_H + 0.22, -0.85);
+  rim2.position.set(0.95, PLINTH_H - 0.02, -0.85);
   rim2.target.position.copy(centre).add(new THREE.Vector3(0, 0.1, 0));
   scene.add(rim2, rim2.target);
 

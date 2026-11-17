@@ -1898,6 +1898,12 @@ html:has(.home) body {
   fill: var(--text);
   transition: opacity var(--t-settle) linear;
 }
+.plan__seat-mark[data-kind="dais"] {
+  fill: var(--accent);
+}
+.plan__seat-mark[data-kind="bench"] {
+  fill: var(--accent-b);
+}
 .plan__seat-mark[data-active] {
   fill: var(--accent);
   opacity: 1 !important;
@@ -3949,6 +3955,23 @@ html:has(.home) body {
     top: 96px;
     bottom: auto;
     width: 96px;
+  }
+  /* Over the lit laptop the copy needs its own ground. */
+  .desk__copy {
+    left: 0;
+    right: 0;
+    bottom: var(--bar);
+    padding: 20px var(--margin) 16px;
+    background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--ground) 88%, transparent) 18%);
+  }
+  /* The two horn labels both swing inward on a phone: stack them instead of overlapping. */
+  .bronze__hotspots .hotspot:nth-child(1) {
+    --reach: 90px !important;
+    --rise: 32deg !important;
+  }
+  .bronze__hotspots .hotspot:nth-child(2) {
+    --reach: 50px !important;
+    --rise: 4deg !important;
   }
   .load3d {
     top: 24px;
