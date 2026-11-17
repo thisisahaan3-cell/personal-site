@@ -5053,3 +5053,16 @@ html:has(.home) body {
     animation: none;
   }
 }
+@media (max-width: 759px) {
+  /* On a phone the lit year row carries the labels; the volumes stay unlabelled. */
+  .topper__hotspots {
+    display: none;
+  }
+  .headline__second-figure {
+    font-size: 28px;
+  }
+  .headline__second-figure .headline__of {
+    font-size: 16px;
+    white-space: nowrap;
+  }
+}

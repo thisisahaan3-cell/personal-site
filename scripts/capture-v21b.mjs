@@ -110,7 +110,7 @@ const G = {
         await shot(page, "phone-academics-results");
       }
       if (name === "leadership") {
-        await top(page, ".dossiers", 0);
+        await top(page, ".drawer", 0);
         await sleep(1200);
         await shot(page, "phone-leadership-dossiers");
       }
@@ -121,7 +121,7 @@ const G = {
     for (const [path, sel] of [
       ["/", null],
       ["/academics", ".topper"],
-      ["/leadership", ".dossiers"],
+      ["/leadership", ".drawer"],
     ]) {
       const name = path === "/" ? "home" : path.slice(1);
       const { page, ctx } = await open(path, { reduced: true });

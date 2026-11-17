@@ -173,7 +173,12 @@ export async function buildTopper(engine: Engine, o: TopperOptions) {
       rig.pitch.target = pointer.y * 0.04;
       let moving = rig.update(p, dt, still);
       const phone = size.w < 760;
-      shiftFrame(camera, phone ? 0 : 0.17, phone ? -0.16 : 0);
+      if (phone) {
+        // A tall frame: step back so the desk and all five volumes fit the width.
+        camera.position.sub(rig.lookAt).multiplyScalar(1.35).add(rig.lookAt);
+        camera.updateMatrixWorld();
+      }
+      shiftFrame(camera, phone ? 0 : 0.17, phone ? -0.1 : 0);
       let n = 0;
       books.forEach((b, k) => {
         const [a, z] = WINDOW[k];
