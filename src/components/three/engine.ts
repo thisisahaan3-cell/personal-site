@@ -19,13 +19,73 @@
  * used only as `scene.environment` (reflections), never as the background.
  *
  * This file imports three.js, so it is only ever loaded with a dynamic import, after first paint,
- * on pages that have a set piece.
+ * on pages that have a set piece (and by the background warm-up in components/shell/Prefetch.tsx).
  */
 import * as THREE from "three";
 import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 import { HDRLoader } from "three/examples/jsm/loaders/HDRLoader.js";
 import type { Quality } from "@/lib/three/quality";
+import { isBuilding } from "@/lib/three/busy";
+
+// ── Shared across pages ──
+// Parsed models and HDRIs are kept for the whole visit, not per page, so the background warm-up
+// (warmAssets, started from components/shell/Prefetch.tsx) and earlier pages leave them ready:
+// opening a page then skips downloading AND unpacking. Each page's engine still gets its own copy
+// of every material (see Engine.loadModel), so one scene's tweaks never leak into another page.
+const SHARED_GLTF = new Map<string, Promise<GLTF>>();
+const SHARED_HDR = new Map<string, Promise<THREE.DataTexture>>();
+let sharedLoaders: { gltf: GLTFLoader; hdr: HDRLoader } | null = null;
+function loaders() {
+  if (!sharedLoaders) {
+    const gltf = new GLTFLoader();
+    gltf.setMeshoptDecoder(MeshoptDecoder);
+    sharedLoaders = { gltf, hdr: new HDRLoader() };
+  }
+  return sharedLoaders;
+}
+function sharedGltf(url: string, onProgress?: (e: ProgressEvent) => void) {
+  let p = SHARED_GLTF.get(url);
+  if (!p) {
+    p = new Promise<GLTF>((resolve, reject) => loaders().gltf.load(url, resolve, onProgress, reject));
+    p.catch(() => SHARED_GLTF.delete(url));
+    SHARED_GLTF.set(url, p);
+  }
+  return p;
+}
+function sharedHdr(url: string, onProgress?: (e: ProgressEvent) => void) {
+  let p = SHARED_HDR.get(url);
+  if (!p) {
+    p = new Promise<THREE.DataTexture>((resolve, reject) => loaders().hdr.load(url, resolve, onProgress, reject));
+    p.catch(() => SHARED_HDR.delete(url));
+    SHARED_HDR.set(url, p);
+  }
+  return p;
+}
+
+function idle() {
+  return new Promise<void>((resolve) => {
+    const ric = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
+    if (ric) ric(() => resolve(), { timeout: 3000 });
+    else setTimeout(resolve, 200);
+  });
+}
+
+/** Download and unpack these models (.glb) and HDRIs (.hdr) one at a time, ahead of the pages that use them. */
+export async function warmAssets(urls: string[], isCancelled: () => boolean = () => false) {
+  for (const url of urls) {
+    if (isCancelled()) return;
+    try {
+      await (url.endsWith(".hdr") ? sharedHdr(url) : sharedGltf(url));
+    } catch {
+      /* the page that needs it will try again */
+    }
+    // Only continue when the browser is idle and no page is building a scene, so the warm-up
+    // never slows the page in front of the visitor.
+    await idle();
+    while (isBuilding() && !isCancelled()) await new Promise((r) => setTimeout(r, 250));
+  }
+}
 
 /** Change here to try another tone curve for every scene (AgX keeps highlights natural on metal). */
 export const TONE_MAPPING = THREE.AgXToneMapping;
@@ -63,8 +123,8 @@ export class Engine {
   readonly renderer: THREE.WebGLRenderer;
   readonly quality: Quality;
   private pmrem: THREE.PMREMGenerator;
-  private gltf: GLTFLoader;
-  private hdr: HDRLoader;
+  /** This engine's own copy of each shared material (models from the shared cache keep sharing within a page). */
+  private matCopies = new Map<THREE.Material, THREE.Material>();
   private models = new Map<string, Promise<GLTF>>();
   private envs = new Map<string, Promise<THREE.Texture>>();
   private progress = new Map<string, Progress>();
@@ -106,9 +166,6 @@ export class Engine {
     this.renderer = r;
 
     this.pmrem = new THREE.PMREMGenerator(r);
-    this.gltf = new GLTFLoader();
-    this.gltf.setMeshoptDecoder(MeshoptDecoder);
-    this.hdr = new HDRLoader();
 
     this.io = new IntersectionObserver(
       (entries) => {
@@ -273,16 +330,9 @@ export class Engine {
   async loadModel(url: string, estimateKb = 300): Promise<THREE.Group> {
     let p = this.models.get(url);
     if (!p) {
-      p = new Promise<GLTF>((resolve, reject) => {
-        this.gltf.load(
-          url,
-          (g) => {
-            this.done(url);
-            resolve(g);
-          },
-          this.track(url, estimateKb),
-          reject,
-        );
+      p = sharedGltf(url, this.track(url, estimateKb)).then((g) => {
+        this.done(url);
+        return g;
       });
       this.models.set(url, p);
     }
@@ -294,6 +344,15 @@ export class Engine {
       if (!m.isMesh) return;
       m.castShadow = true;
       m.receiveShadow = true;
+      const own = (mat: THREE.Material) => {
+        let c = this.matCopies.get(mat);
+        if (!c) {
+          c = mat.clone();
+          this.matCopies.set(mat, c);
+        }
+        return c;
+      };
+      m.material = Array.isArray(m.material) ? m.material.map(own) : own(m.material);
       const mats = Array.isArray(m.material) ? m.material : [m.material];
       for (const mat of mats) {
         const s = mat as THREE.MeshStandardMaterial;
@@ -307,19 +366,12 @@ export class Engine {
   loadEnvironment(url: string, estimateKb = 1600): Promise<THREE.Texture> {
     let p = this.envs.get(url);
     if (!p) {
-      p = new Promise<THREE.Texture>((resolve, reject) => {
-        this.hdr.load(
-          url,
-          (tex) => {
-            this.done(url);
-            tex.mapping = THREE.EquirectangularReflectionMapping;
-            const env = this.pmrem.fromEquirectangular(tex).texture;
-            tex.dispose();
-            resolve(env);
-          },
-          this.track(url, estimateKb),
-          reject,
-        );
+      p = sharedHdr(url, this.track(url, estimateKb)).then((tex) => {
+        this.done(url);
+        tex.mapping = THREE.EquirectangularReflectionMapping;
+        const env = this.pmrem.fromEquirectangular(tex).texture;
+        tex.dispose(); // frees this page's GPU copy only; the decoded image stays shared
+        return env;
       });
       this.envs.set(url, p);
     }
@@ -336,6 +388,8 @@ export class Engine {
     window.removeEventListener("resize", this.onResize);
     for (const v of this.views) disposeScene(v.spec.scene);
     this.views.clear();
+    this.matCopies.forEach((m) => m.dispose());
+    this.matCopies.clear();
     this.envs.forEach((p) => p.then((t) => t.dispose()).catch(() => {}));
     this.pmrem.dispose();
     this.renderer.dispose();

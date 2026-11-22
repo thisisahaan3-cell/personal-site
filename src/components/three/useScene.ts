@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Engine } from "./engine";
 import { useStage } from "./Stage3D";
+import { beginBuild } from "@/lib/three/busy";
 
 /**
  * Build a set piece's scene once the page's engine exists, and dispose it on unmount.
@@ -24,6 +25,7 @@ export function useScene<T extends { dispose: () => void }>(enabled: boolean, bu
     if (!enabled) return;
     let cancelled = false;
     let built: T | null = null;
+    const end = beginBuild();
     stage
       .engine()
       .then(async (e) => {
@@ -36,13 +38,17 @@ export function useScene<T extends { dispose: () => void }>(enabled: boolean, bu
           return;
         }
         setApi(built);
+        // Give the first frames a moment before the background warm-up resumes.
+        window.setTimeout(end, 1500);
       })
       .catch((err) => {
         console.warn("3D set piece unavailable, showing the flat version.", err);
         if (!cancelled) setFailed(true);
+        end();
       });
     return () => {
       cancelled = true;
+      end();
       built?.dispose();
       setApi(null);
     };
