@@ -8,12 +8,13 @@ const page = site.interestsPage;
 const ui = site.ui.interests;
 
 /**
- * His aviation photographs, hung as a row of cabin windows. A slot with no file keeps its blind
- * down and says the photograph is to come; nothing stands in for his own pictures.
+ * His aviation photographs, hung as a row of cabin windows. Empty slots are not shown, and the
+ * section is hidden until at least one photograph is added; nothing stands in for his own pictures.
  * Fill the slots in `site.interestsPage.items[aviation].gallery` (see MEDIA.md).
  */
 export function AviationGallery() {
-  const slots = page.items.find((i) => i.id === "aviation")?.gallery ?? [];
+  // Only the frames that have a photograph; the whole gallery stays hidden until the first one is added.
+  const slots = (page.items.find((i) => i.id === "aviation")?.gallery ?? []).filter((s) => s.src);
   if (!slots.length) return null;
   return (
     <section className="cabin" aria-labelledby="cabin-title">

@@ -28,7 +28,7 @@ Nothing else needs to change. After editing, rebuild and deploy (last section).
 | Your Finance photo or clip | Finance, after the desk | `mediaSlots.finance` | none | empty |
 | Your Law & Diplomacy photo or clip | Law & Diplomacy | `mediaSlots.modelUn` | none | empty |
 | Your Leadership photo or clip | Leadership & Work Experience | `mediaSlots.leadership` | none | empty |
-| Aviation photos 1 to 6 | Interests, the cabin windows | `interestsPage.items` (aviation) `gallery` | none ("Photo to come") | empty |
+| Aviation photos 1 to 6 | Interests, the cabin windows | `interestsPage.items` (aviation) `gallery` | none (section hidden until the first photo is added) | empty |
 | 3D models | Finance, Law & Diplomacy, Academics, Interests, Contact | `src/lib/three/assets.ts` | `public/models/*.glb` (list in `public/models/README.md`) | stock (Poly Haven CC0, Sketchfab CC BY) |
 | Lighting | every 3D scene | `src/lib/three/assets.ts` | `public/hdri/*.hdr` | stock (Poly Haven CC0) |
 | Logos | timeline and results | `organisations` | `public/logos/` | official files |
@@ -38,7 +38,7 @@ Nothing else needs to change. After editing, rebuild and deploy (last section).
 - Format: JPG or WebP. At least 1600 px on the long side for full-width slots, 1200 px for the aviation windows (they are portrait-shaped, about 3:4, and cropped to fill). Keep each under about 600 kB.
 - **Aviation photos:** put them in `public/media/aviation/` (for example `photo-1.jpg`). In `site.ts`, find `id: "aviation"` and fill one `gallery` line:
   `{ src: "/media/aviation/photo-1.jpg", alt: "What the photo shows", caption: "Where and when" },`
-  An empty `src` keeps the blind down with "Photo to come".
+  Empty slots are not shown; the gallery appears once at least one photo is filled in.
 - **Page photo slots:** put the file in `public/media/`, then in `mediaSlots` set `src` (for example `"/media/finance-me.jpg"`), `alt`, and `aspect` (for example `"3 / 2"`). Nothing shows while `src` is empty.
 - **Portrait:** save your new photo as `public/images/portrait.webp` (same name) and update `identity.portraitAlt`. The Home face is drawn from three files made from the portrait; those need re-making by the engineer if the portrait changes.
 - `alt` and `caption` describe only what is really in the picture.

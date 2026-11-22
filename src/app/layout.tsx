@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Martian_Mono, Schibsted_Grotesk } from "next/font/google";
+import { Prefetch } from "@/components/shell/Prefetch";
 import { Shell } from "@/components/shell/Shell";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body>
         <Shell>{children}</Shell>
+        <Prefetch />
       </body>
     </html>
   );

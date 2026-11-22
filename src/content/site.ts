@@ -973,7 +973,7 @@ const core = {
       photoToCome: "Photo to come",
       /** {n} is the frame number. */
       frameLabel: "Frame {n}, photograph to come",
-      pointersHeading: "Evidenced elsewhere",
+      pointersHeading: "Elsewhere on the site",
     },
     /** The footer credit line (models listed in src/content/credits.ts). */
     credits: {
@@ -1155,7 +1155,7 @@ const core = {
 
     about: {
       profileNote: "Profile, as written on the resume",
-      skillsHeading: "Skills listed on the resume",
+      skillsHeading: "Skills",
     },
 
     academics: {
@@ -1244,7 +1244,7 @@ const core = {
       earlier: "Earlier entry",
       later: "Later entry",
       entryCounter: "{n} of {total}",
-      undatedHeading: "Not dated on the resume",
+      undatedHeading: "Other entries",
       ongoingHeading: "Ongoing",
       workHeading: "Work and service",
     },
@@ -1545,7 +1545,7 @@ export const site = {
   // Each interest is backed by what he has done. No descriptions of feelings or expertise.
   interestsPage: {
     title: "Interests",
-    descriptor: "Four interests, each with what he has done. The others are evidenced on their own pages.",
+    descriptor: "Four interests, each with what he has done. Finance and law have their own pages; quizzing is under Academics.",
     items: [
       {
         id: "aviation",
@@ -1555,7 +1555,7 @@ export const site = {
             text: `IIT Madras Certification, ${aerospace.title} (${aerospace.year}): 8 weeks. Completion Certificate and Certificate for Exemplary Performance in the take-home project.`,
             source: "resume",
           },
-          { text: "Interested in civil aviation, as stated in the resume profile.", source: "resume" },
+          { text: "Interested in civil aviation.", source: "resume" },
         ] as SourcedFact[],
         /**
          * Six frames for his own aviation photographs (shown as cabin windows). Fill `src`, `alt`

@@ -5,11 +5,6 @@ const ui = site.ui;
 const FINANCE = site.competitions.filter((c) => c.domain === "finance" || c.domain === "pitch");
 const ONGOING = FINANCE.filter((c) => c.ongoing);
 
-/** Which placeholder slot names each ongoing row's missing details. */
-const SLOT: Record<string, string> = {
-  wharton: ui.placeholder.slots.wharton,
-  gitam: ui.placeholder.slots.gitam,
-};
 
 /** An organiser's mark, small, on a light plate so dark marks read on the dark ground. Never above 28px. */
 function Mark({ org }: { org?: string }) {
@@ -45,12 +40,6 @@ export function Ongoing() {
             <p className="ongoing__result">{c.results.join(" ")}</p>
             {c.detail ? (
               <p className="ongoing__detail">{c.detail.text}</p>
-            ) : c.org && SLOT[c.org] ? (
-              <p className="placeholder-line">
-                <span className="placeholder-line__box" aria-hidden="true" />
-                <span>{SLOT[c.org]}</span>
-                <span className="placeholder-line__label">{ui.placeholder.label}</span>
-              </p>
             ) : null}
           </li>
         ))}
