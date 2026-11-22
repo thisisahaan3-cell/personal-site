@@ -480,7 +480,7 @@ const core = {
       period: "2026",
       // Minimal factual version. The source text is a rough draft.
       points: [
-        "Rasmanjari is described as his school's flagship interschool competition, with 30+ schools and 700+ participants.",
+        "Rasmanjari is his school's flagship interschool competition, with 30+ schools and 700+ participants.",
         "He was student coordinator for the commerce competitions and also compered.",
       ],
       needsConfirmation: true,
@@ -1013,7 +1013,7 @@ const core = {
           scalePhone: "2,000 candidates, drawn as 200: one point for every 10",
         },
         srcc: { figure: "AIR 46", pool: "3,000", outOf: "of 3,000", scale: "Out of 3,000. Only the rank is drawn" },
-        shisfest: { figure: "1st", scale: "Field size not stated, so only the position is drawn" },
+        shisfest: { figure: "1st", scale: "First place" },
       },
       /** Pointer readout over the field. */
       readoutRank: "{n}{suffix} of {total}",
