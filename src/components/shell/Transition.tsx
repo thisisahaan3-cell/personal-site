@@ -14,6 +14,7 @@ import {
 } from "react";
 import { GROUND_HEX, pageForPath, pageName } from "@/lib/pages";
 import { prefersReducedMotion } from "@/lib/motion";
+import { isPreparing } from "@/lib/three/busy";
 
 /**
  * Page transition (direction §7): 96 candle columns rise left to right to cover the screen,
@@ -44,6 +45,13 @@ function series() {
 const SERIES = series();
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** After arriving, wait (up to `cap` ms) until the new page's 3D scene is drawn, so it is revealed complete. */
+async function sceneDrawn(cap: number) {
+  const until = performance.now() + cap;
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  while (isPreparing() && performance.now() < until) await wait(50);
+}
 
 export function TransitionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -133,6 +141,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
           await cover(root);
           router.push(href);
           await Promise.all([runFlap(pageName(target.id)), Promise.race([arrived, wait(2500)])]);
+          await sceneDrawn(2200);
           await reveal(root);
         }
       } finally {

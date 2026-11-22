@@ -20,3 +20,24 @@ export function beginBuild() {
     }
   };
 }
+
+/**
+ * Scenes that are not on screen yet (loading, compiling, uploading). The page transition keeps its
+ * cover up while this is above zero (up to a cap), so a page is revealed with its scene already drawn.
+ */
+let preparing = 0;
+
+export function isPreparing() {
+  return preparing > 0;
+}
+
+export function beginPrepare() {
+  preparing++;
+  let ended = false;
+  return () => {
+    if (!ended) {
+      ended = true;
+      preparing--;
+    }
+  };
+}

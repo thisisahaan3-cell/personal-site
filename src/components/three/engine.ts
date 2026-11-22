@@ -195,6 +195,28 @@ export class Engine {
     };
   }
 
+  /**
+   * Compile every view's shaders (in parallel where the GPU allows) and upload its textures now,
+   * so the first frame on screen does not stall.
+   */
+  async prepare() {
+    const r = this.renderer;
+    for (const v of this.views) {
+      v.spec.scene.traverse((o) => {
+        const m = o as THREE.Mesh;
+        if (!m.isMesh) return;
+        for (const mat of Array.isArray(m.material) ? m.material : [m.material]) {
+          for (const val of Object.values(mat)) if (val instanceof THREE.Texture) r.initTexture(val);
+        }
+      });
+      try {
+        await r.compileAsync(v.spec.scene, v.spec.camera);
+      } catch {
+        /* compiling on first draw instead is fine */
+      }
+    }
+  }
+
   /** Ask for a fresh frame (after changing something outside `update`). */
   invalidate() {
     for (const v of this.views) v.dirty = true;

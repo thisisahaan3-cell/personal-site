@@ -23,17 +23,10 @@ export function useStage() {
   return s;
 }
 
-/** Resolves after the page has painted and the browser is idle (or 1.2s at most). */
+/** Resolves once the page has painted (two frames). The 3D code is usually preloaded by then. */
 function afterFirstPaint() {
   return new Promise<void>((resolve) => {
-    const go = () => {
-      const ric = (window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number })
-        .requestIdleCallback;
-      if (ric) ric(() => resolve(), { timeout: 1200 });
-      else setTimeout(resolve, 60);
-    };
-    if (document.readyState === "complete") requestAnimationFrame(() => requestAnimationFrame(go));
-    else window.addEventListener("load", go, { once: true });
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
   });
 }
 

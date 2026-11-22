@@ -5,14 +5,14 @@ import { HDRI, MODELS } from "@/lib/three/assets";
 
 /**
  * Gets every page's 3D set piece ready in the background, starting the moment the site opens,
- * so opening a page does not wait for downloads (and, on computers, not for unpacking either).
+ * so opening a page does not wait for downloads (and, on most devices, not for unpacking either).
  * Nothing about the scenes themselves changes.
  *
  *  1. All devices: loads the 3D code (three.js and each page's scene module).
- *  2. Computers (fine pointer, wide screen, 8 GB+ memory where reported): downloads AND unpacks
- *     every model and HDRI into the engine's shared cache (warmAssets in three/engine.ts).
- *  3. Phones and tablets: downloads the files into the browser cache only; unpacking every model
- *     ahead of time would hold a few hundred MB of images in memory, too much for a phone.
+ *  2. Devices with 4 GB+ memory (or that do not report it): downloads AND unpacks every model and
+ *     HDRI into the engine's shared cache (warmAssets in three/engine.ts). This holds a few hundred
+ *     MB of images in memory; the client accepted that trade for speed.
+ *  3. Devices reporting under 4 GB: downloads the files into the browser cache only.
  *
  * Skipped on data-saver and slow (2G/3G) connections. The current page's own files still go
  * first: its scene requests them at once, and the warm-up shares the same requests.
@@ -23,8 +23,9 @@ export function Prefetch() {
     if (nav.connection?.saveData || /(^|-)(2g|3g)$/.test(nav.connection?.effectiveType ?? "")) return;
 
     const urls = [...new Set<string>([HDRI.hall, ...Object.values(MODELS), ...Object.values(HDRI)])];
-    const computer =
-      window.matchMedia("(pointer: fine)").matches && window.innerWidth >= 1024 && (nav.deviceMemory ?? 8) >= 8;
+    // The client asked for maximum speed even if it works the device harder, so every device with
+    // 4 GB+ (or that does not report memory, like iPhones) unpacks everything ahead of time.
+    const unpack = (nav.deviceMemory ?? 8) >= 4;
     let cancelled = false;
 
     const run = async () => {
@@ -39,7 +40,7 @@ export function Prefetch() {
         import("@/components/contact/deskScene"),
       ]);
       if (cancelled) return;
-      if (computer) {
+      if (unpack) {
         await engine.warmAssets(urls, () => cancelled);
         return;
       }
