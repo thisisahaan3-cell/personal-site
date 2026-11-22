@@ -2,7 +2,7 @@
 
 A premium personal portfolio for Ahaan Gupta, a Grade 11 (Commerce) student at Lotus Valley International School, Gurugram. It is his digital identity: academics, awards, leadership, Model UN and debate, competitions, projects and interests.
 
-If you are resuming after a restart, read `PROGRESS.md` first. It records what is done and what comes next.
+Start with `README.md` (how the code is laid out). If you are resuming after a restart, read `PROGRESS.md` first. It records what is done and what comes next.
 
 ## VERSION 2 BRIEF (16 Nov 2026) — this supersedes the Meridian direction below
 
@@ -19,7 +19,7 @@ The client rejected the first site (Meridian: a light, one-page scroll) as too b
 8. **Do not hold back, and do not let missing media limit the design** (his follow-up message): "I want a grand, amazing, mind-blowing, cinematic site." Set pieces may be built on real media. Use licensed stock video, photographs and CC0 3D models as placeholders now; he will send his own media later to replace them. Every stock asset is recorded in `content/research/assets.md` with source and licence, is marked as replaceable in the content file, and is atmosphere only: never captioned or framed as him or as his own event.
 9. **Spend usage on building the design, not on review rounds and tests.** Keep verification to the minimum that shows things broadly work. Do not ask him questions; work continues after every usage-limit reset. Subagents do the work; anything that ran on Fable now runs on Opus 5.5.
 
-The approved v2 direction is `design/v2-direction.md`. `design/design-system.md`, `design/directions.md` and `design/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. His own media so far: the portrait, the Artha screenshots and official logos.
+The approved v2 direction is `design/v2-direction.md`. `design/archive-v1/design-system.md`, `design/archive-v1/directions.md` and `design/archive-v1/reviews/` describe the rejected Meridian version and are kept only as history. All content rules below still apply unchanged, and `src/content/site.ts` remains the only source of facts. His own media so far: the portrait, the Artha screenshots and official logos.
 
 ## VERSION 2.1 REFINEMENT (17 Nov 2026) — refine the v2 site, do not restart it
 
@@ -52,7 +52,7 @@ New facts from the client's 17 Nov message (source: "client message"): school to
 - `source-material/portrait-original.webp` is the client's portrait.
 - `src/content/site.ts` is the single content file the site renders from. All copy lives there.
 - `content/research/facts.md` is the resume extraction; `content/research/assets.md` records where every logo and image came from and its licence.
-- `design/design-system.md` is the approved visual system. `design/directions.md` holds the three directions that were considered.
+- `design/v2-direction.md` and `design/v2.1-addendum.md` are the current visual direction (per-page palettes, set pieces). The rejected v1 system is in `design/archive-v1/`.
 
 Facts the client gave in conversation (not in the resume):
 
@@ -86,7 +86,7 @@ Brief from the client:
 
 Avoid: generic AI portfolio templates, repeated cards, SaaS layouts, heavy gradients, glassmorphism, needless rounded rectangles, excessive animation, corporate resume layouts, six unrelated microsites, decoration with no link to his identity.
 
-The chosen direction and its tokens are in `design/design-system.md`. Build from that file, not from memory.
+The current direction is in `design/v2-direction.md` and `design/v2.1-addendum.md`. Build from those files, not from memory.
 
 ## Site structure
 
@@ -112,7 +112,7 @@ A successful build is not enough. Work is done when:
 | Agent | Model | Role | Writes to |
 | --- | --- | --- | --- |
 | `creative-director` | claude-opus-5-5, high | Owns the identity, writes and approves the design system, reviews screenshots | `design/` |
-| `visual-explorer` | claude-opus-5-5, high | Static reference boards and motif studies; never the production site | `design/explorations/` |
+| `visual-explorer` | claude-opus-5-5, high | Static reference boards and motif studies; never the production site | `design/archive-v1/explorations/` |
 | `frontend-engineer` | claude-opus-5-5, high | Implements the approved system | `src/`, `public/`, `scripts/` |
 | `content-researcher` | claude-sonnet-5-5, high | Facts, central content file, logo sourcing and licensing | `src/content/`, `content/research/`, `public/logos/` |
 | `qa-reviewer` | claude-sonnet-5-5, high | Independent browser testing; reports only | `qa/` |

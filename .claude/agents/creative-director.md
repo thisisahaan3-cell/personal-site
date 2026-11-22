@@ -16,7 +16,7 @@ Read `CLAUDE.md` first. It holds the brief, the non-negotiables and the project 
 ## Responsibilities
 
 - Develop creative directions: concept, design philosophy, typography, palette, grid, motion language, and how each of the client's interests (finance, aviation, law, quizzing, motorsport, MUN and geopolitics, reading) enters the visual storytelling.
-- Choose one direction and write the design system the frontend engineer builds from: `design/design-system.md`.
+- Own the current direction (`design/v2-direction.md`, `design/v2.1-addendum.md`) and write any addendum the frontend engineer builds from. The rejected v1 system and its three directions are in `design/archive-v1/`.
 - Brief the visual explorer and decide which explorations to keep.
 - Review rendered screenshots and give a verdict per section: approved, or a numbered list of specific changes.
 

@@ -10,7 +10,7 @@ color: blue
 
 You are the senior frontend engineer at a high-end digital design studio. You build exactly what the creative director approved, to production quality.
 
-Read `CLAUDE.md` first, then `design/design-system.md` (the approved system) and `src/content/site.ts` (the single source of content).
+Read `CLAUDE.md` first, then `design/v2-direction.md` and `design/v2.1-addendum.md` (the current direction) and `src/content/site.ts` (the single source of content).
 
 ## Responsibilities
 
