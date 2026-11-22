@@ -44,7 +44,7 @@ export function Desk() {
         {ui.heading}
       </h2>
       <p className="desk__text">{project.siteDescriptor?.text}</p>
-      <p className="desk__note">{ui.descriptorNote}</p>
+      {project.description && !project.description.placeholder ? <p className="desk__note">{project.description.text}</p> : null}
       {project.url ? (
         <a className="desk__link" href={project.url} target="_blank" rel="noopener noreferrer">
           <span>{ui.visit}</span>

@@ -468,10 +468,8 @@ const core = {
       title: "Chairperson, ECOSOC",
       organisation: "Lotus Valley's MUN Club",
       org: "lotusValley",
-      period: "Date not stated",
+      period: "2025", // client message, 22 Nov
       points: ["Chairperson, ECOSOC, at Lotus Valley's MUN Club."],
-      needsConfirmation: true,
-      confirmationNote: "Resume says only \"Chairperson, ECOSOC\" under Lotus Valley's MUN Club. Date not stated.",
     },
     {
       title: "Student Coordinator, commerce competitions",
@@ -480,10 +478,11 @@ const core = {
       period: "2026",
       // Minimal factual version. The source text is a rough draft.
       points: [
-        "Rasmanjari is his school's flagship interschool competition, with 30+ schools and 700+ participants.",
-        "He was student coordinator for the commerce competitions and also compered.",
+        "Lotus Valley's own flagship interschool competition, with 30+ schools and 700+ participants.",
+        "Coordinated it from start to finish: planning the event, contacting teams, arranging materials, managing it on the day and compering.",
       ],
-      needsConfirmation: true,
+      // Client message, 22 Nov: a Lotus Valley event; he coordinated planning, teams, materials, management and compering.
+      needsConfirmation: false,
       confirmationNote:
         "The resume text is an unpolished draft (\"My schools flagship competition with 30+ schools 700+ participants i was the student coordinator for commerce competitions wasd dthe first point of support and planning for those competitions and all did compering\"). Only the certain parts are kept here. Ahaan should rewrite and confirm, including whether Rasmanjari is a Lotus Valley event.",
     },
@@ -500,7 +499,7 @@ const core = {
     executiveBoard: [
       { conference: "IITD MUN 2026", location: "IIT Delhi", org: "iitDelhi", role: "Rapporteur, promoted to Vice Chair", committee: "WHO", year: 2026 },
       { conference: "AIKYAM MUN 2026", role: "Vice Chairperson", committee: "UNESCO", year: 2026 },
-      { conference: "Lotus Valley's MUN Club", role: "Chairperson", committee: "ECOSOC", year: null as number | null },
+      { conference: "Lotus Valley's MUN Club", role: "Chairperson", committee: "ECOSOC", year: 2025 as number | null },
     ],
     parliamentary: [
       { name: "PRS Student Parliament 2026", org: "prs", result: "Qualified for North India Regionals", year: 2026 },
@@ -561,14 +560,14 @@ const core = {
       ongoing: true,
       domain: "finance",
       org: "wharton",
-      results: ["Currently participating."],
+      results: ["Round 1 in progress."],
       // From the client message of 17 Nov 2026. Add nothing beyond it (no figures, returns, holdings or tools).
       detail: { text: "He built an elaborate investment strategy with multiple steps and tested it through multiple simulations.", source: "client message" },
       details: {
         team: ph("Team — to be written by Ahaan."),
         role: ph("Role — to be written by Ahaan."),
         approach: t("He built an elaborate investment strategy with multiple steps and tested it through multiple simulations."),
-        status: ph("Current stage and status — to be written by Ahaan."),
+        status: t("Round 1 in progress."), // client message, 22 Nov
       },
     },
     {
@@ -587,7 +586,7 @@ const core = {
       name: "SHRITEQ Tech Quiz",
       year: "2026",
       domain: "quiz",
-      results: ["4th place in the finals, out of 45 teams.", "Hosted by Rajiv Makhni."],
+      results: ["4th place out of 45 teams.", "Hosted by Rajiv Makhni."],
       note: "Whether 45 is the overall or finals field is not stated. The host is named as a fact, not an endorsement.",
     },
     {
@@ -679,7 +678,7 @@ const core = {
         attribution: "From the Artha website's own title and meta description. The site says \"Made by Ahaan Gupta\".",
         sections: ["Markets", "Portfolio", "Valuation", "Plan", "Learn"],
       },
-      description: ph("Artha, in Ahaan's own words — to be written by Ahaan."),
+      description: t("Built to learn finance himself, and to help others learn it too."), // client message, 22 Nov
     },
     {
       id: "wharton",
@@ -738,7 +737,7 @@ const core = {
       name: "Quizzing and general knowledge",
       statedIn: ["client message"],
       evidence: [
-        { text: "SHRITEQ Tech Quiz 2026: 4th place in the finals, out of 45 teams.", source: "resume" },
+        { text: "SHRITEQ Tech Quiz 2026: 4th place out of 45 teams.", source: "resume" },
         { text: "Quiz to Conquer by Fateh Education: reached the semi-finals.", source: "resume" },
         { text: "SOF International General Knowledge Olympiad: 95+ percentile with Distinction awards (combined with Mathematics).", source: "resume" },
         { text: "Also participated in the Indian Army Quiz, Vishwaroop Quiz and RPS Pivot Quiz.", source: "resume" },
@@ -835,10 +834,10 @@ const core = {
     { year: 2026, title: "Executive Board roles", detail: "IITD MUN 2026: Rapporteur, promoted to Vice Chair (WHO). AIKYAM MUN 2026: Vice Chairperson (UNESCO).", category: "mun" },
     { year: 2026, title: "PRS Student Parliament", detail: "Qualified for North India Regionals.", category: "parliament" },
     { year: 2026, title: "SHISFEST: Vision To Venture", detail: "First Position.", category: "pitch" },
-    { year: 2026, title: "SHRITEQ Tech Quiz", detail: "4th place in the finals, out of 45 teams.", category: "quiz" },
+    { year: 2026, title: "SHRITEQ Tech Quiz", detail: "4th place out of 45 teams.", category: "quiz" },
     { year: 2026, title: "Student Council: re-elected", detail: "Re-elected to the Environment Committee.", category: "leadership", org: "lotusValley" },
     { year: 2026, title: "Green Captain", detail: "My School for Earth. Recruited 100+ students and spearheaded 5+ environmental initiatives.", category: "leadership" },
-    { year: 2026, title: "Rasmanjari Interschool Competition", detail: "Student coordinator for the commerce competitions; also compered.", category: "leadership" },
+    { year: 2026, title: "Rasmanjari Interschool Competition", detail: "Student coordinator: planned the event, contacted teams, arranged materials, managed it and compered.", category: "leadership" },
     { year: 2026, title: "Student intern, Mahak Plastic Industries & RD Polypack", detail: "March – April. One-month industrial immersion; authored a factory visit report and an industry-wide statistical analysis.", category: "internship" },
     { year: 2026, title: "Intern, Fortis Adayu Hospital", detail: "May – June. Researched psychology and how it intersects with finance.", category: "internship" },
     { year: 2026, title: "IIT Madras: Introduction to Law", detail: "8-week course. Completion Certificate and Certificate for Exemplary Performance in the take-home project.", category: "course", org: "iitMadras" },
@@ -1447,9 +1446,8 @@ export const site = {
         name: "SHRITEQ Tech Quiz",
         year: "2026",
         figure: "4th",
-        detail: "In the finals, out of 45 teams. Hosted by Rajiv Makhni.",
-        source: "resume",
-        sourceNote: "Whether 45 is the overall or the finals field is not stated on the resume.",
+        detail: "Out of 45 teams. Hosted by Rajiv Makhni.",
+        source: "resume", // 45 teams overall: client message, 22 Nov
       },
       {
         id: "quiz-to-conquer",
@@ -1580,12 +1578,18 @@ export const site = {
       {
         id: "formula1",
         name: "Formula 1",
-        facts: [{ text: "Watches every race.", source: "client message" }] as SourcedFact[],
+        facts: [
+          { text: "Watches every race.", source: "client message" },
+          { text: "Has taken on FIA committees at Model UN conferences, drawn by his interest in the sport.", source: "client message" },
+        ] as SourcedFact[],
       },
       {
         id: "tennis",
         name: "Tennis",
-        facts: [{ text: "Has taken part in and won tournaments.", source: "client message" }] as SourcedFact[],
+        facts: [
+          { text: "Has played for 8 years.", source: "client message" },
+          { text: "Has taken part in and won tournaments.", source: "client message" },
+        ] as SourcedFact[],
       },
     ] as { id: string; name: string; facts: SourcedFact[]; gallery?: GallerySlot[] }[],
     /** One-line pointers to the pages where the evidence lives. `page` is a PageId from src/lib/pages.ts. */

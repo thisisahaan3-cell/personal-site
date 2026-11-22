@@ -246,3 +246,12 @@ These come from the client's own message, not the resume. Nothing else was added
 - **Interests page** (`interestsPage`): aviation (IIT Madras Fundamentals of Aerospace 2025, 8 weeks, exact award wording; the profile's stated interest in civil aviation; six empty gallery slots), reading (400+ books across fiction, non-fiction and philosophy), Formula 1 and tennis (client message only), and one-line pointers for finance, law, quizzing and Model UN. No descriptions of feelings or expertise.
 - **Page names**: `ui.pages.modelUn` is now "Law & Diplomacy", `ui.pages.leadership` is "Leadership & Work Experience", `ui.pages.interests` is "Interests". Routes are unchanged (`/model-un`, `/leadership`); the engineer chooses whether to rename them.
 - **Contact** (`contact.links`): Email, Resume (redacted copy), LinkedIn and Instagram (empty `url`, `placeholder: true`). No phone number.
+
+## 15. Client message, 22 Nov 2026
+- Lotus Valley MUN Club, Chairperson ECOSOC: 2025.
+- SHRITEQ Tech Quiz: 4th out of 45 teams (overall).
+- Artha: built to learn finance himself and to help others.
+- Formula 1: has taken on FIA committees in MUN because of his interest in F1.
+- Tennis: playing for 8 years.
+- Rasmanjari: Lotus Valley's own event; he coordinated planning, contacting teams, arranging materials, managing it and compering.
+- Wharton: Round 1 in progress.
